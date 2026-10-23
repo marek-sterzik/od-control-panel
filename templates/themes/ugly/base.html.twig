@@ -12,13 +12,17 @@
     </head>
     <body>
         <div style="float:right">
-            <select>
-                {% for theme in themes %}
-                    <option name="{{ theme.theme }}"{% if theme.active %} selected="selected"{% endif %}>{{ theme.description }} ({{ theme.author }})</option>
-                {% endfor %}
-            </select>
+            <form action="{{ path("app.set-theme") }}" method="get">
+                <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+                <select class="submit-on-change" name="theme">
+                    {% for theme in themes %}
+                        <option value="{{ theme.theme }}"{% if theme.active %} selected="selected"{% endif %}>{{ theme.description }} ({{ theme.author }})</option>
+                    {% endfor %}
+                </select>
+            </form>
         </div>
         <div style="clear: both"></div>
+        <h1>Ugly</h1>
         {% block body %}{% endblock %}
     </body>
 </html>

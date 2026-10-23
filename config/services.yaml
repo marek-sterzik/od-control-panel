@@ -16,6 +16,7 @@ services:
         App\Controller\AbstractController:
             calls:
                 - setThemeDir: ['%kernel.project_dir%/templates/themes']
+                - setServices: []
 
 
     # makes classes in src/ available to be used as services

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Exception;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as AbstractControllerBase;
 
@@ -13,6 +14,12 @@ class AbstractController extends AbstractControllerBase
     private string $themeDir;
     private ?array $themes = null;
     private ?string $currentTheme = null;
+    private RequestStack $requestStack;
+
+    public function setServices(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
 
     public function setThemeDir(string $themeDir): void
     {
@@ -21,6 +28,11 @@ class AbstractController extends AbstractControllerBase
 
     private function getStoredTheme(): ?string
     {
+        $session = $this->requestStack->getSession();
+        $theme = $session->get("theme", null);
+        if (is_string($theme)) {
+            return $theme;
+        }
         return null;
     }
 
@@ -29,7 +41,7 @@ class AbstractController extends AbstractControllerBase
         return self::PREFERED_THEME;
     }
 
-    private function existingTheme(?string $theme): ?string
+    protected function existingTheme(?string $theme): ?string
     {
         if ($theme === null) {
             return null;
@@ -90,6 +102,9 @@ class AbstractController extends AbstractControllerBase
                 if (is_string($data)) {
                     $data = @json_decode($data, true);
                     $data = $this->checkManifestData($file, $data);
+                    if (!preg_match('/^[a-z0-9_]+$/', $file)) {
+                        throw new Exception("theme names must contain only small letters, digits or underscores");
+                    }
                     $themes[$file] = [
                         "theme" => $file,
                         "description" => $data['description'] ?? $file,

@@ -1,2 +1,1 @@
-import "./ptacek.js"
-
+import "./submit-on-change"
