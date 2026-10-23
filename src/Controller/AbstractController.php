@@ -108,7 +108,7 @@ class AbstractController extends AbstractControllerBase
     {
         $currentTheme = $this->getCurrentTheme();
         return array_map(
-            fn ($theme) => array_merge($theme, ["active" => ($theme === $currentTheme) ? true : false]),
+            fn ($theme) => array_merge($theme, ["active" => ($theme["theme"] === $currentTheme) ? true : false]),
             array_values($this->listThemes())
         );
     }
