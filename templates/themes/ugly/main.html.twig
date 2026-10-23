@@ -1,0 +1,7 @@
+{% extends "themes/ugly/base.html.twig" %}
+{% block body %}
+    <div>
+        Přihlášený uživatel: {{ app.user.userIdentifier }}
+    </div>
+    MAIN (<a href="{{ path("app.logout") }}">logout</a>)
+{% endblock %}
