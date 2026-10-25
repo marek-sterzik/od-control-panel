@@ -21,6 +21,8 @@ services:
             - ./metrix:/app
         environment:
             METRIX_PUBLIC: 'true'
+        devices:
+            - /dev/ttyACM0:/dev/ttyACM0
     db:
         image: mysql:8.0.40
         expose:

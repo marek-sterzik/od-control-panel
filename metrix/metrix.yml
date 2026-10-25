@@ -1,2 +1,4 @@
 name: 'od-control-app-backend'
 main: 'odcapp.proc.main'
+plugins:
+    - metrix.plugin.core_plugins

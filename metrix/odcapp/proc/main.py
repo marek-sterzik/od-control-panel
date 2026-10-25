@@ -7,8 +7,8 @@ from metrix import client, logger
 
 def metrix_init():
     client.schedule_loop(timeout=1)
+    client.start("odcapp.proc.modbus")
 
 def metrix_loop():
-    logger("Hello world!")
     client.broadcast("hello.world", "Hello world!")
 
