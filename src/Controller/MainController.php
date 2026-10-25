@@ -8,6 +8,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class MainController extends AbstractController
 {
+    protected function getPageId(): string
+    {
+        return "main";
+    }
+
     #[Route("/", name: "main")]
     #[IsGranted("ROLE_USER")]
     public function index(): Response

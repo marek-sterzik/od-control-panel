@@ -13,7 +13,7 @@ class Metrix
             })
         })
         this.websocket.addEventListener("message", (event) => {
-            const msg = new Message(event.data)
+            const msg = Message.fromString(event.data)
             for (var listener of this.listeners) {
                 listener(msg, this)
             }
@@ -47,8 +47,9 @@ class Message
 
     static fromString(string)
     {
+        var data
         try {
-            data = JSON.prase(string)
+            data = JSON.parse(string)
         } catch (e) {
             return null
         }

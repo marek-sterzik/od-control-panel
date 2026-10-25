@@ -128,11 +128,17 @@ class AbstractController extends AbstractControllerBase
         );
     }
 
+    protected function getPageId(): string
+    {
+        return "other";
+    }
+
     protected function getDefaultParameters(): array
     {
         return [
             "currentTheme" => $this->getCurrentTheme(),
             "themes" => $this->getAllThemes(),
+            "pageId" => $this->getPageId(),
         ];
     }
 
