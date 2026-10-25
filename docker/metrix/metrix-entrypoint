@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+metrix_flags=()
+
+if [ -n "$METRIX_PUBLIC" ]; then
+    if [ "$METRIX_PUBLIC" = "1" -o "$METRIX_PUBLIC" = "true" -o "$METRIX_PUBLIC" = "yes" ]; then
+        metrix_flags+=(-p)
+    elif [ "$METRIX_PUBLIC" = "0" -o "$METRIX_PUBLIC" = "false" -o "$METRIX_PUBLIC" = "no" ]; then
+        : pass
+    else
+        echo "Error: Invalid variable METRIX_PUBLC" 1>&2
+        exit 1
+    fi
+fi
+
+if [ -x /app/entrypoint ]; then
+    exec /app/entrypoint
+else
+    exec metrix server "${metrix_flags[@]}" -P /app/
+fi

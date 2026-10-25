@@ -139,7 +139,11 @@ docker_exec() {
             cmd_prefix=x
             user=root
         fi
-        
+    fi
+    if [ "$container" = "metrix" -a "$operation" = "exec" ]; then
+        if [ "$user" = "www-data" ]; then
+            user="`id -u`:`id -g`"
+        fi
     fi
 
     if [ "$#" = 0 ]; then

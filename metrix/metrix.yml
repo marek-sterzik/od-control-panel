@@ -1,0 +1,2 @@
+name: 'od-control-app-backend'
+main: 'odcapp.proc.main'

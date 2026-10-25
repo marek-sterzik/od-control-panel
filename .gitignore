@@ -11,6 +11,9 @@
 /public/js/*
 !/public/js/.gitkeep
 
+#python/metrix
+__pycache__
+
 #ides (put your favorite IDE tmp file masks here)
 .*.swp
 

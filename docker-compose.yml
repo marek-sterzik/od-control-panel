@@ -1,7 +1,6 @@
 services:
     webserver:
-        build:
-            context: docker/webserver
+        build: docker/webserver
 
         expose:
             - 80
@@ -16,6 +15,12 @@ services:
             DATABASE_URL: 'mysql://user:userpass@db:3306/thedatabase?serverVersion=8.0'
             USER_PASSWORD: user
             ADMIN_PASSWORD: admin
+    metrix:
+        build: docker/metrix
+        volumes:
+            - ./metrix:/app
+        environment:
+            METRIX_PUBLIC: 'true'
     db:
         image: mysql:8.0.40
         expose:
