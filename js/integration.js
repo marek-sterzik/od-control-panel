@@ -10,8 +10,11 @@ const getMetrixUrl = () => {
 const metrix = new Metrix(getMetrixUrl())
 
 const consumeMessage = (msg, metrix) => {
-    console.log("got message", msg)
+    if (msg.msgType === "broadcast" && msg.topic === "state") {
+        console.log("broadcast state", msg.payload)
+    }
 }
 
 metrix.addListener(consumeMessage)
-metrix.send("core", "listen", {"msg_type": "broadcast", "topic": "hello.world"})
+metrix.send("core", "listen", {"msg_type": "broadcast", "topic": "state"})
+metrix.send("query", "state")

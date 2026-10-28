@@ -2,3 +2,35 @@ name: 'od-control-app-backend'
 main: 'odcapp.proc.main'
 plugins:
     - metrix.plugin.core_plugins
+config:
+    port: '/dev/ttyACM0'
+    components:
+        - id: red
+          type: switch
+          caption: "Červená kontrolka"
+          color: "#f00"
+          bit: 16
+        - id: yellow
+          type: switch
+          caption: "Žlutá kontrolka"
+          color: "#aa0"
+          bit: 17
+        - id: green
+          type: switch
+          caption: "Zelená kontrolka"
+          color: "#0f0"
+          bit: 18
+        - id: white
+          type: switch
+          caption: "Bílá kontrolka"
+          color: "#fff"
+          bit: 19
+        - id: blue
+          type: switch
+          caption: "Modrá kontrolka"
+          color: "#00f"
+          bit: 20
+        - id: segment
+          type: segment
+          caption: "Segmentový displej"
+          segments: [[0, 1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13, 14, 15]]
