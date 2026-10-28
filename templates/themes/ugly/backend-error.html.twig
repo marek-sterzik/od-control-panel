@@ -1,0 +1,9 @@
+{% extends "themes/ugly/base.html.twig" %}
+
+{% block body %}
+    <h1>Chyba</h1>
+    <p> Řídící služba Metrix není k dispozici. Zkuste to prosím znovu.</p>
+    <div>
+        <a href="{{ app.request.uri }}">zkusit znovu</a>
+    </div>
+{% endblock %}

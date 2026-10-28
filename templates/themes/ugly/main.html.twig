@@ -3,7 +3,11 @@
 {% block scripts %}
         <script>
             metrix.onStateChangeRaw((metrix, status, oldStatus) => {
-                console.log("status", status)
+                for (var id in status) {
+                    const state = status[id].state
+                    const el = $("input[data-metrix-id=\""+id+"\"]")
+                    el.prop("checked", state)
+                }
             })
 
             function toggleRed(ev)
@@ -14,15 +18,27 @@
             }
 
             $(() => {
-                $("#togglered").bind("click", toggleRed)
+                $("input[data-metrix-id]").bind("click", function(ev) {
+                    const el = $(this)
+                    const id = el.attr("data-metrix-id")
+                    if (el.is(":checked")) {
+                        metrix.set(id)
+                    } else {
+                        metrix.clear(id)
+                    }
+                    ev.preventDefault()
+                    return false
+                })
             })
         </script>
 {% endblock %}
 
 {% block body %}
     <div>
-        Přihlášený uživatel: {{ app.user.userIdentifier }}
+        Přihlášený uživatel: {{ app.user.userIdentifier }} (<a href="{{ path("app.logout") }}">odhlásit se</a>)
     </div>
-    MAIN (<a href="{{ path("app.logout") }}">logout</a>)
-    <a href="#" id="togglered">toggle red</a>
+    {% for component in controls %}
+        <h2>{{component.caption}}</h2>
+        <input type="checkbox" data-metrix-id="{{ component.id }}" {% if component.state %}checked="checked"{% endif %}>
+    {% endfor %}
 {% endblock %}
