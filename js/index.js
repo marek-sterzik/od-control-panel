@@ -1,5 +1,6 @@
-import "./submit-on-change"
 import $ from "jquery"
+import "./submit-on-change"
+import metrix from "./metrix-wrapper"
 
 $(() => {
     const page = $("script#main-script").attr("data-page")
@@ -8,3 +9,4 @@ $(() => {
     }
 })
 
+export default metrix

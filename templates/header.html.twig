@@ -1,1 +1,8 @@
 <script id="main-script" data-page="{{ pageId }}" src="{{ asset('js/main.js') }}"></script>
+{% if controls is defined and pageId == "main" %}
+    <script>
+        metrix._provideState({{ controls|json_encode }})
+        var jQuery = metrix.jQuery
+        var $ = metrix.jQuery
+    </script>
+{% endif %}

@@ -1,7 +1,28 @@
 {% extends "themes/ugly/base.html.twig" %}
+
+{% block scripts %}
+        <script>
+            metrix.onStateChangeRaw((metrix, status, oldStatus) => {
+                console.log("status", status)
+            })
+
+            function toggleRed(ev)
+            {
+                metrix.toggle("red")
+                ev.preventDefault()
+                return false
+            }
+
+            $(() => {
+                $("#togglered").bind("click", toggleRed)
+            })
+        </script>
+{% endblock %}
+
 {% block body %}
     <div>
         Přihlášený uživatel: {{ app.user.userIdentifier }}
     </div>
     MAIN (<a href="{{ path("app.logout") }}">logout</a>)
+    <a href="#" id="togglered">toggle red</a>
 {% endblock %}
