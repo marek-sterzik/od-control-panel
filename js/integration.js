@@ -8,7 +8,12 @@ const getMetrixUrl = () => {
     return proto + host + path
 }
 
-const metrix = new Metrix(getMetrixUrl())
+const socketInitialize = (metrix) => {
+    metrix.send("core", "listen", {"msg_type": "broadcast", "topic": "state"})
+    metrix.send("query", "state")
+}
+
+const metrix = new Metrix(getMetrixUrl(), socketInitialize)
 
 const consumeMessage = (msg, metrix) => {
     if (msg.msgType === "broadcast" && msg.topic === "state") {
@@ -21,5 +26,3 @@ metrixWrapper._onCommand((commands) => {
 })
 
 metrix.addListener(consumeMessage)
-metrix.send("core", "listen", {"msg_type": "broadcast", "topic": "state"})
-metrix.send("query", "state")
