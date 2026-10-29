@@ -12,7 +12,10 @@ class ThemeSwitchController extends AbstractController
     #[Route("/set-theme", name: "app.set-theme")]
     public function setTheme(Request $request): Response
     {
-        $theme = $this->existingTheme($request->query->get("theme", null));
+        $theme = $request->query->get("theme", null);
+        if ($theme !== null && !$this->themeManager->themeExists($theme)) {
+            $theme = null;
+        }
         if ($theme !== null) {
             $oldTheme = $request->getSession()->get("theme", "???");
             $request->getSession()->set("theme", $theme);

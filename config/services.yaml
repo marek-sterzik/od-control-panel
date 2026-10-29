@@ -15,7 +15,6 @@ services:
     _instanceof:
         App\Controller\AbstractController:
             calls:
-                - setThemeDir: ['%kernel.project_dir%/templates/themes']
                 - setServices: []
 
 
@@ -41,6 +40,9 @@ services:
         arguments:
             $assetBaseDir: '%kernel.project_dir%/public'
             $versionLinkWildCard: 'assets-v*'
+    App\Framework\ThemeManager:
+        arguments:
+            $themeDir: '%kernel.project_dir%/templates/themes'
     App\Controller\AdminerController:
         arguments:
             $databaseUrl: '%env(resolve:DATABASE_URL)%'

@@ -1,29 +1,14 @@
 {% extends "themes/ugly/base.html.twig" %}
 
 {% block scripts %}
-        <script>
-            metrix.onChange("switch", function(mev) {
-                mev.element.find("input").prop("checked", mev.state.state)
-            })
-
-            metrix.onLoad("switch", function(mev) {
-                mev.element.find("input").bind("click", function(ev) {
-                    if ($(this).prop("checked")) {
-                        mev.component.set()
-                    } else {
-                        mev.component.clear()
-                    }
-                    ev.preventDefault()
-                    return false
-                })
-            })
-        </script>
+        <script src="{{ theme_asset("main.js") }}"></script>
 {% endblock %}
 
 {% block body %}
     <div>
         Přihlášený uživatel: {{ app.user.userIdentifier }} (<a href="{{ path("app.logout") }}">odhlásit se</a>)
     </div>
+    {{ theme_asset("abc") }}
     <h2>Ovládání</h2>
     {% for component in controls %}
         <div data-metrix-id="{{ component.id }}">
