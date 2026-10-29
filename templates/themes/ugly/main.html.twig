@@ -2,29 +2,16 @@
 
 {% block scripts %}
         <script>
-            metrix.onStateChangeRaw((metrix, status, oldStatus) => {
-                for (var id in status) {
-                    const state = status[id].state
-                    const el = $("input[data-metrix-id=\""+id+"\"]")
-                    el.prop("checked", state)
-                }
+            metrix.onChange("switch", function(mev) {
+                mev.element.find("input").prop("checked", mev.state.state)
             })
 
-            function toggleRed(ev)
-            {
-                metrix.toggle("red")
-                ev.preventDefault()
-                return false
-            }
-
-            $(() => {
-                $("input[data-metrix-id]").bind("click", function(ev) {
-                    const el = $(this)
-                    const id = el.attr("data-metrix-id")
-                    if (el.is(":checked")) {
-                        metrix.set(id)
+            metrix.onLoad("switch", function(mev) {
+                mev.element.find("input").bind("click", function(ev) {
+                    if ($(this).prop("checked")) {
+                        mev.component.set()
                     } else {
-                        metrix.clear(id)
+                        mev.component.clear()
                     }
                     ev.preventDefault()
                     return false
@@ -37,8 +24,13 @@
     <div>
         Přihlášený uživatel: {{ app.user.userIdentifier }} (<a href="{{ path("app.logout") }}">odhlásit se</a>)
     </div>
+    <h2>Ovládání</h2>
     {% for component in controls %}
-        <h2>{{component.caption}}</h2>
-        <input type="checkbox" data-metrix-id="{{ component.id }}" {% if component.state %}checked="checked"{% endif %}>
+        <div data-metrix-id="{{ component.id }}">
+            <label>
+                <input type="checkbox" {% if component.state %}checked="checked"{% endif %}>
+                {{ component.caption }}
+            </label>
+        </div>
     {% endfor %}
 {% endblock %}

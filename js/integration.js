@@ -1,5 +1,5 @@
 import {Metrix, Message} from "./metrix"
-import metrixWrapper from "./metrix-wrapper"
+import metrixWrapper from "./metrix-wrapper-raw"
 
 const getMetrixUrl = () => {
     const proto = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
@@ -17,11 +17,11 @@ const metrix = new Metrix(getMetrixUrl(), socketInitialize)
 
 const consumeMessage = (msg, metrix) => {
     if (msg.msgType === "broadcast" && msg.topic === "state") {
-        metrixWrapper._provideState(msg.payload)
+        metrixWrapper.provideState(msg.payload)
     }
 }
 
-metrixWrapper._onCommand((commands) => {
+metrixWrapper.onCommand((commands) => {
     metrix.send("write", "state", commands)
 })
 

@@ -1,94 +1,119 @@
 import $ from "jquery"
+import metrixWrapperRaw from "./metrix-wrapper-raw"
+import components from "./components"
+import _ from "lodash"
 
 class MetrixWrapper
 {
     constructor()
     {
         this.jQuery = $
-        this.queue = []
-        this.flushTimer = null
-        this.flushTimeout = 10
-        this.state = {}
-        this.commandConsummer = null
-        this.stateConsummers = []
-
-    }
-
-    _provideState(state)
-    {
-        const oldState = this.state
-        this.state = {}
-        for (var component of state) {
-            this.state[component.id] = component
-        }
-        for (var callback of this.stateConsummers) {
-            callback(this, this.state, oldState)
-        }
-    }
-
-    _onCommand(callback)
-    {
-        if (this.commandConsummer !== null) {
-            throw "command consummer already defined"
-        }
-        this.commandConsummer = callback
-        this._ensureTimeout(true)
-    }
-
-    _ensureTimeout(immediately)
-    {
-        if (immediately) {
-            if (this.flushTimer !== null) {
-                clearTimeout(this.flushTimer)
-                this.flushTimer = null;
+        this.backend = metrixWrapperRaw
+        this.cache = {}
+        this._changeCallbacks = {}
+        this._loadCallbacks = {}
+        this._loaded = false
+        this._firstState = null
+        this._activated = false
+        this.backend.onStateChange((state, oldState) => {
+            if (!this._loaded) {
+                return
             }
-            this._consumeCommands()
-        } else {
-            if (this.flushTimer === null && this.queue.length > 0 && this.commandConsummer !== null) {
-                this.flushTimer = setTimeout(() => {
-                    this._consumeCommands()
-                    this.flushTimer = null
-                }, this.flushTimeout)
+            for (var id in state) {
+                const component = state[id]
+                const type = component.type
+                const oldComponent = (id in oldState) ? oldState[id] : null
+
+                if (!this._activated || !_.isEqual(component, oldComponent)) {
+                    const element = $("[data-metrix-id=\""+CSS.escape(id)+"\"]")
+                    const event = {
+                        "metrix": this,
+                        "element": element,
+                        "id": id,
+                        "state": component,
+                        "component": this.component(id)
+                    }
+
+                    var callbacks
+                    if (this._activated) {
+                        callbacks = this._changeCallbacks
+                    } else {
+                        callbacks = this._loadCallbacks
+                    }
+
+                    if (type in callbacks) {
+                        for (var callback of callbacks[type]) {
+                            callback(event)
+                        }
+                    }
+                }
             }
-        }
+            this._activated = true
+            this._loadCallbacks = {}
+        })
+        $(() => {
+            this._loaded = true
+            this.backend.triggerConsummers()
+        })
     }
-
-    _consumeCommands()
-    {
-        if (this.queue.length > 0 && this.commandConsummer !== null) {
-            const commands = this.queue
-            this.queue = []
-            this.commandConsummer.call(null, commands)
-        }
-    }
-
 
     onStateChangeRaw(callback)
     {
-        this.stateConsummers.push(callback)
+        this.backend.onStateChange(callback)
     }
 
-    command(cmd)
+    onChange(type, callback)
     {
-        this.queue.push(cmd)
-        this._ensureTimeout(false)
-
+        if (!Array.isArray(type)) {
+            type = [type]
+        }
+        for (var t of type) {
+            if (!(t in this._changeCallbacks)) {
+                this._changeCallbacks[t] = []
+            }
+            this._changeCallbacks[t].push(callback)
+        }
     }
 
-    toggle(id)
+    onLoad(type, callback)
     {
-        this.command({"id": id, "command": "toggle"})
+        if (!Array.isArray(type)) {
+            type = [type]
+        }
+        for (var t of type) {
+            if (!(t in this._loadCallbacks)) {
+                this._loadCallbacks[t] = []
+            }
+            this._loadCallbacks[t].push(callback)
+        }
+        if (this._activated) {
+            this._activated = false
+            this.backend.triggerConsummers()
+        }
     }
 
-    set(id)
+    component(id)
     {
-        this.command({"id": id, "command": "set"})
+        const record = this.backend.getLastRecord(id)
+        if (id === null) {
+            return null
+        }
+        const type = record.type
+        if ((id in this.cache) && this.cache[id][0] === type) {
+            return this.cache[id][1]
+        }
+        var typeClass
+        if (type in components) {
+            typeClass = components[type]
+        } else if ("_default" in components) {
+            typeClass = components["_default"]
+        } else {
+            return null
+        }
+        this.cache[id] = [type, new typeClass(this.backend, id)]
+        return this.cache[id][1]
     }
 
-    clear(id)
-    {
-        this.command({"id": id, "command": "clear"})
-    }
 }
 
 const metrix = new MetrixWrapper()
