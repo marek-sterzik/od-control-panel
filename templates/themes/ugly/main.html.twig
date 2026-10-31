@@ -12,10 +12,37 @@
     <h2>Ovládání</h2>
     {% for component in controls %}
         <div data-metrix-id="{{ component.id }}">
-            <label>
-                <input type="checkbox" {% if component.state %}checked="checked"{% endif %}>
-                {{ component.caption }}
-            </label>
+            {% if component.type == "switch" %}
+                <label>
+                    <input type="checkbox" {% if component.state %}checked="checked"{% endif %}>
+                    {{ component.caption }}
+                </label>
+            {% elseif component.type == "segment" %}
+                <h2>{{component.caption}}</h2>
+                <h2>segmenty</h2>
+                <div class="segments">
+                    {% for index, digit in component.segment_state %}
+                        <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                            <div data-segment="0"></div>
+                            <span data-segment="1"></span>
+                            <span data-segment="2"></span>
+                            <div data-segment="3"></div>
+                            <span data-segment="4"></span>
+                            <span data-segment="5"></span>
+                            <div data-segment="6"></div>
+                            <div class="dot" data-segment="7"></div>
+                        </section>
+                    {% endfor %}
+                </div>
+                <h2>textové vyjádření</h2>
+                <div class="segment-text">
+                    {% for index, text in component.state %}
+                        <span data-digit="{{ index }}">{{ text }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                unknown component: {{ component.type }}
+            {% endif %}
         </div>
     {% endfor %}
 {% endblock %}

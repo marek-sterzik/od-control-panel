@@ -1,9 +1,11 @@
 from .state_driver.switch import SwitchDriver
+from .state_driver.segment import SegmentDriver
 from metrix import check, logger
 from schema import Optional
 
 drivers = {
     "switch": SwitchDriver(),
+    "segment": SegmentDriver(),
 }
 
 class State:

@@ -1,0 +1,114 @@
+from metrix import check, validation, logger
+from schema import And
+
+segment_validator = And(int, validation.range(0, 7))
+
+command_check = validation.polymorphic("command", {
+    "toggle": {"segment": segment_validator},
+    "set": {"segment": segment_validator},
+    "reset": {"segment": segment_validator},
+    "clear": {"segment": segment_validator}
+}, ["id", "digit"])
+
+characters = [
+    ("0", "1110111"),
+    ("1", "0010010"),
+    ("2", "1011101"),
+    ("3", "1011011"),
+    ("4", "0111010"),
+    ("5", "1101011"),
+    ("6", "1101111"),
+    ("7", "1010010"),
+    ("8", "1111111"),
+    ("9", "1111011"),
+    ("A", "1111110"),
+    ("b", "0101111"),
+    ("c", "0001101"),
+    ("d", "0011111"),
+    ("E", "1101101"),
+    ("F", "1101100"),
+]
+
+characters_info = {}
+segment_to_characters = {}
+
+old_char = None
+first_char = None
+for character, segment in characters:
+    segment_to_characters[segment] = character
+    characters_info[character] = {"segment": segment, "next": None, "prev": old_char}
+    if old_char is None:
+        old_char = character
+        first_char = character
+    else:
+        characters_info[old_char]["next"] = character
+if old_char is not None:
+    characters_info[old_char]["next"] = first_char
+    characters_info[first_char]["prev"] = old_char
+
+
+def relaystate_to_segment(relaystate, segment_def):
+    segment = ""
+    for bit in segment_def:
+        segment += "1" if (((1 << bit) & relaystate) != 0) else "0"
+    return segment
+        
+def segstate_to_state(segstate):
+    main_segment = segstate[0:7]
+    point = segstate[7:8]
+    if len(main_segment) != 7 or len(point) != 1:
+        return None
+    if main_segment == "0000000":
+        char = ""
+    elif main_segment in segment_to_characters:
+        char = segment_to_characters[main_segment]
+    else:
+        return None
+    if point != "0":
+        char += "."
+    return char
+
+class SegmentDriver:
+    def generate(self, component, relaystate):
+        segment_state = []
+        state = []
+        for segment_def in component["segments"]:
+            segstate = relaystate_to_segment(relaystate, segment_def)
+            segment_state.append(segstate)
+            state.append(segstate_to_state(segstate))
+        return {
+            "caption": component['caption'] if "caption" in component else None,
+            "state": state,
+            "segment_state": segment_state
+        }
+
+    def check_valid_command(self, command, component):
+        if not check(command_check, command):
+            return False
+        if not check(int, command.get("digit", None)):
+            return False
+        if command["digit"] < 0 or command["digit"] >= len(component["segments"]):
+            return False
+        return True
+
+    def generate_write_command(self, component, command):
+        if not self.check_valid_command(command, component):
+            logger("got invalid switch command, ignoring", lev = logger.WARN)
+            return []
+        digit = command['digit']
+        if command['command'] in ["set", "reset", "clear", "toggle"]:
+            segment = command['segment']
+            bit = component['segments'][digit][segment]
+            num = 1 << bit
+            if command['command'] == 'set':
+                return [{"op": "set", "val": num}]
+            elif command['command'] in ['reset', 'clear']:
+                return [{"op": "clear", "val": num}]
+            elif command['command'] == 'toggle':
+                return [{"op": "toggle", "val": num}]
+            else:
+                logger(f"got invalid segment command '{command['command']}', ignoring", lev = logger.WARN)
+                return []
+        else:
+            logger(f"got invalid segment command '{command['command']}', ignoring", lev = logger.WARN)
+            return []

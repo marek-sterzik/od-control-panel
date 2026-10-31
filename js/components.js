@@ -25,9 +25,43 @@ class SwitchComponent extends AbstractComponent
     }
 }
 
+class SegmentComponent extends AbstractComponent
+{
+    digit(i)
+    {
+        return new SegmentDigitComponent(this, i)
+    }
+}
+
+class SegmentDigitComponent
+{
+    constructor(component, digit)
+    {
+        this.component = component
+        this.digit = digit
+    }
+
+    toggle(segment)
+    {
+        this.component.backend.command({"id": this.component.id, "command": "toggle", "digit": this.digit, "segment": segment})
+    }
+
+    set(segment)
+    {
+        this.component.backend.command({"id": this.component.id, "command": "set", "digit": this.digit, "segment": segment})
+    }
+
+    clear(segment)
+    {
+        this.component.backend.command({"id": this.id, "command": "clear", "digit": this.digit, "segment": segment})
+    }
+}
+
+
 const components = {
     "_default": AbstractComponent,
     "switch": SwitchComponent,
+    "segment": SegmentComponent
 }
 
 export default components
