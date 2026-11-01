@@ -43,7 +43,7 @@ class State:
             state.append(componentState)
         return state
 
-    def generate_write_command(self, commands):
+    def generate_write_command(self, commands, relaystate):
         if not check([object], commands):
             commands = [commands]
         final_commands = []
@@ -59,5 +59,5 @@ class State:
             driverType = component['type']
             driver = drivers[driverType]
 
-            final_commands += driver.generate_write_command(component, command)
+            final_commands += driver.generate_write_command(component, command, relaystate)
         return final_commands

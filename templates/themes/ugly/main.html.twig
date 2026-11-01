@@ -37,7 +37,10 @@
                 <h2>textové vyjádření</h2>
                 <div class="segment-text">
                     {% for index, text in component.state %}
-                        <span data-digit="{{ index }}">{{ text }}</span>
+                        <button data-direction="prev" data-digit="{{ index }}">-</button>
+                        <input type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                        <button data-direction="wipe" data-digit="{{ index }}">smazat</button>
+                        <button data-direction="next" data-digit="{{ index }}">+</button>
                     {% endfor %}
                 </div>
             {% else %}

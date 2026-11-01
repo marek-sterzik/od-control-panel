@@ -1,12 +1,17 @@
 body {background-color: #eee;}
 
-div.segment-text {font-size: 2em; }
-div.segment-text span {
+div.segment-text {font-size: 2em;}
+div.segment-text span, div.segment-text input {
     padding: .2em;
     border: 1px solid #aaa;
     margin: 0 .5em;
     border-radius: .3em;
     background-color: #ddd;
+    width: 2em;
+    height: 1.2em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
 }
 
 /* segment display */

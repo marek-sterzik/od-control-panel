@@ -18,7 +18,7 @@ class SwitchDriver:
             "state": state
         }
 
-    def generate_write_command(self, component, command):
+    def generate_write_command(self, component, command, relaystate):
         if not check(command_check, command):
             logger("got invalid switch command, ignoring", lev = logger.WARN)
             return []

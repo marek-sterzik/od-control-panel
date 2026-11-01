@@ -7,6 +7,7 @@ from metrix import client, logger, message_type
 from ..state import State
 
 state = None
+relaystate = 0
 
 def metrix_init():
     global state
@@ -23,14 +24,15 @@ def metrix_loop():
 
 
 def metrix_recv(msg):
-    global state
+    global state, relaystate
     if msg.has_type(message_type.BROADCAST) and msg.has_topic("relaystate"):
+        relaystate = msg.payload
         client.broadcast("state", state.generate(msg.payload))
     elif msg.has_type(message_type.QUERY) and msg.has_topic("state"):
         client.query("relaystate")
     elif msg.has_type(message_type.WRITE) and msg.has_topic("state"):
         try:
-            command = state.generate_write_command(msg.payload)
+            command = state.generate_write_command(msg.payload, relaystate)
         except Exception as e:
             logger(f"invalid state write operation: {e}", lev=logger.ERR)
             return

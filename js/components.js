@@ -53,7 +53,27 @@ class SegmentDigitComponent
 
     clear(segment)
     {
-        this.component.backend.command({"id": this.id, "command": "clear", "digit": this.digit, "segment": segment})
+        this.component.backend.command({"id": this.component.id, "command": "clear", "digit": this.digit, "segment": segment})
+    }
+
+    write(str)
+    {
+        this.component.backend.command({"id": this.component.id, "command": "write", "digit": this.digit, "string": str})
+    }
+
+    next()
+    {
+        this.component.backend.command({"id": this.component.id, "command": "next", "digit": this.digit})
+    }
+
+    prev()
+    {
+        this.component.backend.command({"id": this.component.id, "command": "prev", "digit": this.digit})
+    }
+
+    wipe()
+    {
+        this.component.backend.command({"id": this.component.id, "command": "wipe", "digit": this.digit})
     }
 }
 

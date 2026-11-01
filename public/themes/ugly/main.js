@@ -27,8 +27,14 @@ function updateSegmentText(element, text)
 {
     if (text === null) {
         text = ""
+    } else if (text === "") {
+        text = " "
     }
-    element.text(text)
+    const oldText = element.attr("data-expected-value")
+    if (oldText !== text) {
+        element.attr("data-expected-value", text)
+        element.prop("value", text)
+    }
 }
 
 metrix.onLoad("segment", function(mev) {
@@ -40,9 +46,30 @@ metrix.onLoad("segment", function(mev) {
             mev.component.digit(digit).toggle(segment)
         })
         updateSegment(el)
-        updateSegmentText(mev.element.find("div.segment-text span[data-digit=\"" + i + "\"]"), mev.state.state[i])
-
+        const segmentInput = mev.element.find("div.segment-text input[data-digit=\"" + i + "\"]")
+        segmentInput.bind("blur", function() {
+            const value = $(this).prop("value")
+            const digit = parseInt($(this).attr("data-digit"))
+            const originalValue = $(this).prop("data-expected-value")
+            if (value !== "" && value !== originalValue) {
+                mev.component.digit(digit).write(value)
+            }
+        })
+        updateSegmentText(segmentInput, mev.state.state[i])
     }
+    mev.element.find("button").bind("click", function (ev) {
+        const direction = $(this).attr("data-direction")
+        const digit = parseInt($(this).attr("data-digit"))
+        if (direction === "prev") {
+            mev.component.digit(digit).prev()
+        } else if (direction === "next") {
+            mev.component.digit(digit).next()
+        } else if (direction === "wipe") {
+            mev.component.digit(digit).wipe()
+        } else {
+            console.error("invalid direction: " + direction)
+        }
+    })
 })
 
 metrix.onChange("segment", function(mev) {
@@ -50,7 +77,7 @@ metrix.onChange("segment", function(mev) {
         const el = mev.element.find("section[data-digit=\""+i+"\"]")
         el.attr("data-value", mev.state.segment_state[i])
         updateSegment(el)
-        updateSegmentText(mev.element.find("div.segment-text span[data-digit=\"" + i + "\"]"), mev.state.state[i])
+        updateSegmentText(mev.element.find("div.segment-text input[data-digit=\"" + i + "\"]"), mev.state.state[i])
     }
 })
 
