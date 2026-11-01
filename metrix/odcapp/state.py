@@ -34,6 +34,7 @@ class State:
 
     def generate(self, relaystate):
         state = []
+        watch_values = {}
         for component in self.components:
             driverType = component['type']
             driver = drivers[driverType]
@@ -41,7 +42,9 @@ class State:
             base = {"id": component['id'], "type": component["type"]}
             componentState = {**base, **componentState}
             state.append(componentState)
-        return state
+            for key, value in driver.watch_values(component, componentState):
+                watch_values[key] = value
+        return {"global": state, "watch": watch_values}
 
     def generate_write_command(self, commands, relaystate):
         if not check([object], commands):

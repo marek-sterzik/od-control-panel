@@ -8,6 +8,9 @@ command_check = validation.polymorphic("command", {
 }, ["id"])
 
 class SwitchDriver:
+    def watch_values(self, component, state):
+        yield component['id'], state['state']
+
     def generate(self, component, relaystate):
         state = False
         if (relaystate & (1 << component['bit'])) != 0:

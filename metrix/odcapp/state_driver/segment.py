@@ -128,6 +128,15 @@ def cycle_char(char, direction):
 
 
 class SegmentDriver:
+    def watch_values(self, component, state):
+        i = 0
+        for segment_def in component['segments']:
+            id_base = component["id"] + "." + str(i + 1) + "."
+            yield id_base + "segstate", state["segment_state"][i]
+            yield id_base + "character", state["state"][i]
+            i += 1
+
+
     def generate(self, component, relaystate):
         segment_state = []
         state = []
