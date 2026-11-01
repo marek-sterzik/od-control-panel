@@ -1,0 +1,4 @@
+services:
+    metrix:
+        devices:
+            - "$HOST_DEVICE:/dev/serial"

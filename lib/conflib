@@ -158,7 +158,6 @@ q_int() {
         echo "Error: Invalid integer. Please enter an integer." 1>&2
         return 1
     fi
-    
 }
 
 q_hostname() {
@@ -187,4 +186,30 @@ q_ip() {
 q_string() {
     get_last_arg "$@"
     return 0
+}
+
+q_device() {
+    local data="`get_last_arg "$@"`"
+    if [ -c "$data" ]; then
+        echo "$data"
+        return 0
+    else
+        echo "Error: device does not exists: $data" 1>&2
+        return 1
+    fi
+}
+
+q_device_or_null() {
+    local data="`get_last_arg "$@"`"
+    if [ "none" = "$data" ]; then
+        echo ""
+        return 0
+    elif [ -c "$data" ]; then
+        echo "$data"
+        return 0
+    else
+        echo "Error: device does not exists: $data" 1>&2
+        return 1
+    fi
+    
 }

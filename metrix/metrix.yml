@@ -3,7 +3,7 @@ main: 'odcapp.proc.main'
 plugins:
     - metrix.plugin.core_plugins
 config:
-    port: '/dev/ttyACM0'
+    port: !file '/dev/serial'
     components:
         - id: red
           type: switch

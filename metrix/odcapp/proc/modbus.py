@@ -4,7 +4,7 @@
 
 import asyncio
 from metrix import client, logger, message_type, check
-
+from schema import Or
 
 state = 0
 
@@ -16,32 +16,32 @@ def write_state():
     broadcast_state()
 
 async def metrix_init():
-    port = client.get_config("port", None, str)
-    if port is None:
-        logger("cannot find proper port", lev = logger.WARN)
-        client.terminate()
-    logger(f"running at device {port}")
-    client.schedule_loop(timeout=1)
-    client.message("_modbus", {
-        "command": "busadd",
-        "busid": "relays",
-        "type": "serial",
-        "port": port,
-        "baudrate": 9600,
-    })
-    client.message("_modbus", {
-        "command": "add",
-        "busid": "relays",
-        "topic": "relays",
-        "device": 0x01,
-        "type": {"type": "coils_num", "count": 32},
-        "write_mode": "w",
-        "addr": 0,
-        "read_interval": None,
-    })
     client.listen(message_type.WRITE, "relaystate")
     client.listen(message_type.QUERY, "relaystate")
-    await asyncio.sleep(1)
+    port = client.get_config("port", None, Or(None, str))
+    if port is not None:
+        logger(f"running at device {port}")
+        client.schedule_loop(timeout=1)
+        client.message("_modbus", {
+            "command": "busadd",
+            "busid": "relays",
+            "type": "serial",
+            "port": port,
+            "baudrate": 9600,
+        })
+        client.message("_modbus", {
+            "command": "add",
+            "busid": "relays",
+            "topic": "relays",
+            "device": 0x01,
+            "type": {"type": "coils_num", "count": 32},
+            "write_mode": "w",
+            "addr": 0,
+            "read_interval": None,
+        })
+        await asyncio.sleep(1)
+    else:
+        logger(f"running without device")
 
 
     write_state()
