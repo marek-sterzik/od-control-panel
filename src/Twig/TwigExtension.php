@@ -17,6 +17,7 @@ class TwigExtension extends AbstractExtension
     {
         return [
             'theme_asset' => 'themeAsset',
+            'theme_template' => 'themeTemplate',
         ];
     }
 
@@ -39,5 +40,16 @@ class TwigExtension extends AbstractExtension
         }
         
         return $this->packages->getUrl(sprintf("themes/%s%s", $this->themeManager->getCurrentTheme(), $path), null);
+    }
+
+    public function themeTemplate(string $path): string
+    {
+        if ($path === "") {
+            return "";
+        }
+        if (substr($path, 0, 1) !== "/") {
+            $path = '/' . $path;
+        }
+        return sprintf("themes/%s%s", $this->themeManager->getCurrentTheme(), $path);
     }
 }
