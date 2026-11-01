@@ -47,12 +47,18 @@ metrix.onLoad("segment", function(mev) {
         })
         updateSegment(el)
         const segmentInput = mev.element.find("div.segment-text input[data-digit=\"" + i + "\"]")
-        segmentInput.bind("blur", function() {
+        const submitText = function() {
             const value = $(this).prop("value")
             const digit = parseInt($(this).attr("data-digit"))
             const originalValue = $(this).prop("data-expected-value")
             if (value !== "" && value !== originalValue) {
                 mev.component.digit(digit).write(value)
+            }
+        }
+        segmentInput.bind("blur", submitText)
+        segmentInput.bind("keydown", function (ev) {
+            if (ev.keyCode == 13) {
+                submitText.call(this)
             }
         })
         updateSegmentText(segmentInput, mev.state.state[i])

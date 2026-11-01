@@ -8,6 +8,8 @@ services:
             - ${APP_PORT:-80}:80
         volumes:
             - .:/app
+        links:
+            - metrix
         environment:
             RUNTIME_UID: ${WWW_DATA_UID:-33}
             RUNTIME_GID: ${WWW_DATA_GID:-33}
