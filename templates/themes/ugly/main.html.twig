@@ -8,7 +8,6 @@
     <div>
         Přihlášený uživatel: {{ app.user.userIdentifier }} (<a href="{{ path("app.logout") }}">odhlásit se</a>)
     </div>
-    {{ theme_asset("abc") }}
     <h2>Ovládání</h2>
     {% for component in controls %}
         <div data-metrix-id="{{ component.id }}">
@@ -39,7 +38,7 @@
                     {% for index, text in component.state %}
                         <button data-direction="prev" data-digit="{{ index }}">-</button>
                         <input type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
-                        <button data-direction="wipe" data-digit="{{ index }}">smazat</button>
+                        <button data-direction="wipe" data-digit="{{ index }}">🗑</button>
                         <button data-direction="next" data-digit="{{ index }}">+</button>
                     {% endfor %}
                 </div>

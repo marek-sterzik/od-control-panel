@@ -14,6 +14,10 @@ div.segment-text span, div.segment-text input {
     font-size: inherit;
 }
 
+button {font-size: inherit; height: 1.8em; width: 2.0em; padding: .1em; border-radius: .5em; border: 1px solid #aaa;}
+button:hover {box-shadow: 2px 2px 5px #aaa;}
+button:active {box-shadow: none;}
+
 /* segment display */
 
 section.segment {
