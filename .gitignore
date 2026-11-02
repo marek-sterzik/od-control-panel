@@ -3,6 +3,8 @@
 /.config.env.new
 /invoke
 
+/backend-disabled.txt
+
 #assets
 /public/assets-v*
 

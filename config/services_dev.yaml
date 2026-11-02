@@ -1,0 +1,2 @@
+parameters:
+    backendDisabledFile: '%kernel.project_dir%/backend-disabled.txt'

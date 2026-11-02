@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     defaultAdminerEnabled: false
+    backendDisabledFile: null
 
 services:
     # default configuration for services in *this* file
@@ -48,3 +49,6 @@ services:
             $databaseUrl: '%env(resolve:DATABASE_URL)%'
             $adminerBootFile: '%kernel.project_dir%/adminer/boot.php'
             $adminerEnabled: '%env(default:defaultAdminerEnabled:bool:ADMINER_ENABLED)%'
+    App\Controller\MainController:
+        arguments:
+            $backendDisabledFile: '%backendDisabledFile%'

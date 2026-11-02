@@ -1,3 +1,4 @@
+{% if metaRefresh is defined and metaRefresh is not null %}<meta http-equiv="refresh" content="{{ metaRefresh }}">{% endif %}
 <script id="main-script" data-page="{{ pageId }}" src="{{ asset('js/main.js') }}"></script>
 {% if controls is defined and pageId == "main" %}
     <script>
