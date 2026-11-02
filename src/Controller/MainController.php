@@ -37,6 +37,7 @@ class MainController extends AbstractController
                 "retryUrl" => $request->getUri(),
                 "backUrl" => null,
                 "metaRefresh" => 10,
+                "pageId" => "error",
             ]);
         }
     }
