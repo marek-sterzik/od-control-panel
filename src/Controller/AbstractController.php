@@ -22,10 +22,19 @@ class AbstractController extends AbstractControllerBase
 
     protected function getDefaultParameters(): array
     {
+        $user = $this->getUser();
+        if ($user !== null) {
+            $user = [
+                "username" => $user->getUserIdentifier(),
+                "name" => LoginController::USERS[$user->getUserIdentifier()] ?? $user->getUserIdentifier(),
+                "admin" => $this->isGranted("ROLE_ADMIN"),
+            ];
+        }
         return [
             "currentTheme" => $this->themeManager->getCurrentTheme(),
             "themes" => $this->themeManager->getAllThemes(),
             "pageId" => $this->getPageId(),
+            "user" => $user,
         ];
     }
 

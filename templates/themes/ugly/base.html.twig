@@ -11,7 +11,7 @@
         {% endblock %}
     </head>
     <body>
-        <div style="float:right">
+        <div class="themeselect">
             <form action="{{ path("app.set-theme") }}" method="get">
                 <input type="hidden" name="back" value="{{ app.request.requesturi }}">
                 <select class="submit-on-change" name="theme">
@@ -21,6 +21,11 @@
                 </select>
             </form>
         </div>
+        {% if user is not null %}
+            <div class="userinfo">
+                Přihlášený uživatel: <span{% if user.admin %} class="admin"{% endif %}>{{ user.name }}</span> (<a href="{{ path("app.logout") }}">odhlásit se</a>)
+            </div>
+        {% endif %}
         <div style="clear: both"></div>
         <h1>Ugly</h1>
         {% block body %}{% endblock %}

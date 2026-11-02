@@ -18,6 +18,10 @@ button {font-size: inherit; height: 1.8em; width: 2.0em; padding: .1em; border-r
 button:hover {box-shadow: 2px 2px 5px #aaa;}
 button:active {box-shadow: none;}
 
+div.themeselect {float:right;}
+div.userinfo {float:right; margin-right: 1em;}
+div.userinfo span.admin {color: red;}
+
 /* segment display */
 
 section.segment {

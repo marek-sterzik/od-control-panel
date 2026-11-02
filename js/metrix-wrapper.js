@@ -30,6 +30,7 @@ class MetrixWrapper
                         "metrix": this,
                         "element": element,
                         "id": id,
+                        "type": type,
                         "state": component,
                         "component": this.component(id)
                     }
@@ -46,6 +47,12 @@ class MetrixWrapper
                             callback(event)
                         }
                     }
+                    const idv = ":" + id
+                    if (idv in callbacks) {
+                        for (var callback of callbacks[idv]) {
+                            callback(event)
+                        }
+                    }
                 }
             }
             this._activated = true
@@ -55,11 +62,6 @@ class MetrixWrapper
             this._loaded = true
             this.backend.triggerConsummers()
         })
-    }
-
-    onStateChangeRaw(callback)
-    {
-        this.backend.onStateChange(callback)
     }
 
     onChange(type, callback)

@@ -5,9 +5,6 @@
 {% endblock %}
 
 {% block body %}
-    <div>
-        Přihlášený uživatel: {{ app.user.userIdentifier }} (<a href="{{ path("app.logout") }}">odhlásit se</a>)
-    </div>
     <h2>Ovládání</h2>
     {% for component in controls %}
         <div data-metrix-id="{{ component.id }}">
