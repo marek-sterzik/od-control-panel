@@ -4,6 +4,13 @@ print_heading "=" "Configuring the runtime environment"
 create_config
 question "q_int 1 65535" APP_PORT 80 "On which port the web service should listen?"
 question "q_device_or_null" HOST_DEVICE none "Which host device is connected to the modbus (use 'none' for no device)?"
+
+blink_enabled="`read_final_config_value "BLINK_ENABLED"`"
+if [ "true" != "$blink_enabled" ]; then
+    blink_enabled="false"
+fi
+append_config_value "BLINK_ENABLED" "$blink_enabled"
+
 commit_config
 print_line
 print_line "Environment successfully configured."

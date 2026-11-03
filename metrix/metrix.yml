@@ -5,6 +5,7 @@ plugins:
 config:
     port: !file '/dev/serial'
     components:
+        # switches
         - id: red
           type: switch
           caption: "Červená kontrolka"
@@ -30,6 +31,43 @@ config:
           caption: "Modrá kontrolka"
           color: "#00f"
           bit: 20
+        # blink switches
+        - id: red_blink
+          type: switch
+          enabled: !json [ !env BLINK_ENABLED ]
+          caption: "Červená kontrolka - blikání"
+          color: "#f00"
+          register: "blinkstate"
+          bit: 16
+        - id: yellow_blink
+          type: switch
+          enabled: !json [ !env BLINK_ENABLED ]
+          caption: "Žlutá kontrolka - blikání"
+          color: "#aa0"
+          register: "blinkstate"
+          bit: 17
+        - id: green_blink
+          type: switch
+          enabled: !json [ !env BLINK_ENABLED ]
+          caption: "Zelená kontrolka - blikání"
+          color: "#0f0"
+          register: "blinkstate"
+          bit: 18
+        - id: white_blink
+          type: switch
+          enabled: !json [ !env BLINK_ENABLED ]
+          caption: "Bílá kontrolka - blikání"
+          color: "#fff"
+          register: "blinkstate"
+          bit: 19
+        - id: blue_blink
+          type: switch
+          enabled: !json [ !env BLINK_ENABLED ]
+          caption: "Modrá kontrolka - blikání"
+          color: "#00f"
+          register: "blinkstate"
+          bit: 20
+        # segment
         - id: segment
           type: segment
           caption: "Segmentový displej"

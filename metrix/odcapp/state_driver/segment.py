@@ -173,7 +173,8 @@ class SegmentDriver:
             i += 1
 
 
-    def generate(self, component, relaystate):
+    def generate(self, component, registers):
+        relaystate = registers['relaystate']
         segment_state = []
         state = []
         for segment_def in component["segments"]:
@@ -195,7 +196,8 @@ class SegmentDriver:
             return False
         return True
 
-    def generate_write_command(self, component, command, relaystate):
+    def generate_write_command(self, component, command, registers):
+        relaystate = registers['relaystate']
         if not self.check_valid_command(command, component):
             logger("got invalid switch command, ignoring", lev = logger.WARN)
             return []
