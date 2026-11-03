@@ -101,8 +101,12 @@ git status
 # přidání souboru do vznikajícího commitu (změna stavu z červeného souboru na zelený):
 git add <soubor>
 
-# jakmile jsem spokojen s tím, jaké změny jsou provedeny (a připraveny jako zelené)
-# nechám vzniknout nový commit
+# jakmile jsem spokojen s tím, jaké změny jsou provedeny (a připraveny jako zelené):
+
+# ještě jednou zkontroluji stav změn:
+git status
+
+# potom nechám vzniknout nový commit
 git commit -m "<lidsky-čitelný-popisek-provedené-změny>"
 
 # commitování lze opakovat, má smysl tvořit commity jako funkční celky
