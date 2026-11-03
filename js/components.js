@@ -61,14 +61,14 @@ class SegmentDigitComponent
         this.component.backend.command({"id": this.component.id, "command": "write", "digit": this.digit, "string": str})
     }
 
-    next()
+    next(category = null)
     {
-        this.component.backend.command({"id": this.component.id, "command": "next", "digit": this.digit})
+        this.component.backend.command({"id": this.component.id, "command": "next", "digit": this.digit, "category": category})
     }
 
-    prev()
+    prev(category = null)
     {
-        this.component.backend.command({"id": this.component.id, "command": "prev", "digit": this.digit})
+        this.component.backend.command({"id": this.component.id, "command": "prev", "digit": this.digit, "category": category})
     }
 
     wipe()

@@ -305,12 +305,40 @@ const digit1 = component.digit(1) // vrátí komponentu pro ovládání druhé s
 Samotná segmentová číslice má potom rozhraní:
 
 ```js
-digit0.set(0)      // zapni první segment segmentové číslice
-digit0.clear(1)    // vypni druhý segment segmentové číslice
-digit0.toggle(7)   // přepni poslední segment segmentové číslice (tj. přepni stav "tečky")
-digit0.write("5.") // zapiš do segmentové číslice hodnotu odpovídající danému stavu. Pokud je zapisovaný řetězec nesmyslný, příkaz se ignoruje.
-digit0.next()      // přepni na další číslici/znak (pokud segment žádný znak neukazuje, přepne se na znak `0`)
-digit0.prev()      // přepni na předchozí číslici/znak (pokud segment žádný znak neukazuje, přepne se na znak `0`)
+// zapni první segment segmentové číslice (segmenty jsou číslovány od nuly)
+digit0.set(0)
+
+// vypni druhý segment segmentové číslice (segmenty jsou číslovány od nuly)
+digit0.clear(1)
+
+// přepni poslední segment segmentové číslice (tj. přepni stav "tečky")
+digit0.toggle(7)
+
+// zapiš do segmentové číslice hodnotu odpovídající danému stavu.
+// Pokud je zapisovaný řetězec nesmyslný, příkaz se ignoruje.
+digit0.write("5.")
+
+
+// následující dva příkazy mají nepovinný parametr cat, který říká, 
+// v jaké kategorii se má znak posunout, pokud není kategorie dána,
+// použije se systémem zvolená kategorie (v tuto chvíli kategorie hex)
+// Možné kategorie:
+//  * digit - číslice
+//  * hex - hexadecimální číslice
+//  * letter - všechna písmena (velká i malá)
+//  * lower - malá písmena
+//  * upper - velká písmena
+//  * letteropt - všechna písmena, je-li k dispozici velké i malé písmeno, je vybráno to lépe vypadající
+
+// přepni na další číslici/znak v dané kategorii
+// pokud segment neukazuje znak dané kategorie,
+// bude přepnuto na nějaký znak z požadované kategorie
+digit0.next(cat = null)
+
+// přepni na předchozí číslici/znak v dané kategorii
+// pokud segment neukazuje znak dané kategorie,
+// bude přepnuto na nějaký znak z požadované kategorie
+digit0.prev(cat = null)
 ```
 
 #### rozhraní pro inicializaci komponent

@@ -66,10 +66,14 @@ metrix.onLoad("segment", function(mev) {
     mev.element.find("button").bind("click", function (ev) {
         const direction = $(this).attr("data-direction")
         const digit = parseInt($(this).attr("data-digit"))
+        var category = mev.element.find("select.cycle-category").prop("value")
+        if (category == "") {
+            category = null
+        }
         if (direction === "prev") {
-            mev.component.digit(digit).prev()
+            mev.component.digit(digit).prev(category)
         } else if (direction === "next") {
-            mev.component.digit(digit).next()
+            mev.component.digit(digit).next(category)
         } else if (direction === "wipe") {
             mev.component.digit(digit).wipe()
         } else {

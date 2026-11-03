@@ -1,5 +1,5 @@
 from metrix import check, validation, logger
-from schema import And
+from schema import And, Or, Optional
 
 segment_validator = And(int, validation.range(0, 7))
 
@@ -9,28 +9,42 @@ command_check = validation.polymorphic("command", {
     "reset": {"segment": segment_validator},
     "clear": {"segment": segment_validator},
     "write": {"string": str},
-    "next": {},
-    "prev": {},
+    "next": {Optional("category"): Or(None, str)},
+    "prev": {Optional("category"): Or(None, str)},
     "wipe": {}
 }, ["id", "digit"])
 
 characters = [
-    ("0", "1110111"),
-    ("1", "0010010"),
-    ("2", "1011101"),
-    ("3", "1011011"),
-    ("4", "0111010"),
-    ("5", "1101011"),
-    ("6", "1101111"),
-    ("7", "1010010"),
-    ("8", "1111111"),
-    ("9", "1111011"),
-    ("A", "1111110"),
-    ("b", "0101111"),
-    ("c", "0001101"),
-    ("d", "0011111"),
-    ("E", "1101101"),
-    ("F", "1101100"),
+    ("0", "1110111", ["digit", "hex"]),
+    ("1", "0010010", ["digit", "hex"]),
+    ("2", "1011101", ["digit", "hex"]),
+    ("3", "1011011", ["digit", "hex"]),
+    ("4", "0111010", ["digit", "hex"]),
+    ("5", "1101011", ["digit", "hex"]),
+    ("6", "1101111", ["digit", "hex"]),
+    ("7", "1010010", ["digit", "hex"]),
+    ("8", "1111111", ["digit", "hex"]),
+    ("9", "1111011", ["digit", "hex"]),
+    ("A", "1111110", ["letter", "upper", "hex", "letteropt"]),
+    ("a", "1011111", ["letter", "lower"]),
+    ("b", "0101111", ["letter", "lower", "hex", "letteropt"]),
+    ("c", "0001101", ["letter", "lower", "hex", "letteropt"]),
+    ("C", "1100101", ["letter", "upper"]),
+    ("d", "0011111", ["letter", "lower", "hex", "letteropt"]),
+    ("E", "1101101", ["letter", "upper", "hex", "letteropt"]),
+    ("F", "1101100", ["letter", "upper", "hex", "letteropt"]),
+    ("H", "0111110", ["letter", "upper", "letteropt"]),
+    ("h", "0101110", ["letter", "lower"]),
+    ("I", "0100100", ["letter", "upper", "letteropt"]),
+    ("i", "0000100", ["letter", "lower"]),
+    ("J", "0010111", ["letter", "upper", "letteropt"]),
+    ("L", "0100101", ["letter", "upper", "letteropt"]),
+    ("o", "0001111", ["letter", "lower", "letteropt"]),
+    ("P", "1111100", ["letter", "upper", "letteropt"]),
+    ("t", "0101101", ["letter", "lower", "letteropt"]),
+    ("U", "0110111", ["letter", "upper", "letteropt"]),
+    ("u", "0000111", ["letter", "lower"]),
+    ("Y", "0111100", ["letter", "upper", "letteropt"]),
 ]
 
 characters_info = {}
@@ -38,9 +52,9 @@ segment_to_characters = {}
 first_char = None
 
 old_char = None
-for character, segment in characters:
+for character, segment, category in characters:
     segment_to_characters[segment] = character
-    characters_info[character] = {"segment": segment, "next": None, "prev": old_char}
+    characters_info[character] = {"segment": segment, "next": None, "prev": old_char, "category": category}
     if old_char is None:
         first_char = character
     else:
@@ -49,7 +63,6 @@ for character, segment in characters:
 if old_char is not None:
     characters_info[old_char]["next"] = first_char
     characters_info[first_char]["prev"] = old_char
-
 
 def relaystate_to_segment(relaystate, segment_def):
     segment = ""
@@ -125,6 +138,26 @@ def cycle_char(char, direction):
         return first_char + suffix
     return characters_info[char][direction] + suffix
 
+def has_category(char, category):
+    if char == "" or char == ".":
+        return False
+    char = char[0:1]
+    if char not in characters_info:
+        return False
+    if category not in characters_info[char]["category"]:
+        return False
+    return True
+
+def cycle_char_category(char, direction, category):
+    char = cycle_char(char, direction)
+    if char is None:
+        return None
+    original_char = char
+    while not has_category(char, category):
+        char = cycle_char(char, direction)
+        if char == original_char:
+            return None
+    return char
 
 
 class SegmentDriver:
@@ -186,7 +219,8 @@ class SegmentDriver:
         elif command['command'] in ['next', "prev"]:
             segstate = relaystate_to_segment(relaystate, component["segments"][digit])
             char = segstate_to_state(segstate)
-            char = cycle_char(char, command["command"])
+            category = command['category'] if ('category' in command) and command['category'] is not None else 'hex'
+            char = cycle_char_category(char, command["command"], category)
             if char is None:
                 return []
             segstate = segstate_from_string(char)

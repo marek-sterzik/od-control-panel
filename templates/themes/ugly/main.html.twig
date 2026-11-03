@@ -31,6 +31,16 @@
                     {% endfor %}
                 </div>
                 <h2>textové vyjádření</h2>
+                <select class="cycle-category">
+                    <option class="default" value="">Vyberte kategorii znaků</option>
+                    <option value="digit">číslice</option>
+                    <option value="hex">hexadecimální číslice</option>
+                    <option value="letteropt">písmena</option>
+                    <option value="lower">malá písmena</option>
+                    <option value="upper">velká písmena</option>
+                    <option value="letter">všechna písmena</option>
+                </select>
+                <p>Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
                 <div class="segment-text">
                     {% for index, text in component.state %}
                         <button data-direction="prev" data-digit="{{ index }}">-</button>
