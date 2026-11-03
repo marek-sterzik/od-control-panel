@@ -67,6 +67,13 @@ class ThemeManager
         return $theme;
     }
 
+    public function getCurrentThemeDescriptor(): ?array
+    {
+        $theme = $this->getCurrentTheme();
+        $themes = $this->listThemes();
+        return $themes[$theme] ?? null;
+    }
+
     private function checkManifestData(string $theme, mixed $data): array
     {
         if (!is_array($data)) {
@@ -77,6 +84,19 @@ class ThemeManager
         }
         if (isset($data["author"]) && !is_string($data["author"])) {
             throw new Exception("theme $theme contains invalid data in manifest file theme.json: invalid author field");
+        }
+        if (isset($data["features"])) {
+            if (!is_array($data["features"])) {
+                throw new Exception("theme $theme contains invalid data in manifest file theme.json: invalid feautre field");
+            }
+            foreach ($data["features"] as $feature) {
+                if (!is_string($feature)) {
+                    throw new Exception("theme $theme contains invalid data in manifest file theme.json: invalid feautre field");
+                }
+            }
+            $data["features"] = array_values($data["features"]);
+        } else {
+            $data["features"] = [];
         }
         return $data;
     }
@@ -108,6 +128,7 @@ class ThemeManager
                         "theme" => $file,
                         "description" => $data['description'] ?? $file,
                         "author" => $data['author'] ?? 'unknown',
+                        "features" => $data["features"],
                     ];
                 }
             }

@@ -4,6 +4,7 @@ namespace App\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Twig\TwigFilter;
 use Symfony\Component\Asset\Packages;
 use App\Framework\ThemeManager;
 
@@ -21,6 +22,13 @@ class TwigExtension extends AbstractExtension
         ];
     }
 
+    private function getAllFilters(): array
+    {
+        return [
+            'array_values' => 'arrayValues',
+        ];
+    }
+
     public function getFunctions()
     {
         $twigFunctions = [];
@@ -28,6 +36,15 @@ class TwigExtension extends AbstractExtension
             $twigFunctions[] = new TwigFunction($twigFunction, [$this, $method]);
         }
         return $twigFunctions;
+    }
+
+    public function getFilters()
+    {
+        $twigFilters = [];
+        foreach ($this->getAllFilters() as $twigFilter => $method) {
+            $twigFilters[] = new TwigFilter($twigFilter, [$this, $method]);
+        }
+        return $twigFilters;
     }
 
     public function themeAsset(string $path): string
@@ -51,5 +68,10 @@ class TwigExtension extends AbstractExtension
             $path = '/' . $path;
         }
         return sprintf("themes/%s%s", $this->themeManager->getCurrentTheme(), $path);
+    }
+
+    public function arrayValues(array $array): array
+    {
+        return array_values($array);
     }
 }

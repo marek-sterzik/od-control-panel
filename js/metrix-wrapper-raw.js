@@ -1,3 +1,27 @@
+const autoritativeKeys = ["tags", "xinfo"]
+
+const getAutoritativeKeys = (component) => {
+    const keys = {}
+    for (var key of autoritativeKeys) {
+        if (key in component) {
+            keys[key] = component[key]
+        }
+    }
+    return keys
+}
+
+const patchAutoritativeKeys = (component, autoritativeComponent) => {
+    component = {...component}
+    for (var key of autoritativeKeys) {
+        if (key in autoritativeComponent) {
+            component[key] = autoritativeComponent[key]
+        } else {
+            delete component[key]
+        }
+    }
+    return component
+}
+
 class MetrixWrapperRaw
 {
     constructor()
@@ -6,6 +30,7 @@ class MetrixWrapperRaw
         this.flushTimer = null
         this.flushTimeout = 10
         this.state = {}
+        this.autoritativeKeys = {}
         this.commandConsummer = null
         this.stateConsummers = []
 
@@ -20,12 +45,20 @@ class MetrixWrapperRaw
         }
     }
 
-    provideState(state)
+    provideState(state, autoritative)
     {
         const oldState = this.state
         this.state = {}
+        if (autoritative) {
+            this.autoritativeKeys = {}
+        }
         for (var component of state) {
-            this.state[component.id] = component
+            if (autoritative) {
+                this.autoritativeKeys[component.id] = getAutoritativeKeys(component)
+            }
+            if (component.id in this.autoritativeKeys) {
+                this.state[component.id] = patchAutoritativeKeys(component, this.autoritativeKeys[component.id])
+            }
         }
         for (var callback of this.stateConsummers) {
             callback(this.state, oldState)

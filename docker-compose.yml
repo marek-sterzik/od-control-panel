@@ -23,7 +23,6 @@ services:
             - ./metrix:/app
         environment:
             METRIX_PUBLIC: 'true'
-            BLINK_ENABLED: '${BLINK_ENABLED:-false}'
     db:
         image: mysql:8.0.40
         expose:

@@ -5,11 +5,13 @@
 * Vyberte si jednoznačný identifikátor vašeho tématu. Identifikátor se může skládat jenom z malých písmen abecedy, číslic a podtržítek. Tímto identifikátorem bude
   téma jednoznačně identifikováno napříč systémem.
 * Vytvořte v adresáři `templates/themes` podadresář. Název adresáře má být přesně identifikátor tématu. Je-li identifikátor tématu `test`, vytvoří se adresář `templates/themes/test`.
-* V adresáři tématu `templates/themes/<id-tématu>` vytvořte soubor `theme.json` kde můžete uvést podrobnosti o tématu (název tématu, jak ho uvidí uživatel a autor tématu):
+* V adresáři tématu `templates/themes/<id-tématu>` vytvořte soubor `theme.json` kde můžete uvést podrobnosti o tématu (název tématu, jak ho uvidí uživatel, autora tématu a seznam
+  funkcí, které téma podporuje):
 ```json
 {
     "description": "Skvělé téma",
-    "author": "František Vomáčka"
+    "author": "František Vomáčka",
+    "features": ["blink"]
 }
 ```
 * Vytvořte v adresáři tématu nejméně soubory `login.html.twig`, `main.html.twig` a `backend-error.html.twig`. S tím, že význam šablon je následující:
@@ -35,6 +37,14 @@
     - za tímto blokem lze používat knihovnu `jQuery`
     - za tímto blokem lze používat objekt `metrix` (integrace s backendem aplikace)
 
+## Funkce tématu
+
+V souboru `theme.json` daného tématu lze uvést seznam funkcí v proměnné `features`. Ta obsahuje seznam funkcí, které téma podporuje. Zapnuté funkce mohou mírně měnit
+data, která šablona zpracovává. Nyní je k dispozici jediná funkce:
+
+* `blink` - Zapne v šabloně podporu pro blikání kontrolek. Tím se přidají nové přepínače umožňující ovládat blikání kontrolek. Zároveň s tím se ke každému přepínači
+  přidá informace, který přepínač je ve vztahu k danému přepínači. Vztah je přitom vždy definován mezi přepínačem přímo ovládající kontrolku a přepínačem ovládajícím
+  blikání kontrolky. Pokud téma nemá podporu pro blikání, přepínače ovládající blikání vůbec nejsou k dispozici, ani informace o vztazích mezi přepínači.
 
 # API
 
@@ -238,6 +248,11 @@ Každý objekt reprezentující komponentu obsahuje zcela nutně tyto údaje:
 * `id` - jednoznačný identifikátor komponenty (je spoleh na to, že identifikátor obsahuje jenom písmena, číslice, podtržítka a pomlčky)
 * `type` - typ komponenty (v našem případě jenom buď `switch` - přepínač, nebo `segment` - komponenta pro ovládání segmentového displeje)
 * `caption` - lidsky čitelný název komponenty
+* `xinfo` - rozšířené informace o komponentě, je k dispozici pouze, pokud téma podporuje funkci `blink`, v objektu `xinfo` lze přitom nalézt tyto podúdaje:
+    - `category` - kategorie komponenty (`switch` - obyčejný přepínač, `blink` - přepínač ovládající blikání, `segment` - ovladač segmentu)
+    - `related` - id komponenty, která je ve vztahu s touto komponentou - u kategorie `switch` je ve vztahu příslušná komponenta kategorie `blink`,
+      u kategorie `blink` je ve vztahu opět příslušná komponenta v kategorii `switch`, u kategorie `segment` není komponenta ve vztahu s žádnou
+      jinou komponentou a tato hodnota je `null`
 
 Komponenta typu `switch` potom dále obsahuje údaje:
 

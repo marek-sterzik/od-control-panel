@@ -6,6 +6,6 @@
 </script>
 {% if controls is defined and controls is not null and pageId == "main" %}
     <script>
-        metrix.backend.provideState({{ controls|json_encode|raw }})
+        metrix.backend.provideState({{ controls|array_values|json_encode|raw }}, true)
     </script>
 {% endif %}

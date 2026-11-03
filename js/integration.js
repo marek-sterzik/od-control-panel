@@ -17,7 +17,7 @@ const metrix = new Metrix(getMetrixUrl(), socketInitialize)
 
 const consumeMessage = (msg, metrix) => {
     if (msg.msgType === "broadcast" && msg.topic === "state") {
-        metrixWrapper.provideState(msg.payload)
+        metrixWrapper.provideState(msg.payload, false)
     }
 }
 

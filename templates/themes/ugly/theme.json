@@ -1,4 +1,5 @@
 {
     "description": "The Ugly Theme",
-    "author": "Marek Sterzik"
+    "author": "Marek Sterzik",
+    "features": ["blink"]
 }

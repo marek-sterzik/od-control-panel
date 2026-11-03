@@ -33,7 +33,17 @@ class State:
             
             self.components.append(component)
             self.componentsById[id] = component
-
+    
+    def get_tags(self, component):
+        if "tags" not in component:
+            return []
+        tags = component["tags"]
+        if not isinstance(tags, list):
+            if tags is None:
+                tags = []
+            else:
+                tags = [tags]
+        return tags
 
     def generate(self, registers):
         state = []
@@ -42,7 +52,8 @@ class State:
             driverType = component['type']
             driver = drivers[driverType]
             componentState = driver.generate(component, registers)
-            base = {"id": component['id'], "type": component["type"]}
+            tags = self.get_tags(component)
+            base = {"id": component['id'], "type": component["type"], "tags": tags}
             componentState = {**base, **componentState}
             state.append(componentState)
             for key, value in driver.watch_values(component, componentState):
