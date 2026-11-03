@@ -11,3 +11,4 @@ Dokumentace:
 * [základní dokumentace k používání prostředí spsostrov-php-runtime](doc/spso-runtime.md)
 * [průvodce návrhem témat](doc/theme-design.md)
 * [testování a provoz aplikace](doc/testing.md)
+* [krátký návod, jak přispívat do projektu](doc/contribution.md)
