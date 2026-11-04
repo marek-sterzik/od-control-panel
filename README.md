@@ -1,5 +1,7 @@
 # Kontrolní panel pro ovládání hardwarových kontrolek
 
+Tato aplikace slouží na ovládání specifického hardwarového kontrolního panelu určeného pro demonstraci na den otevřených dveří SPŠ Ostrov.
+
 Rychlý start aplikace:
 
 * Nainstalujte docker a Ubuntu ([podrobnosti zde](doc/spso-runtime.md))
