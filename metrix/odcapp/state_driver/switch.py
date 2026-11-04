@@ -5,46 +5,68 @@ command_check = validation.polymorphic("command", {
     "set": {},
     "reset": {},
     "clear": {}
-}, ["id"])
+}, ["id", "part"])
 
 class SwitchDriver:
     def watch_values(self, component, state):
         yield component['id'], state['state']
 
-    def get_register(self, component):
-        if "register" in component and isinstance(component["register"], str):
-            return component["register"]
-        else:
-            return "relaystate"
+    def parse_bitinfo(self, bitinfo):
+        if isinstance(bitinfo, int):
+            bitinfo = ["relaystate", bitinfo]
+        if not isinstance(bitinfo, list) or len(bitinfo) != 2:
+            bitinfo = ["relaystate", 0]
+        if not isinstance(bitinfo[0], str): 
+            bitinfo[0] = "relaystate"
+        if not isinstance(bitinfo[1], int) or bitinfo[1] < 0 or bitinfo[1] >= 32: 
+            bitinfo[1] = 0
+        return {"mask": 1 << bitinfo[1], "register": bitinfo[0]}
 
-    def get_mask(self, component):
-        return 1 << component['bit']
 
     def generate(self, component, registers):
-        register = self.get_register(component)
-        relaystate = registers['relaystate']
-        state = False
-        if register in registers:
-            mask = self.get_mask(component)
-            result = registers[register] & mask
-            if result == mask:
-                state = True
-            elif result != 0:
-                state = None
-
-        return {
+        data = {
             "caption": component['caption'] if "caption" in component else None,
             "color": component['color'] if "color" in component else None,
-            "state": state
+            "parts": list(component['map'].keys()),
         }
+        for key, bitinfo in component["map"].items():
+            bitinfo_parsed = self.parse_bitinfo(bitinfo)
+            mask = bitinfo_parsed["mask"]
+            register = bitinfo_parsed["register"]
+            state = False
+            if register in registers:
+                result = registers[register] & mask
+                if result == mask:
+                    state = True
+                elif result != 0:
+                    state = None
+            data[key] = state
+        return data
+
+    def parse_part(self, command, component):
+        part = command["part"] if "part" in command else None
+        if part is None and len(component["map"]) == 1:
+            part = next(iter(component["map"]))
+        if not isinstance(part, str):
+            return None
+        if part not in component["map"]:
+            return None
+        return part
+            
 
     def generate_write_command(self, component, command, registers):
-        register = self.get_register(component)
-        relaystate = registers['relaystate']
         if not check(command_check, command):
             logger("got invalid switch command, ignoring", lev = logger.WARN)
             return []
-        mask = self.get_mask(component)
+        part = self.parse_part(command, component)
+        if part is None:
+            logger("got invalid switch part, ignoring", lev = logger.WARN)
+            return []
+        bitinfo = component['map'][part]
+        bitinfo_parsed = self.parse_bitinfo(bitinfo)
+        mask = bitinfo_parsed["mask"]
+        register = bitinfo_parsed["register"]
+
         if command['command'] == 'set':
             return [{"register": register, "op": "set", "val": mask}]
         elif command['command'] in ['reset', 'clear']:

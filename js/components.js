@@ -9,19 +9,49 @@ class AbstractComponent
 
 class SwitchComponent extends AbstractComponent
 {
+    togglePart(part)
+    {
+        this.backend.command({"id": this.id, "part": part, "command": "toggle"})
+    }
+
+    setPart(part)
+    {
+        this.backend.command({"id": this.id, "part": part, "command": "set"})
+    }
+
+    clearPart(part)
+    {
+        this.backend.command({"id": this.id, "part": part, "command": "clear"})
+    }
+
     toggle()
     {
-        this.backend.command({"id": this.id, "command": "toggle"})
+        this.togglePart("state")
     }
 
     set()
     {
-        this.backend.command({"id": this.id, "command": "set"})
+        this.setPart("state")
     }
 
     clear()
     {
-        this.backend.command({"id": this.id, "command": "clear"})
+        this.clearPart("state")
+    }
+
+    toggleBlink()
+    {
+        this.togglePart("blink")
+    }
+
+    setBlink()
+    {
+        this.setPart("blink")
+    }
+
+    clearBlink()
+    {
+        this.clearPart("blink")
     }
 }
 

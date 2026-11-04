@@ -5,76 +5,42 @@ plugins:
 config:
     port: !file '/dev/serial'
     components:
-        # switches
         - id: red
           type: switch
-          tags: [{"category": "switch", "relation": "red_blink"}]
           caption: "Červená kontrolka"
           color: "#f00"
-          bit: 16
+          map:
+            state: 16
+            blink: ["blinkstate", 16]
         - id: yellow
           type: switch
-          tags: [{"category": "switch", "relation": "yellow_blink"}]
           caption: "Žlutá kontrolka"
           color: "#aa0"
-          bit: 17
+          map:
+            state: 17
+            blink: ["blinkstate", 17]
         - id: green
           type: switch
-          tags: [{"category": "switch", "relation": "green_blink"}]
           caption: "Zelená kontrolka"
           color: "#0f0"
-          bit: 18
+          map:
+            state: 18
+            blink: ["blinkstate", 18]
         - id: white
           type: switch
-          tags: [{"category": "switch", "relation": "white_blink"}]
           caption: "Bílá kontrolka"
           color: "#fff"
-          bit: 19
+          map:
+            state: 19
+            blink: ["blinkstate", 19]
         - id: blue
           type: switch
-          tags: [{"category": "switch", "relation": "blue_blink"}]
           caption: "Modrá kontrolka"
           color: "#00f"
-          bit: 20
-        # blink switches
-        - id: red_blink
-          type: switch
-          tags: [{"category": "blink", "relation": "red"}]
-          caption: "Červená kontrolka - blikání"
-          color: "#f00"
-          register: "blinkstate"
-          bit: 16
-        - id: yellow_blink
-          type: switch
-          tags: [{"category": "blink", "relation": "yellow"}]
-          caption: "Žlutá kontrolka - blikání"
-          color: "#aa0"
-          register: "blinkstate"
-          bit: 17
-        - id: green_blink
-          type: switch
-          tags: [{"category": "blink", "relation": "green"}]
-          caption: "Zelená kontrolka - blikání"
-          color: "#0f0"
-          register: "blinkstate"
-          bit: 18
-        - id: white_blink
-          type: switch
-          tags: [{"category": "blink", "relation": "white"}]
-          caption: "Bílá kontrolka - blikání"
-          color: "#fff"
-          register: "blinkstate"
-          bit: 19
-        - id: blue_blink
-          type: switch
-          tags: [{"category": "blink", "relation": "blue"}]
-          caption: "Modrá kontrolka - blikání"
-          color: "#00f"
-          register: "blinkstate"
-          bit: 20
-        # segment
+          map:
+            state: 20
+            blink: ["blinkstate", 20]
         - id: segment
           type: segment
-          tags: [{"category": "segment", "relation": null}]
           caption: "Segmentový displej"
           segments: [[0, 1, 2, 3, 4, 5, 6, 7], [8, 9, 10, 11, 12, 13, 14, 15]]

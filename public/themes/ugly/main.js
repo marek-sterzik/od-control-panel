@@ -1,13 +1,20 @@
 metrix.onChange("switch", function(mev) {
-    mev.element.find("input").prop("checked", mev.state.state)
+    for (var part of mev.state.parts) {
+        mev.element.find("input").each(function(){
+            const part = $(this).attr("data-part")
+            $(this).prop("checked", mev.state[part])
+        })
+
+    }
 })
 
 metrix.onLoad("switch", function(mev) {
     mev.element.find("input").bind("click", function(ev) {
+        const part = $(this).attr("data-part")
         if ($(this).prop("checked")) {
-            mev.component.set()
+            mev.component.setPart(part)
         } else {
-            mev.component.clear()
+            mev.component.clearPart(part)
         }
         ev.preventDefault()
         return false

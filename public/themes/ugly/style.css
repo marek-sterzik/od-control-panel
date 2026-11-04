@@ -25,6 +25,8 @@ div.userinfo span.admin {color: red;}
 select.cycle-category {padding: .3em; font-size: 1.2em; border-radius: .3em;}
 select.cycle-category + p {margin-bottom: 2em;}
 
+div.slave {margin-left: 2em;}
+
 /* segment display */
 
 section.segment {

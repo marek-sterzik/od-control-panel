@@ -5,13 +5,11 @@
 * Vyberte si jednoznačný identifikátor vašeho tématu. Identifikátor se může skládat jenom z malých písmen abecedy, číslic a podtržítek. Tímto identifikátorem bude
   téma jednoznačně identifikováno napříč systémem.
 * Vytvořte v adresáři `templates/themes` podadresář. Název adresáře má být přesně identifikátor tématu. Je-li identifikátor tématu `test`, vytvoří se adresář `templates/themes/test`.
-* V adresáři tématu `templates/themes/<id-tématu>` vytvořte soubor `theme.json` kde můžete uvést podrobnosti o tématu (název tématu, jak ho uvidí uživatel, autora tématu a seznam
-  funkcí, které téma podporuje):
+* V adresáři tématu `templates/themes/<id-tématu>` vytvořte soubor `theme.json` kde můžete uvést podrobnosti o tématu (název tématu, jak ho uvidí uživatel a autora tématu):
 ```json
 {
     "description": "Skvělé téma",
-    "author": "František Vomáčka",
-    "features": ["blink"]
+    "author": "František Vomáčka"
 }
 ```
 * Vytvořte v adresáři tématu nejméně soubory `login.html.twig`, `main.html.twig` a `backend-error.html.twig`. S tím, že význam šablon je následující:
@@ -36,15 +34,6 @@
   Vložení šablony `header.html.twig` má přitom (kromě jiného) dva důležité následky:
     - za tímto blokem lze používat knihovnu `jQuery`
     - za tímto blokem lze používat objekt `metrix` (integrace s backendem aplikace)
-
-## Funkce tématu
-
-V souboru `theme.json` daného tématu lze uvést seznam funkcí v proměnné `features`. Ta obsahuje seznam funkcí, které téma podporuje. Zapnuté funkce mohou mírně měnit
-data, která šablona zpracovává. Nyní je k dispozici jediná funkce:
-
-* `blink` - Zapne v šabloně podporu pro blikání kontrolek. Tím se přidají nové přepínače umožňující ovládat blikání kontrolek. Zároveň s tím se ke každému přepínači
-  přidá informace, který přepínač je ve vztahu k danému přepínači. Vztah je přitom vždy definován mezi přepínačem přímo ovládající kontrolku a přepínačem ovládajícím
-  blikání kontrolky. Pokud téma nemá podporu pro blikání, přepínače ovládající blikání vůbec nejsou k dispozici, ani informace o vztazích mezi přepínači.
 
 # API
 
@@ -197,48 +186,52 @@ ovládaných komponent. Jako json může být obsah komponenty vyjádřen jako:
         "type": "switch",
         "caption": "Červená kontrolka",
         "color": "#f00",
-        "state": false
+        "parts": ["state", "blink"],
+        "state": false,
+        "blink": false
     },
     {
         "id": "yellow",
         "type": "switch",
         "caption": "Žlutá kontrolka",
         "color": "#aa0",
-        "state": false
+        "parts": ["state", "blink"],
+        "state": false,
+        "blink": false
     },
     {
         "id": "green",
         "type": "switch",
         "caption": "Zelená kontrolka",
         "color": "#0f0",
-        "state": false
+        "parts": ["state", "blink"],
+        "state": false,
+        "blink": false
     },
     {
         "id": "white",
         "type": "switch",
         "caption": "Bílá kontrolka",
         "color": "#fff",
-        "state": false
+        "parts": ["state", "blink"],
+        "state": false,
+        "blink": false
     },
     {
         "id": "blue",
         "type": "switch",
         "caption": "Modrá kontrolka",
         "color": "#00f",
-        "state": false
+        "parts": ["state", "blink"],
+        "state": false,
+        "blink": false
     },
     {
         "id": "segment",
         "type": "segment",
         "caption": "Segmentový displej",
-        "state": [
-            "",
-            ""
-        ],
-        "segment_state": [
-            "00000000",
-            "00000000"
-        ]
+        "state": ["", ""],
+        "segment_state": ["00000000", "00000000"]
     }
 ]
 ```
@@ -248,16 +241,13 @@ Každý objekt reprezentující komponentu obsahuje zcela nutně tyto údaje:
 * `id` - jednoznačný identifikátor komponenty (je spoleh na to, že identifikátor obsahuje jenom písmena, číslice, podtržítka a pomlčky)
 * `type` - typ komponenty (v našem případě jenom buď `switch` - přepínač, nebo `segment` - komponenta pro ovládání segmentového displeje)
 * `caption` - lidsky čitelný název komponenty
-* `xinfo` - rozšířené informace o komponentě, je k dispozici pouze, pokud téma podporuje funkci `blink`, v objektu `xinfo` lze přitom nalézt tyto podúdaje:
-    - `category` - kategorie komponenty (`switch` - obyčejný přepínač, `blink` - přepínač ovládající blikání, `segment` - ovladač segmentu)
-    - `related` - id komponenty, která je ve vztahu s touto komponentou - u kategorie `switch` je ve vztahu příslušná komponenta kategorie `blink`,
-      u kategorie `blink` je ve vztahu opět příslušná komponenta v kategorii `switch`, u kategorie `segment` není komponenta ve vztahu s žádnou
-      jinou komponentou a tato hodnota je `null`
 
 Komponenta typu `switch` potom dále obsahuje údaje:
 
 * `color` - barva přiřazená ovládané kontrolce, barva je ve formátu, který je použitelný kdekoliv v html/css standardu
+* `parts` - samostatně ovládané části přepínače, které jsou k dispozici - v tuto chvíli může toto pole obsahovat buď `state` (vlastní přepínač) a `blink` (stav blikání)
 * `state` - informace, zda je aktuálně kontrolka zapnutá nebo vypnutá (tato jediná hodnota se může v průběhu času měnit, ostatní zůstávají po celou dobu neměnné)
+* `blink` - informace, zda je na dané kontrolce zapnuto blikání (hodnota je k dispozici pouze, pokud proměnná `parts` obsahuje `blink`)
 
 Komponenta typu `segment` dále obsahuje tyto údaje:
 
@@ -305,9 +295,35 @@ kde `id` je jednoznačný identifikátor komponenty. Každá komponenta má jin�
 Typ `switch` má rozhraní:
 
 ```js
-component.set()    // zapne spínač/kontrolku
-component.clear()  // vypne spínač/kontrolku
-component.toggle() // přepne spínač/kontrolku do opačného stavu (ze zapnuto na vypnuto, z vypnuto na zapnuto)
+// zapne spínač/kontrolku
+component.set()
+
+// vypne spínač/kontrolku
+component.clear()
+
+// přepne spínač/kontrolku do opačného stavu (ze zapnuto na vypnuto, z vypnuto na zapnuto)
+component.toggle()
+
+// zapne blikání kontrolky
+component.setBlink()
+
+// vypne blikání kontrolky
+component.clearBlink()
+
+// přepne blikání kontrolky do opačného stavu
+component.toggleBlink()
+
+// zapnutí části přepínače podle názvu části
+component.setPart("state")
+component.setPart("blink")
+
+// vypnutí části přepínače podle názvu části
+component.clearPart("state")
+component.clearPart("blink")
+
+// přepnutí části přepínače podle názvu části
+component.togglePart("state")
+component.togglePart("blink")
 ```
 
 Typ `segment` má rozhraní:

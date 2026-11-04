@@ -10,9 +10,17 @@
         <div data-metrix-id="{{ component.id }}">
             {% if component.type == "switch" %}
                 <label>
-                    <input type="checkbox" {% if component.state %}checked="checked"{% endif %}>
+                    <input type="checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
                     {{ component.caption }}
                 </label>
+                {% if "blink" in component.parts %}
+                    <div class="slave">
+                        <label>
+                            <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                            blikání
+                        </label>
+                    </div>
+                {% endif %}
             {% elseif component.type == "segment" %}
                 <h2>{{component.caption}}</h2>
                 <h2>segmenty</h2>

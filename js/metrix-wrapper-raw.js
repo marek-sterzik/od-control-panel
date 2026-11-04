@@ -1,4 +1,4 @@
-const autoritativeKeys = ["tags", "xinfo"]
+const autoritativeKeys = []
 
 const getAutoritativeKeys = (component) => {
     const keys = {}
