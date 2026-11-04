@@ -9,7 +9,8 @@ command_check = validation.polymorphic("command", {
 
 class SwitchDriver:
     def watch_values(self, component, state):
-        yield component['id'], state['state']
+        for key in component["map"].keys():
+            yield f"{component['id']}.{key}", state[key]
 
     def parse_bitinfo(self, bitinfo):
         if isinstance(bitinfo, int):
