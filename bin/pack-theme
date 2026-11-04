@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -e 
+
+cd "$(dirname "$0")/.."
+
+if [ "$#" != 1 ]; then
+    echo "usage: $0 <theme-id>" 1>&2
+    echo "This script packs a given theme into an archive"
+    exit 1
+fi
+
+theme="$1"
+
+if echo "$theme" | grep -qv '^[a-z0-9_]\+$'; then
+    echo "Error: invalid theme name: '$theme'" 1>&2
+    exit 1
+fi
+
+if [ ! -d "templates/themes/$theme" ]; then
+    echo "Error: theme does not exist: $theme" 1>&2
+    exit 1
+fi
+
+if [ ! -f "templates/themes/$theme/theme.json" ]; then
+    echo "Error: theme does not contain theme.json manifest file: $theme" 1>&2
+    exit 1
+fi
+
+for tpl in login.html.twig error.html.twig main.html.twig; do
+    if [ ! -f "templates/themes/$theme/$tpl" ]; then
+        echo "Warning: theme does not contain template $tpl" 1>&2
+    fi
+done
+
+dirs=("templates/themes/$theme")
+
+if [ -d "public/themes/$theme" ]; then  
+    dirs+=("public/themes/$theme")
+else
+    echo "Warning: theme does not contain static assets" 1>&2
+fi
+
+ok=0
+while [ "$ok" = 0 ]; do
+    read -p "Please enter your full name (name and surname): " name
+    name="`echo "$name" | sed 'y/ěščřžýáíéťóúůď/escrzyaietouud/;y/ĚŠČŘŽÝÁÍÉŤÓÚůĎ/ESCRZYAIETOUUD/' | tr 'A-Z' 'a-z'`"
+    name="`echo "$name" | sed 's/^[[:space:]]\+//;s/[[:space:]]\+$//;s/[[:space:]]\+/_/g'`"
+    if echo "$name" | grep -q '^[a-z]\+\(_[a-z]\+\)*$'; then
+        ok=1
+    else
+        echo "Invalid name"
+    fi
+done
+
+package="theme-$name-$theme.tar.gz"
+
+tar --exclude '.*.sw[po]' --exclude '.sw[po]' -czf "$package" "${dirs[@]}"
+
+echo "Package '$package' created successfully"
