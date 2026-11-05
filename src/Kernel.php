@@ -25,6 +25,9 @@ class Kernel extends BaseKernel
                 (require $path)($container->withPath($path), $this);
             }
         }
+        if (is_file(\dirname(__DIR__).'/config/passwords.yaml')) {
+            $container->import('../config/passwords.yaml');
+        }
     }
 
     protected function configureRoutes(RoutingConfigurator $routes): void

@@ -4,8 +4,8 @@ security:
         users_in_memory:
             memory:
                 users:
-                    user: { password: '%env(USER_PASSWORD_HASH)%', roles: ['ROLE_USER'] }
-                    admin: { password: '%env(ADMIN_PASSWORD_HASH)%', roles: ['ROLE_USER', 'ROLE_ADMIN'] }
+                    user: { password: '%user_password_hash%', roles: ['ROLE_USER'] }
+                    admin: { password: '%admin_password_hash%', roles: ['ROLE_USER', 'ROLE_ADMIN'] }
 
     firewalls:
         dev:

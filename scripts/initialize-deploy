@@ -9,5 +9,5 @@ else
 fi
 
 composer install $flags
-
+lib/write-password-hashes.php
 lib/write-env
