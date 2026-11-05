@@ -107,6 +107,8 @@ parse_user_name() {
     else
         if [ "$1" = "db" ]; then
             echo "mysql"
+        elif [ "$1" = "metrix" ]; then
+            echo "@"
         else
             echo "www-data"
         fi
@@ -134,6 +136,7 @@ docker_exec() {
     container="`parse_container_name "$1"`"
     user="`parse_user_name "$1"`"
     operation="`parse_operation "$1"`"
+    extra_args=()
 
     shift
 
@@ -152,16 +155,15 @@ docker_exec() {
             user=root
         fi
     fi
-    if [ "$container" = "metrix" -a "$operation" = "exec" ]; then
-        if [ "$user" = "www-data" ]; then
-            user="`id -u`:`id -g`"
-        fi
+    if [ "$user" = "@" ]; then
+        user="`id -u`:`id -g`"
+        extra_args+=(-e HOME=/tmp)
     fi
 
     if [ "$#" = 0 ]; then
-        docker_compose $operation $tflag --user "$user" "$container" $cmd_prefix bash
+        docker_compose $operation $tflag --user "$user" "${extra_args[@]}" "$container" $cmd_prefix bash
     else
-        docker_compose $operation $tflag --user "$user" "$container" $cmd_prefix "$@"
+        docker_compose $operation $tflag --user "$user" "${extra_args[@]}" "$container" $cmd_prefix "$@"
     fi
 }
 
