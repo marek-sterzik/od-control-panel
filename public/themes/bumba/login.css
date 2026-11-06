@@ -1,0 +1,4 @@
+body { transition: background-color 0.3s ease, color 0.3s ease; }
+.login-card { max-width: 400px; width: 100%; }
+.form-control-custom { background-color: var(--bs-tertiary-bg); border: none; }
+.form-control-custom:focus { box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25); background-color: var(--bs-body-bg); }

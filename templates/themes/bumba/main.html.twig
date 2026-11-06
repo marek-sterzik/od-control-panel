@@ -1,0 +1,109 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset('main.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ theme_asset('main.css') }}">
+{% endblock %}
+
+{% block extra_header_buttons %}
+    <a href="{{ path('app.logout') }}" class="btn btn-outline-danger btn-sm px-3 rounded-pill fw-bold text-nowrap d-flex align-items-center gap-2 bg-body-tertiary shadow-sm">
+        <i class="bi bi-box-arrow-right"></i> 
+        Odhlásit se
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="container-xl pt-5 mt-5 pb-4 flex-grow-1 d-flex flex-column justify-content-center w-100">
+    <div class="hardware-panel d-flex flex-column w-100">
+        
+        <div class="card border-0 shadow-lg rounded-4 p-3 p-sm-4 p-md-5 w-100" id="controlsContainer">
+            
+            <div class="d-flex justify-content-between justify-content-sm-start align-items-center w-100 mb-4 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2 text-truncate pe-2">
+                    <h2 class="mb-0 fs-3 fs-md-2 fw-bold text-body-secondary">Panel</h2>
+                    <span class="badge rounded-pill d-none d-sm-inline-flex align-items-center gap-1 {% if user.admin %}bg-danger{% else %}bg-success{% endif %}">
+                        {{ user.name }}
+                    </span>
+                </div>
+            </div>
+
+            {% for component in controls %}
+                <div data-metrix-id="{{ component.id }}" class="mb-4">
+                    {% if component.type == "segment" %}
+
+                        <h6 class="text-center text-muted fw-bold text-uppercase tracking-wide mb-3" style="font-size: 0.85rem;">{{ component.caption }}</h6>
+                        
+                        <div class="position-relative w-100 mb-3">
+                            <div class="segments d-flex justify-content-center gap-3 flex-wrap">
+                                {% for index, digit in component.segment_state %}
+                                    <section class="segment seven-segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                        <div class="seg seg-h seg-a" data-segment="0"></div>
+                                        <span class="seg seg-v seg-b" data-segment="1"></span>
+                                        <span class="seg seg-v seg-c" data-segment="2"></span>
+                                        <div class="seg seg-h seg-d" data-segment="3"></div>
+                                        <span class="seg seg-v seg-e" data-segment="4"></span>
+                                        <span class="seg seg-v seg-f" data-segment="5"></span>
+                                        <div class="seg seg-h seg-g" data-segment="6"></div>
+                                        <div class="seg seg-dp dot" data-segment="7"></div>
+                                    </section>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                        <div class="d-flex flex-column align-items-center mt-3 p-3 bg-body-tertiary rounded-3 border">
+                            <select class="form-select form-select-sm cycle-category shadow-sm text-center mb-3" style="max-width: 260px; border-radius: 20px;">
+                                <option class="default" value="">Vyberte kategorii znaků</option>
+                                <option value="digit">číslice</option>
+                                <option value="hex">hexadecimální číslice</option>
+                                <option value="letteropt">písmena</option>
+                                <option value="lower">malá písmena</option>
+                                <option value="upper">velká písmena</option>
+                                <option value="letter">všechna písmena</option>
+                            </select>
+
+                            <div class="segment-text d-flex justify-content-center flex-wrap gap-3">
+                                {% for index, text in component.state %}
+                                    <div class="digit-control-group shadow-sm bg-body">
+                                        <button type="button" class="digit-btn" data-direction="prev" data-digit="{{ index }}">-</button>
+                                        <input type="text" class="digit-input" data-digit="{{ index }}" data-expected-value="{% if text == '' %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                        <button type="button" class="digit-btn btn-wipe" data-direction="wipe" data-digit="{{ index }}">🗑</button>
+                                        <button type="button" class="digit-btn" data-direction="next" data-digit="{{ index }}">+</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    {% elseif component.type == "switch" %}
+                        {% set colorName = component.id|split('_')[0] %}
+                        <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-body-tertiary">
+                            <div class="d-flex align-items-center gap-3">
+                                <label class="bulb-switch shadow-sm m-0" data-color="{{ colorName }}" style="--c: {{ colorName }};">
+                                    <input type="checkbox" class="bulb-checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                                    <span class="bulb-indicator"></span>
+                                </label>
+                                <span class="fw-bold">{{ component.caption }}</span>
+                            </div>
+
+                            {% if "blink" in component.parts %}
+                                <div class="slave">
+                                    <label class="d-flex align-items-center gap-2 mb-0 small text-muted cursor-pointer">
+                                        <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %} class="form-check-input m-0">
+                                        blikání
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning">unknown component: {{ component.type }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

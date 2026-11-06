@@ -1,0 +1,26 @@
+:root {
+    --bg-off: #343a40;
+    --border-off: #212529;
+    --seg-off: #e9ecef;
+}
+[data-bs-theme="dark"] {
+    --bg-off: #212529;
+    --border-off: #121416;
+    --seg-off: #2b3035;
+}
+body { transition: background-color 0.3s ease, color 0.3s ease; overflow-x: hidden; }
+
+.theme-toggle-wrapper { display: inline-block; }
+.theme-toggle-checkbox { display: none; }
+.theme-toggle-label {
+    width: 54px; height: 28px; background-color: #4facfe; border-radius: 50px;
+    position: relative; cursor: pointer; transition: 0.5s ease; margin-bottom: 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+[data-bs-theme="dark"] .theme-toggle-label { background-color: #2c3e50; }
+.theme-toggle-ball {
+    width: 20px; height: 20px; background-color: #fff; border-radius: 50%;
+    position: absolute; top: 4px; left: 4px; display: flex; align-items: center; justify-content: center;
+    font-size: 11px; transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+.theme-toggle-checkbox:checked + .theme-toggle-label .theme-toggle-ball { transform: translateX(26px) rotate(360deg); }
