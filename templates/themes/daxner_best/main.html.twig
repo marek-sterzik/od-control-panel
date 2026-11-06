@@ -35,7 +35,6 @@
                     {% elseif component.type == "segment" %}
                         <h3 class="h4 card-title border-bottom pb-2 mb-3">{{ component.caption }}</h3>
                         
-                        <h4 class="h6 text-uppercase text-muted fw-bold">Segmenty</h4>
                         <div class="segments d-flex gap-2 mb-4 p-3 bg-light rounded justify-content-center">
                             {% for index, digit in component.segment_state %}
                                 <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
@@ -63,9 +62,6 @@
                         </div>
 
                         <div class="d-flex flex-direction-column justify-content-center text-center row">
-                            <div class="w-100">
-                                <p class="text-uppercase text-muted fw-bold">Sada znaků:</p>
-                            </div>
                             <div class="w-100">
                                 <select class="cycle-category form-select">
                                     <option class="default" value="">Vyberte kategorii znaků</option>
