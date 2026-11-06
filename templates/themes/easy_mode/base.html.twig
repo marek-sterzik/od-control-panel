@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Control panel{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ theme_asset('style2.css') }}">
+        {% endblock %}
+        {% include "header.html.twig" %}
+        {% block scripts %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="themeselect">
+            <form action="{{ path("app.set-theme") }}" method="get">
+                <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+                <select class="submit-on-change" name="theme">
+                    {% for theme in themes %}
+                        <option value="{{ theme.theme }}"{% if theme.active %} selected="selected"{% endif %}>{{ theme.description }} ({{ theme.author }})</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+        {% if user is not null %}
+            <div class="userinfo">
+                Přihlášený uživatel: <span{% if user.admin %} class="admin"{% endif %}>{{ user.name }}</span> (<a href="{{ path("app.logout") }}">odhlásit se</a>)
+            </div>
+        {% endif %}
+        <div style="clear: both"></div>
+        <h1>Ugly</h1>
+        {% block body %}{% endblock %}
+    </body>
+</html>
