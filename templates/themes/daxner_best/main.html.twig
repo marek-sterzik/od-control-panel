@@ -1,0 +1,93 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block js %}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h2 class="h3 mb-4">Ovládání</h2>
+    
+    <div class="row g-4">
+    {% for component in controls %}
+        <div class="col-12" data-metrix-id="{{ component.id }}">
+            <div class="card shadow-sm w-sm-100">
+                <div class="card-body">
+                    {% if component.type == "switch" %}
+                        <div class="d-flex align-items-center gap-4 justify-content-start">
+                            <span class="rounded-circle border shadow-sm" style="width: 16px; height: 16px; background-color: {{ component.color }}; display: inline-block;"></span>
+                            <div class="form-check form-switch fs-5">
+                                <input class="form-check-input" type="checkbox" role="switch" data-part="state" id="switch-{{ component.id }}" {% if component.state %}checked="checked"{% endif %}>
+                                <label class="form-check-label fw-bold" for="switch-{{ component.id }}">
+                                    {{ component.caption }}
+                                </label>
+                            </div>
+
+                            {% if "blink" in component.parts %}
+                                <div class="form-check form-switch border-start ps-4 ms-auto">
+                                    <input class="form-check-input" type="checkbox" role="switch" data-part="blink" id="blink-{{ component.id }}" {% if component.blink %}checked="checked"{% endif %}>
+                                    <label class="form-check-label text-muted" for="blink-{{ component.id }}">
+                                        blikání
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    {% elseif component.type == "segment" %}
+                        <h3 class="h4 card-title border-bottom pb-2 mb-3">{{ component.caption }}</h3>
+                        
+                        <h4 class="h6 text-uppercase text-muted fw-bold">Segmenty</h4>
+                        <div class="segments d-flex gap-2 mb-4 p-3 bg-light rounded justify-content-center">
+                            {% for index, digit in component.segment_state %}
+                                <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                    <div data-segment="0"></div>
+                                    <span data-segment="1"></span>
+                                    <span data-segment="2"></span>
+                                    <div data-segment="3"></div>
+                                    <span data-segment="4"></span>
+                                    <span data-segment="5"></span>
+                                    <div data-segment="6"></div>
+                                    <div class="dot" data-segment="7"></div>
+                                </section>
+                            {% endfor %}
+                        </div>
+
+                        <div class="row g-3 align-items-center mb-3">
+                            <div class="col-md-6">
+                                <h4 class="h6 text-uppercase text-muted fw-bold mb-2">Textové vyjádření</h4>
+                                <select class="cycle-category form-select">
+                                    <option class="default" value="">Vyberte kategorii znaků</option>
+                                    <option value="digit">číslice</option>
+                                    <option value="hex">hexadecimální číslice</option>
+                                    <option value="letteropt">písmena</option>
+                                    <option value="lower">malá písmena</option>
+                                    <option value="upper">velká písmena</option>
+                                    <option value="letter">všechna písmena</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="form-text text-muted mb-0 mt-md-4">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                            </div>
+                        </div>
+
+                        <div class="segment-text d-flex flex-wrap align-items-stretch gap-0">
+                            {% for index, text in component.state %}
+                                <div class="input-group input-group-sm mb-2">
+                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="prev" data-digit="{{ index }}" type="button">-</button>
+                                    <input type="text" class="form-control text-center font-monospace fs-5 mr-0 m-0" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                    <button class="btn btn-outline-danger p-0 ml-0" style="width: 25px" data-direction="wipe" data-digit="{{ index }}" type="button">🗑</button>
+                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="next" data-digit="{{ index }}" type="button">+</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    {% else %}
+                        <div class="alert alert-warning mb-0">
+                            unknown component: {{ component.type }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

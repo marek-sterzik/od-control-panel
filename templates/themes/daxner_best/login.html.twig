@@ -1,0 +1,39 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-6 col-lg-4 ">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title text-center mb-4">Přihlášení</h2>
+                    
+                    <form method="post">
+                        {% if loginError %}
+                            <div class="alert alert-danger" role="alert">
+                                Přihlášení se nezdařilo
+                            </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Uživatel</label>
+                            <select name="username" class="form-select">
+                                {% for username, name in users %}
+                                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Heslo</label>
+                            <input type="password" name="password" class="form-control" placeholder="Zadejte heslo">
+                        </div>
+                        
+                        <div class="d-grid mt-4">
+                            <input type="submit" value="Přihlásit se" class="btn btn-primary btn-lg">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
