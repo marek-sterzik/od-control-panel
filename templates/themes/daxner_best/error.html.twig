@@ -8,8 +8,8 @@
                     <h1 class="h4 mb-0">Chyba: {{ errorCaption }}</h1>
                 </div>
                 <div class="card-body">
-                    <p class="card-text fs-5 text-secondary">{{ errorMessage }}</p>
-                    <div class="d-flex gap-2 mt-4">
+                    <p class="card-text fs-5 text-secondary text-center">{{ errorMessage }}</p>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
                         {% if retryUrl is not null %}
                             <a href="{{ retryUrl }}" class="btn btn-primary">Zkusit znovu</a>
                         {% endif %}

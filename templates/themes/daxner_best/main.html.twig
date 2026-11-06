@@ -51,9 +51,22 @@
                             {% endfor %}
                         </div>
 
-                        <div class="row g-3 align-items-center mb-3">
-                            <div class="col-md-6">
-                                <h4 class="h6 text-uppercase text-muted fw-bold mb-2">Textové vyjádření</h4>
+                        <div class="segment-text d-flex flex-wrap align-items-stretch gap-0">
+                            {% for index, text in component.state %}
+                                <div class="input-group input-group-sm mb-2">
+                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="prev" data-digit="{{ index }}" type="button">-</button>
+                                    <input type="text" class="form-control text-center font-monospace fs-5 mr-0 m-0" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                    <button class="btn btn-outline-danger p-0 ml-0" style="width: 25px" data-direction="wipe" data-digit="{{ index }}" type="button">🗑</button>
+                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="next" data-digit="{{ index }}" type="button">+</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="d-flex flex-direction-column justify-content-center text-center row">
+                            <div class="w-100">
+                                <p class="text-uppercase text-muted fw-bold">Sada znaků:</p>
+                            </div>
+                            <div class="w-100">
                                 <select class="cycle-category form-select">
                                     <option class="default" value="">Vyberte kategorii znaků</option>
                                     <option value="digit">číslice</option>
@@ -64,20 +77,9 @@
                                     <option value="letter">všechna písmena</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
+                            <div class="w-100">
                                 <p class="form-text text-muted mb-0 mt-md-4">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
                             </div>
-                        </div>
-
-                        <div class="segment-text d-flex flex-wrap align-items-stretch gap-0">
-                            {% for index, text in component.state %}
-                                <div class="input-group input-group-sm mb-2">
-                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="prev" data-digit="{{ index }}" type="button">-</button>
-                                    <input type="text" class="form-control text-center font-monospace fs-5 mr-0 m-0" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
-                                    <button class="btn btn-outline-danger p-0 ml-0" style="width: 25px" data-direction="wipe" data-digit="{{ index }}" type="button">🗑</button>
-                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="next" data-digit="{{ index }}" type="button">+</button>
-                                </div>
-                            {% endfor %}
                         </div>
 
                     {% else %}

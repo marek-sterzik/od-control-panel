@@ -20,8 +20,7 @@ metrix.onLoad("switch", function(mev) {
     })
 });
 
-function updateSegment(element)
-{
+function updateSegment(element) {
     const value = element.attr("data-value");
     for (var i = 0; i < 8; i++) {
         const enabled = value.substr(i, 1);
@@ -29,8 +28,7 @@ function updateSegment(element)
     }
 }
 
-function updateSegmentText(element, text)
-{
+function updateSegmentText(element, text) {
     if (text === null) {
         text = "";
     } else if (text === "") {
