@@ -1,0 +1,24 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+<div class="row justify-content-center py-5 px-3">
+    <div class="col-12 col-md-8 col-lg-6 text-center">
+        <div class="card bg-white border border-danger shadow-sm p-4">
+            <div class="card-body">
+                <h1 class="display-4 text-danger mb-3"><i class="bi bi-exclamation-triangle-fill"></i></h1>
+                <h3 class="card-title text-danger mb-3">Chyba: {{ errorCaption }}</h3>
+                <p class="card-text text-muted mb-4">{{ errorMessage }}</p>
+                
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    {% if retryUrl is not null %}
+                        <a href="{{ retryUrl }}" class="btn btn-danger fw-bold px-4">Zkusit znovu</a>
+                    {% endif %}
+                    {% if backUrl is not null %}
+                        <a href="{{ backUrl }}" class="btn btn-outline-secondary px-4">Zpět</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
