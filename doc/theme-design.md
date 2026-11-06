@@ -12,10 +12,10 @@
     "author": "František Vomáčka"
 }
 ```
-* Vytvořte v adresáři tématu nejméně soubory `login.html.twig`, `main.html.twig` a `backend-error.html.twig`. S tím, že význam šablon je následující:
+* Vytvořte v adresáři tématu nejméně soubory `login.html.twig`, `main.html.twig` a `error.html.twig`. S tím, že význam šablon je následující:
     - `login.html.twig` reprezentuje přihlašovací stránku
     - `main.html.twig` reprezentuje hlavní ovládací panel
-    - `backend-error.html.twig` reprezentuje systémovou chybu, kdy metrix backend systému není dostupný
+    - `error.html.twig` reprezentuje systémovou chybu
 * Vytvořte adresář `public/themes/<id-tématu>`. Tento adresář bude obsahovat statické soubory spojené s tématem (zejména css soubory a javascript).
   Na tyto soubory se lze odkázat pomocí přidané (tj. nestandardní, platné jenom pro tuto aplikaci) funkce `theme_asset(path)`. Např.
   `{{ theme_asset('style.css') }}` odkáže soubor umístěný na `public/themes/<id-tématu/style.css`.
