@@ -1,4 +1,3 @@
-// Opravená verze tvého původního skriptu
 metrix.onChange("switch", function(mev) {
     for (var part of mev.state.parts) {
         mev.element.find("input").each(function(){

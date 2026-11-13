@@ -9,31 +9,36 @@
 {% endblock %}
 
 {% block content %}
-    {{ include(['controlapp/header.html.twig', 'header.html.twig'], {showLogout: false}) }}
-
     <div class="container d-flex flex-grow-1 justify-content-center align-items-center px-3 w-100 mt-5 pt-5">
         <div class="card login-card border-0 shadow-lg rounded-4 p-4 p-md-5">
-            <form action="controls" method="POST">
+            <form method="post">
+                {% if loginError %}
+                    <div class="alert alert-danger rounded-3 py-2 px-3 small mb-3 text-center fw-medium">
+                        Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+                    </div>
+                {% endif %}
+
                 <div class="mb-3">
                     <label class="form-label text-muted fw-bold small text-uppercase tracking-wide">Typ uživatele</label>
                     <select name="username" class="form-select shadow-sm fw-bold tracking-wide">
-                        <option value="user" class="fw-bold text-muted">Uživatel</option>
-                        <option value="user" class="fw-bold text-muted">Administrator</option>
+                        {% for username, name in users %}
+                            <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %} class="fw-bold text-muted">{{ name }} </option>
+                        {% endfor %}
                     </select>
                 </div>
+
                 <div class="mb-4">
                     <label class="form-label text-muted fw-bold small text-uppercase tracking-wide">Heslo</label>
                     <div class="input-group input-group-lg shadow-sm">
                         <span class="input-group-text bg-body-tertiary border-0"><i class="bi bi-lock text-muted"></i></span>
-                        <input type="password" class="form-control form-control-custom" placeholder="••••••••" required>
+                        <input type="password" name="password" class="form-control form-control-custom" placeholder="••••••••" required>
                     </div>
                 </div>
-                
+
                 <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold shadow-sm rounded-pill d-flex align-items-center justify-content-center gap-2">
-                    <i class="bi bi-box-arrow-in-right"></i> Vstoupit
+                    <i class="bi bi-box-arrow-in-right"></i> Přihlásit se
                 </button>
             </form>
-            
         </div>
     </div>
 
