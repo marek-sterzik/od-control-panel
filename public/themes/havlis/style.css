@@ -1,0 +1,174 @@
+body {
+    background: linear-gradient(135deg, #131722 0%, #1a2233 100%);
+    background-attachment: fixed;
+    color: #cbd5e1;
+}
+
+[data-bs-theme="light"] body {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #334155;
+}
+
+[data-bs-theme="dark"] .card,
+[data-bs-theme="dark"] .navbar,
+[data-bs-theme="dark"] footer,
+[data-bs-theme="dark"] .theme-box form select {
+    background-color: #1a2233 !important;
+    border-color: #2a364f !important;
+    color: #cbd5e1 !important;
+}
+
+[data-bs-theme="light"] .card,
+[data-bs-theme="light"] .navbar,
+[data-bs-theme="light"] footer,
+[data-bs-theme="light"] .theme-box form select {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #334155 !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="light"] .card-title,
+[data-bs-theme="light"] h2,
+[data-bs-theme="light"] h3,
+[data-bs-theme="light"] label,
+[data-bs-theme="light"] .form-check-label {
+    color: #334155 !important;
+}
+
+[data-bs-theme="light"] .form-control,
+[data-bs-theme="light"] .form-select {
+    background-color: #f8fafc !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+}
+
+.theme-box {
+    z-index: 1050;
+}
+
+.theme-select {
+    width: 220px;
+}
+
+.navbar-custom {
+    padding-right: 280px;
+}
+
+@media (max-width: 576px) {
+    .theme-select {
+        width: 130px;
+        font-size: 0.75rem !important;
+    }
+    .navbar-custom {
+        padding-right: 210px;
+    }
+    .user-logout-area {
+        font-size: 0.65rem !important;
+    }
+}
+
+.card-1 { border-color: rgba(239, 68, 68, 0.4) !important; background-color: rgba(239, 68, 68, 0.03) !important; }
+.card-1 .card-title { color: #f87171; }
+.card-1 input:checked { background-color: #ef4444; border-color: #ef4444; }
+
+.card-2 { border-color: rgba(234, 179, 8, 0.4) !important; background-color: rgba(234, 179, 8, 0.03) !important; }
+.card-2 .card-title { color: #facc15; }
+.card-2 input:checked { background-color: #eab308; border-color: #eab308; }
+
+.card-3 { border-color: rgba(34, 197, 94, 0.4) !important; background-color: rgba(34, 197, 94, 0.03) !important; }
+.card-3 .card-title { color: #4ade80; }
+.card-3 input:checked { background-color: #22c55e; border-color: #22c55e; }
+
+.card-4 { border-color: rgba(148, 163, 184, 0.4) !important; background-color: rgba(148, 163, 184, 0.03) !important; }
+.card-4 .card-title { color: #e2e8f0; }
+[data-bs-theme="light"] .card-4 .card-title { color: #475569 !important; }
+.card-4 input:checked { background-color: #94a3b8; border-color: #94a3b8; }
+
+.card-5 { border-color: rgba(56, 189, 248, 0.4) !important; background-color: rgba(56, 189, 248, 0.03) !important; }
+.card-5 .card-title { color: #38bdf8; }
+.card-5 input:checked { background-color: #38bdf8; border-color: #38bdf8; }
+
+.segment-wrapper-box {
+    min-height: 200px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+.secret-image-overlay {
+    z-index: 10;
+}
+
+.secret-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+section.segment {
+    display: inline-block;
+    position: relative;
+    width: 95px;
+    height: 155px;
+    margin: 0 10px;
+    text-align: left;
+}
+
+section.segment div,
+section.segment span {
+    position: relative;
+    background: #00bcd4;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.4);
+    cursor: pointer;
+}
+
+section.segment span {
+    display: inline-block;
+    width: 13px;
+    height: 62px;
+    clip-path: polygon(0 6px, 6px 0px, 13px 6px, 13px 56px, 6px 62px, 0px 56px, 0 6px);
+}
+
+section.segment div {
+    clip-path: polygon(0 6px, 6px 0px, 56px 0px, 62px 6px, 56px 12px, 6px 12px, 0 6px);
+    width: 62px;
+    height: 13px;
+    position: relative;
+    left: 7px;
+    margin: 0;
+}
+
+section.segment div.dot {
+    clip-path: polygon(0 6px, 6px 0px, 12px 6px, 6px 12px, 0 6px);
+    width: 12px;
+    height: 12px;
+    position: relative;
+    bottom: 10px;
+    left: 82px;
+    margin: 0;
+}
+
+section.segment > div:first-child { top: 3px; }
+section.segment span + div { top: -8px; margin-bottom: -12px; }
+section.segment div + span + span { left: 48px; }
+
+/* Zhasnuté segmenty – méně viditelné */
+section.segment [data-value="0"] {
+    background: #111622;
+    box-shadow: none;
+    opacity: 0.35;
+}
+
+div.segment-text input {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 576px) {
+    section.segment {
+        transform: scale(0.75);
+        margin: 0 -10px;
+    }
+}

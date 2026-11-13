@@ -1,0 +1,107 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h2 class="mb-4">Control Panel</h2>
+
+    <div class="row g-3 mb-5">
+        {% for component in controls %}
+            {% if component.type == "switch" %}
+                {% set cardNumber = (loop.index0 % 5) + 1 %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg" data-metrix-id="{{ component.id }}">
+                    <div class="card h-100 bg-black border-2 card-{{ cardNumber }}">
+                        <div class="card-body">
+                            <h5 class="card-title h6 mb-3">{{ component.caption }}</h5>
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="state-{{ component.id }}" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                                <label class="form-check-label" for="state-{{ component.id }}">Aktivní</label>
+                            </div>
+                            {% if "blink" in component.parts %}
+                                <div class="slave pt-2 mt-2 border-top border-secondary">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="blink-{{ component.id }}" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                        <label class="form-check-label small" for="blink-{{ component.id }}">Blikání</label>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="row">
+        {% for component in controls %}
+            {% if component.type == "segment" %}
+                <div class="col-12" data-metrix-id="{{ component.id }}">
+                    <div class="card bg-black border-secondary">
+                        <div class="card-header border-secondary">
+                            <h3 class="h5 mb-0">{{ component.caption }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row align-items-center g-4">
+                                <div class="col-12 col-lg-6 text-center">
+                                    <div class="p-2 p-md-4 rounded bg-dark border border-secondary d-inline-block w-100 overflow-auto position-relative segment-wrapper-box">
+                                        
+                                        <div class="secret-image-overlay position-absolute top-0 start-0 w-100 h-100 bg-dark d-none align-items-center justify-content-center p-2">
+                                            <img src="{{ theme_asset('martinvapko.jpg') }}" alt="Secret" class="rounded secret-img">
+                                        </div>
+
+                                        <div class="segments d-flex justify-content-center flex-wrap gap-2">
+                                            {% for index, digit in component.segment_state %}
+                                                <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                                    <div data-segment="0"></div>
+                                                    <span data-segment="1"></span>
+                                                    <span data-segment="2"></span>
+                                                    <div data-segment="3"></div>
+                                                    <span data-segment="4"></span>
+                                                    <span data-segment="5"></span>
+                                                    <div data-segment="6"></div>
+                                                    <div class="dot" data-segment="7"></div>
+                                                </section>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <div class="mb-4">
+                                        <label class="form-label">Režim znaků</label>
+                                        <select class="form-select cycle-category">
+                                            <option value="">Všechny znaky</option>
+                                            <option value="digit">Číslice (0–9)</option>
+                                            <option value="hex">Hexadecimální (0–F)</option>
+                                            <option value="letteropt">Písmena (optimalizovaná)</option>
+                                            <option value="lower">Malá písmena (a–z)</option>
+                                            <option value="upper">Velká písmena (A–Z)</option>
+                                            <option value="letter">Všechna písmena</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="form-label">Zadání znaků</label>
+                                        <div class="segment-text d-flex flex-wrap gap-2">
+                                            {% for index, text in component.state %}
+                                                <div class="p-2 rounded bg-dark border border-secondary text-center flex-fill">
+                                                    <div class="small text-secondary mb-1">Pozice {{ index + 1 }}</div>
+                                                    <input type="text" maxlength="1" class="form-control text-center fw-bold mx-auto" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                                    <div class="btn-group btn-group-sm mt-2">
+                                                        <button type="button" class="btn btn-outline-light" data-direction="prev" data-digit="{{ index }}">-</button>
+                                                        <button type="button" class="btn btn-outline-danger" data-direction="wipe" data-digit="{{ index }}">X</button>
+                                                        <button type="button" class="btn btn-outline-light" data-direction="next" data-digit="{{ index }}">+</button>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}

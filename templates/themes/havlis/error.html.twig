@@ -1,0 +1,20 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba | Control Panel{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center my-5">
+        <div class="col-12 col-md-6">
+            <div class="card bg-black border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h1 class="h5 mb-0">Chyba: {{ errorCaption }}</h1>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">{{ errorMessage }}</p>
+                    {% if retryUrl is not null %}<a href="{{ retryUrl }}" class="btn btn-danger me-2">Zkusit znovu</a>{% endif %}
+                    {% if backUrl is not null %}<a href="{{ backUrl }}" class="btn btn-outline-light">Zpět</a>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
