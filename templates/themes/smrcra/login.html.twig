@@ -1,0 +1,33 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+    <section class="login-card" aria-labelledby="login-title">
+        <div class="login-mark" aria-hidden="true">CP</div>
+        <p class="login-eyebrow">Control Panel</p>
+        <h2 id="login-title">Přihlášení</h2>
+        <p class="login-intro">Přihlaste se a pokračujte do ovládacího panelu.</p>
+
+        {% if loginError %}
+            <div class="login-error" role="alert">
+                Přihlášení se nezdařilo. Zkontrolujte uživatelské jméno a heslo a zkuste to znovu.
+            </div>
+        {% endif %}
+
+        <form class="login-form" method="post">
+            <div class="login-field">
+                <label for="login-username">Uživatel</label>
+                <select id="login-username" name="username" autocomplete="username" required>
+                    {% for username, name in users %}
+                        <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="login-field">
+                <label for="login-password">Heslo</label>
+                <input id="login-password" type="password" name="password" autocomplete="current-password" required>
+            </div>
+            <button class="login-submit" type="submit">Přihlásit se</button>
+        </form>
+        <p class="login-footnote">Přístup je určen pouze pro oprávněné uživatele.</p>
+    </section>
+{% endblock %}
