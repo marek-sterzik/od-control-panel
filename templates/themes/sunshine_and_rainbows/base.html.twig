@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sunshine & Rainbows Panel{% endblock %}</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ theme_asset('style.css') }}?v={{ random() }}">
+    {% endblock %}
+    
+    {% include "header.html.twig" %}
+    
+    <!-- jQuery a Confetti knihovna -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    {% block scripts %}{% endblock %}
+</head>
+<body class="rainbow-theme">
+    
+    <!-- Horní lišta s přepínačem a uživatelem -->
+    <nav class="navbar navbar-expand-lg top-bar shadow-sm">
+        <div class="container-fluid px-4">
+            <span class="navbar-brand fw-bold text-white">Sunshine & Rainbows</span>
+            
+            <div class="d-flex align-items-center ms-auto gap-3">
+                {% if user is not null %}
+                    <div class="userinfo-badge">
+                        <span>Přihlášen: </span>
+                        <strong{% if user.admin %} class="admin-badge"{% endif %}>{{ user.name }}</strong> 
+                        <a href="{{ path("app.logout") }}" class="btn-logout ms-1">Odhlásit</a>
+                    </div>
+                {% endif %}
+
+                <div class="themeselect-wrapper">
+                    <form action="{{ path("app.set-theme") }}" method="get" class="m-0">
+                        <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+                        <select class="form-select form-select-sm submit-on-change theme-select-custom" name="theme">
+                            {% for theme in themes %}
+                                <option value="{{ theme.theme }}"{% if theme.active %} selected="selected"{% endif %}>
+                                    {{ theme.description }} ({{ theme.author }})
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hlavní kontejner -->
+    <main class="container my-5">
+        <div class="main-card shadow-lg p-4 p-md-5">
+            <header class="text-center mb-4">
+                <h1 class="rainbow-title display-4 fw-bold">Sunshine & Rainbows</h1>
+                <p class="text-muted fs-5">Vítejte v duhovém ovládacím panelu</p>
+            </header>
+            
+            {% block body %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Maskot v rohu -->
+    <div class="mascot-container" style="cursor: pointer;" onclick="if(window.runRainbow) window.runRainbow();">
+        <img src="{{ theme_asset('hamster-unicorn.png') }}" alt="Hamster on Unicorn" class="mascot-img" title="Sunshine & Rainbows!">
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
