@@ -1,0 +1,42 @@
+{% extends theme_template("base.html.twig") %}
+ 
+{% block body %}
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">PŘIHLÁŠENÍ</h2>
+ 
+            {% if loginError %}
+                <div class="alert alert-danger">
+                    CHYBA: PŘIHLÁŠENÍ SE NEZDAŘILO, ZADALI JSTE SPRÁVNÉ HESLO?
+                </div>
+            {% endif %}
+ 
+            <form method="post">
+ 
+                <div class="mb-3">
+                    <label class="form-label">Uživatel</label>
+                    <select name="username" class="form-select">
+                        {% for username, name in users %}
+                            <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>
+                                {{ name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+ 
+                <div class="mb-3">
+                    <label class="form-label">HESLO</label>
+                    <input type="password" name="password" class="form-control">
+                </div>
+ 
+                <button type="submit" class="btn btn-primary w-100">
+                    PŘIHLÁSIT SE
+                </button>
+ 
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+ 
