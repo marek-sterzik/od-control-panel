@@ -1,0 +1,141 @@
+/* --- Základní rozložení a technické pozadí --- */
+.default-theme-switcher { display: none !important; }
+
+body {
+    background-color: #0d1117;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 24px 24px;
+    color: #e6edf3;
+}
+
+/* --- Vzhled modulů (Karet) sladěný s loginem --- */
+.card {
+    background-color: #161b22;
+    border: 1px solid #30363d !important;
+    transition: border-color 0.2s;
+}
+.card:hover {
+    border-color: #495057 !important;
+}
+.card-header {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    border-bottom: 1px solid #30363d !important;
+}
+
+/* Tmavé checkboxy pro režim blikání */
+.form-check-input.bg-dark {
+    background-color: #212529;
+    border-color: #495057;
+    cursor: pointer;
+}
+.form-check-input.bg-dark:checked {
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+}
+
+/* --- Čistá LED Kontrolka (Standardní kruhový vzhled) --- */
+input[type="checkbox"].led-indicator {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #212529;
+    border: 2px solid #495057;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin: 0;
+    outline: none;
+}
+
+/* Rozsvícený stav kontrolky */
+input[type="checkbox"].led-indicator:checked {
+    background-color: var(--led-color, #0dcaf0);
+    border-color: var(--led-color, #0dcaf0);
+    box-shadow: 0 0 12px var(--led-color, #0dcaf0);
+}
+
+/* Animace blikání */
+@keyframes led-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+}
+
+/* Aktivace blikání pomocí CSS :has() */
+.switch-card:has(input[data-part="blink"]:checked) input[type="checkbox"].led-indicator:checked {
+    animation: led-blink 0.8s infinite;
+}
+
+/* --- Segmentový displej (Čistý kontejner bez odlesků) --- */
+.display-container {
+    background-color: #010409;
+    border: 1px solid #21262d;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    display: inline-flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+section.segment {
+    position: relative;
+    display: inline-block;
+    width: 70px;
+    height: 110px;
+}
+
+section.segment div, section.segment span {
+    position: absolute;
+    background: #212529; /* Plochá šedá pro zhasnutý stav */
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+/* Vykreslení segmentů */
+section.segment div {
+    width: 40px;
+    height: 10px;
+    left: 15px;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+}
+
+section.segment span {
+    width: 10px;
+    height: 40px;
+    clip-path: polygon(50% 0, 100% 10%, 100% 90%, 50% 100%, 0 90%, 0 10%);
+}
+
+/* Přesné pozicování datových indexů */
+section.segment [data-segment="0"] { top: 0; }
+section.segment [data-segment="1"] { top: 10px; left: 5px; }
+section.segment [data-segment="2"] { top: 10px; right: 5px; }
+section.segment [data-segment="3"] { top: 50px; }
+section.segment [data-segment="4"] { top: 60px; left: 5px; }
+section.segment [data-segment="5"] { top: 60px; right: 5px; }
+section.segment [data-segment="6"] { top: 100px; }
+
+section.segment div.dot {
+    width: 12px;
+    height: 12px;
+    right: -10px;
+    bottom: -5px;
+    top: auto;
+    left: auto;
+    clip-path: circle(50% at 50% 50%);
+}
+
+/* Svítící stav segmentu */
+section.segment [data-value="1"] {
+    background: #0dcaf0;
+    box-shadow: 0 0 8px rgba(13, 202, 240, 0.6);
+    z-index: 2;
+}
+
+/* --- Specifické styly pro Login --- */
+.login-icon {
+    font-size: 3.5rem;
+    color: #0dcaf0;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 15px rgba(13, 202, 240, 0.3);
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="cs" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přístupový terminál</title>
+    
+    {% include "header.html.twig" %}
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="{{ theme_asset('style.css') }}" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center min-vh-100 py-4">
+
+    <!-- Designový přepínač motivů -->
+    <div class="position-fixed top-0 end-0 p-3 z-3">
+        <form action="{{ path('app.set-theme') }}" method="get">
+            <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+            <div class="dropdown">
+                <button class="btn btn-dark border-secondary-subtle fw-bold rounded-pill shadow-sm px-3 py-2 dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="bi bi-palette me-1"></i> Motiv
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-secondary-subtle mt-2 p-2">
+                    {% for theme in themes %}
+                        <li>
+                            <button type="submit" name="theme" value="{{ theme.theme }}" class="dropdown-item rounded fw-medium {% if theme.active %}active bg-info text-dark{% endif %}">
+                                {{ theme.description }} <small class="opacity-75">({{ theme.author }})</small>
+                            </button>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </form>
+    </div>
+
+    <!-- Centrální přihlašovací karta -->
+    <main class="container px-3">
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3">
+                
+                <div class="card shadow-lg border-secondary-subtle rounded-4">
+                    <div class="card-body p-4 p-md-5 text-center">
+                        
+                        <!-- Navrácená původní ikona bi-shield-lock -->
+                        <i class="bi bi-shield-lock login-icon d-block"></i>
+                        <h1 class="h4 fw-bold mb-4 text-light">Systémový panel</h1>
+                        
+                        {% if loginError %}
+                            <div class="alert alert-danger py-2 px-3 mb-4 text-center small fw-semibold border-danger d-flex align-items-center justify-content-center gap-2" role="alert">
+                                <i class="bi bi-exclamation-triangle-fill"></i> Nesprávné heslo
+                            </div>
+                        {% endif %}
+
+                        <form method="post" class="text-start">
+                            
+                            <div class="mb-3">
+                                <label for="username" class="form-label text-secondary small fw-bold mb-1">Uživatel</label>
+                                <select class="form-select form-select-lg bg-dark text-light border-secondary" id="username" name="username">
+                                    {% for username, name in users %}
+                                        <option value="{{ username }}" {% if username == selectedUser %}selected="selected"{% endif %}>
+                                            {{ name }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="password" class="form-label text-secondary small fw-bold mb-1">Heslo</label>
+                                <input type="password" class="form-control form-control-lg bg-dark text-light border-secondary" id="password" name="password" placeholder="••••••••">
+                            </div>
+
+                            <button type="submit" class="btn btn-info btn-lg w-100 fw-bold shadow-sm">
+                                Vstoupit do systému <i class="bi bi-arrow-right-short fs-5 align-middle"></i>
+                            </button>
+                            
+                        </form>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
