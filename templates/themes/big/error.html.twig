@@ -1,0 +1,18 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block stylesheets %}
+    <link href="{{ theme_asset('error_custom.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <main class="error-page container py-4 py-lg-5">
+        <section class="error-card">
+            <h1>Chyba: {{ errorCaption }}</h1>
+            <p>{{ errorMessage }}</p>
+            <div class="error-actions">
+                {% if retryUrl is not null %}<a class="retry-action btn btn-primary fw-bold" href="{{ retryUrl }}">Zkusit znovu</a>{% endif %}
+                {% if backUrl is not null %}<a href="{{ backUrl }}">Zpět</a>{% endif %}
+            </div>
+        </section>
+    </main>
+{% endblock %}

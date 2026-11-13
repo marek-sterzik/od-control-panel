@@ -1,0 +1,60 @@
+{% extends theme_template('base.html.twig') %}
+{% block stylesheets %}
+    <link href="{{ theme_asset('login_custom.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="row login-layout justify-content-center align-items-center g-3">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-4">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <img
+                        src="{{ theme_asset('spsostrov-logo.png') }}"
+                        alt="SPŠ Ostrov"
+                        class="school-logo mb-3"
+                    >
+                    <h2 class="fw-bold mb-0">
+                        SPŠ Ostrov
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% if loginError %}
+                    <div class="alert alert-danger">
+                        Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+                    </div>
+                    {% endif %}
+                <div>
+                    <form method="post">
+                        <div class="mb-4">
+                            <label for="username" class="form-label fw-bold">
+                                Typ účtu
+                            </label>
+                            <select name="username" id="username" class="form-select">
+                                {% for username, name in users %}
+                                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label fw-bold">
+                                Heslo
+                            </label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Zadejte heslo"
+                            >
+                        </div>
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 fw-bold">
+                            Přihlásit se
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
