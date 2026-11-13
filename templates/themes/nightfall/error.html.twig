@@ -1,0 +1,16 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block stylesheet %}
+    <link href="{{ theme_asset('style_error.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="error-card">
+        <h1>Chyba: {{ errorCaption }}</h1>
+        <p>{{ errorMessage }}</p>
+        <div class="error-actions">
+            {% if retryUrl is not null %}<a href="{{ retryUrl }}">zkusit znovu</a>{% endif %}
+            {% if backUrl is not null %}<a href="{{ backUrl }}">zpět</a>{% endif %}
+        </div>
+    </div>
+{% endblock %}

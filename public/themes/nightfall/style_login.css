@@ -1,0 +1,178 @@
+body {
+    background-color: #030712;
+    color: #ffffff;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+header {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    width: min(280px, calc(100vw - 40px));
+}
+
+
+header .custom-select {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 38px 10px 14px;
+    background-color: rgba(15, 23, 42, 0.9);
+    border-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(12px);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+header .custom-select:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+    border-color: rgba(0, 243, 255, 0.45);
+}
+
+header .custom-select:focus {
+    border-color: #00f3ff;
+    box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.16), 0 8px 24px rgba(0, 0, 0, 0.25);
+    outline: none;
+}
+
+@media (max-width: 576px) {
+    header {
+        top: 12px;
+        right: 12px;
+        width: min(260px, calc(100vw - 24px));
+    }
+}
+
+h1 {
+    color: white;
+    margin-bottom: 0;
+    font-size: 1.8rem;
+}
+
+.login-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding: 40px;
+    width: 320px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 243, 255, 0.2);
+    box-sizing: border-box;
+}
+
+.alert-custom {
+    background: rgba(220, 53, 69, 0.15);
+    border: 1px solid rgba(220, 53, 69, 0.3);
+    color: #ff8787;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.15);
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+
+.custom-select {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.custom-select option {
+    background-color: #030712;
+    color: #ffffff;
+}
+
+
+
+.login-card input {
+    width: 100%;
+    box-sizing: border-box; 
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-top: 0.8em;
+    margin-bottom: 1em;
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+}
+
+
+
+.login-card button {
+    width: 100%;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.login-card button:hover {
+    opacity: 0.9;
+}
+
+.login-card button:active {
+    transform: scale(0.98);
+}
+
+@media (max-width: 400px) {
+    .login-card {
+        width: 100%;
+        padding: 25px 20px;
+    }
+}
+
+@media (min-width: 1400px) {
+    body {
+        font-size: 1.25rem;
+    }
+    
+    .login-card {
+        width: 480px;
+        padding: 60px;
+        border-radius: 30px;
+        gap: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .login-card input,
+    .login-card button,
+    .custom-select {
+        padding: 16px 20px;
+        border-radius: 16px;
+    }
+
+    .alert-custom {
+        font-size: 1.1rem;
+        padding: 12px;
+    }
+}
