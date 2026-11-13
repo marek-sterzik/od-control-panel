@@ -1,0 +1,73 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h2 class="h4 mb-4">Ovládání</h2>
+    {% for component in controls %}
+        <div data-metrix-id="{{ component.id }}" class="p-3 mb-4 bg-light border rounded shadow-sm">
+            {% if component.type == "switch" %}
+                <label class="form-check-label fw-bold d-block cursor-pointer">
+                    <input type="checkbox" class="form-check-input me-2" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                    {{ component.caption }}
+                </label>
+                {% if "blink" in component.parts %}
+                    <div class="slave ms-4 mt-2">
+                        <label class="form-check-label text-secondary">
+                            <input type="checkbox" class="form-check-input me-2" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                            blikání
+                        </label>
+                    </div>
+                {% endif %}
+            {% elseif component.type == "segment" %}
+                <h2 class="h5 fw-bold text-primary border-bottom pb-2 mb-3">{{component.caption}}</h2>
+                
+                <h2 class="h6 text-secondary mt-3">segmenty</h2>
+                <div class="segments overflow-x-auto py-2 mb-3">
+                    {% for index, digit in component.segment_state %}
+                        <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                            <div data-segment="0"></div>
+                            <span data-segment="1"></span>
+                            <span data-segment="2"></span>
+                            <div data-segment="3"></div>
+                            <span data-segment="4"></span>
+                            <span data-segment="5"></span>
+                            <div data-segment="6"></div>
+                            <div class="dot" data-segment="7"></div>
+                        </section>
+                    {% endfor %}
+                </div>
+
+                <h2 class="h6 text-secondary mt-3">textové vyjádření</h2>
+                <select class="cycle-category form-select form-select-sm mb-2" style="max-width: 300px;">
+                    <option class="default" value="">Vyberte kategorii znaků</option>
+                    <option value="digit">číslice</option>
+                    <option value="hex">hexadecimální číslice</option>
+                    <option value="letteropt">písmena</option>
+                    <option value="lower">malá písmena</option>
+                    <option value="upper">velká písmena</option>
+                    <option value="letter">všechna písmena</option>
+                </select>
+                <p class="text-muted small mb-3">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                
+                <div class="segment-text d-flex flex-wrap align-items-center gap-1">
+                    {% for index, text in component.state %}
+<div class="d-inline-flex align-items-center gap-1">
+            <button class="btn btn-secondary btn-sm" data-direction="prev" data-digit="{{ index }}">-</button>
+            <input type="text" class="form-control form-control-sm text-center" style="width: 45px;" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+            <button class="btn btn-outline-danger btn-sm" data-direction="wipe" data-digit="{{ index }}">🗑</button>
+            <button class="btn btn-secondary btn-sm" data-direction="next" data-digit="{{ index }}">+</button>
+        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-warning m-0">
+                    unknown component: {{ component.type }}
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
