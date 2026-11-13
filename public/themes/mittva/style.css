@@ -1,0 +1,214 @@
+body {
+    background: #101827;
+    color: #e5eaf2;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar {
+    background: #172338;
+    border-bottom: 1px solid #30415a;
+    padding: 15px 0;
+}
+
+.navbar .container {
+    max-width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.navbar-brand {
+    color: white;
+}
+
+.userinfo {
+    color: #cbd5e1;
+}
+
+.userinfo a {
+    color: #60a5fa;
+    text-decoration: none;
+}
+
+.login-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 480px;
+    padding: 0 15px;
+    z-index: 10;
+}
+
+.card {
+    background: #1b293d;
+    color: #e5eaf2;
+    border: 1px solid #30415a;
+    border-radius: 12px;
+}
+
+.card:hover {
+    border-color: #3b82f6;
+}
+
+.form-control,
+
+.form-select {
+    background-color: #101827;
+    color: white;
+    border: 1px solid #40516b;
+}
+
+.form-control:focus,
+
+.form-select:focus {
+    background-color: #101827;
+    color: white;
+    border-color: #3b82f6;
+    box-shadow: none;
+}
+
+.form-select option {
+    background: #1b293d;
+}
+
+.form-check-input {
+    background-color: #334155;
+    border-color: #64748b;
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+.slave {
+    margin-top: 10px;
+}
+
+.led-dot {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.led-red { 
+    background-color: #ef4444;
+    box-shadow: 0 0 8px #ef4444; 
+}
+
+.led-yellow { 
+    background-color: #eab308; 
+    box-shadow: 0 0 8px #eab308; 
+}
+
+.led-green {
+    background-color: #22c55e; 
+    box-shadow: 0 0 8px #22c55e; 
+}
+
+.led-white { 
+    background-color: #f8fafc; 
+    box-shadow: 0 0 8px #f8fafc; 
+}
+
+.led-blue { 
+    background-color: #3b82f6; 
+    box-shadow: 0 0 8px #3b82f6; 
+}
+
+.segments {
+    background: #080e18;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+section.segment {
+    display: inline-block;
+    margin-right: 16px;
+    width: 75px;
+}
+
+section.segment div,
+
+section.segment span {
+    position: relative;
+    background: #ff3030;
+    cursor: pointer;
+}
+
+section.segment span {
+    display: inline-block;
+    width: 10px;
+    height: 50px;
+    clip-path: polygon(0 5px, 5px 0, 10px 5px, 10px 45px, 5px 50px, 0 45px);
+}
+
+section.segment div {
+    clip-path: polygon(0 5px, 5px 0, 45px 0, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+    width: 50px;
+    height: 10px;
+    left: 6px;
+    margin: 0;
+}
+
+section.segment div.dot {
+    clip-path: polygon(0 5px, 5px 0, 10px 5px, 5px 10px, 0 5px);
+    width: 10px;
+    height: 10px;
+    bottom: 8px;
+    left: 70px;
+    margin: 0;
+}
+
+section.segment span + div {
+    top: -7px;
+    margin-bottom: -10px;
+}
+
+section.segment div + span + span {
+    left: 38px;
+}
+
+section.segment [data-value="0"] {
+    background: #ff303020;
+}
+
+.segment-text {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.segment-text input {
+    width: 65px;
+    text-align: center;
+}
+
+footer {
+    
+    color: #64748b;
+    border-top: 1px solid #293951;
+}
+
+@media (max-width: 576px) {
+    .segments {
+        padding: 12px;
+    }
+
+    section.segment {
+        margin-right: 8px;
+    }
+}
