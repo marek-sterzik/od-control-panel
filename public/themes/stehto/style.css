@@ -1,3 +1,8 @@
+.switch-row {
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+
 section.segment {
   display: inline-block;
   position: relative;
@@ -5,54 +10,38 @@ section.segment {
   height: 90px;
   margin: 0 10px;
 }
-
 section.segment div, section.segment span {
   position: absolute;
-  background: #dc3545; 
-  transition: background 0.15s ease;
+  background: #dc3545;
 }
-
-
-section.segment div[data-segment="0"],
-section.segment div[data-segment="3"],
-section.segment div[data-segment="6"] {
+section.segment div {
   height: 8px;
   width: 36px;
   left: 7px;
 }
-
 section.segment div[data-segment="0"] { top: 0px; }
 section.segment div[data-segment="3"] { top: 41px; }
 section.segment div[data-segment="6"] { top: 82px; }
 
-
-section.segment span[data-segment="1"],
-section.segment span[data-segment="2"],
-section.segment span[data-segment="4"],
-section.segment span[data-segment="5"] {
+section.segment span {
   width: 8px;
   height: 33px;
 }
-
 section.segment span[data-segment="1"] { top: 6px; left: 3px; }
 section.segment span[data-segment="2"] { top: 6px; left: 39px; }
 section.segment span[data-segment="4"] { top: 47px; left: 3px; }
 section.segment span[data-segment="5"] { top: 47px; left: 39px; }
-
 
 section.segment div.dot {
   width: 8px;
   height: 8px;
   top: 82px;
   left: 50px;
-  border-radius: 50%;
 }
-
 
 section.segment [data-value="0"] { 
   background: #2a2a2a !important; 
 }
-
 section.segment div, section.segment span { 
   cursor: pointer; 
 }

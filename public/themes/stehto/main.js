@@ -1,14 +1,15 @@
 metrix.onChange("switch", function(mev) {
-    for (var part of mev.state.parts) {
-        mev.element.find("input").each(function(){
-            const part = $(this).attr("data-part")
-            $(this).prop("checked", mev.state[part])
-        })
-    }
-})
+    updateSwitchUI(mev.element, mev.state);
+});
 
 metrix.onLoad("switch", function(mev) {
-    mev.element.find("input").bind("click", function(ev) {
+    const $row = mev.element;
+    const color = $row.attr("data-color") || "#ff0000";
+
+    
+    $row.css("--led-color", color);
+
+    $row.find("input[data-part]").bind("click", function(ev) {
         const part = $(this).attr("data-part")
         if ($(this).prop("checked")) {
             mev.component.setPart(part)
@@ -17,8 +18,41 @@ metrix.onLoad("switch", function(mev) {
         }
         ev.preventDefault()
         return false
-    })
-})
+    });
+
+    updateSwitchUI($row, mev.state);
+});
+
+function updateSwitchUI($row, state) {
+    
+    $row.find("input").each(function(){
+        const part = $(this).attr("data-part");
+        $(this).prop("checked", state[part]);
+    });
+
+    const $led = $row.find(".led-indicator");
+    const color = $row.attr("data-color") || "#ff0000";
+    const $blinkInput = $row.find("input[data-part='blink']");
+
+
+    if (state.state) {
+        $row.css("background-color", "rgba(var(--bs-primary-rgb), 0.03)");
+        $row.css("border-color", color);
+        $led.css("background-color", color);
+        $led.css("box-shadow", "0 0 8px " + color);
+    } else {
+        $row.css("background-color", "");
+        $row.css("border-color", "");
+        $led.css("background-color", "#ccc");
+        $led.css("box-shadow", "none");
+    }
+
+    if (state.blink) {
+        $blinkInput.addClass("bg-warning border-warning");
+    } else {
+        $blinkInput.removeClass("bg-warning border-warning");
+    }
+}
 
 function updateSegment(element)
 {
@@ -88,7 +122,7 @@ metrix.onLoad("segment", function(mev) {
     })
 })
 
-metsv = metrix.onChange("segment", function(mev) {
+metrix.onChange("segment", function(mev) {
     for (var i = 0; i < mev.state.state.length; i++) {
         const el = mev.element.find("section[data-digit=\""+i+"\"]")
         el.attr("data-value", mev.state.segment_state[i])
