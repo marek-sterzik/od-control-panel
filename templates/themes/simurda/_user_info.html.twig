@@ -1,0 +1,6 @@
+{% if user is not null %}
+    <div class="userinfo small">
+        Uživatel: <span class="fw-bold {% if user.admin %}text-danger{% endif %}">{{ user.name }}</span>
+        (<a href="{{ path("app.logout") }}" class="text-decoration-none">odhlásit</a>)
+    </div>
+{% endif %}

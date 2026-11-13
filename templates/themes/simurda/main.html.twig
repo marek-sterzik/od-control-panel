@@ -1,0 +1,102 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body_class %}main-page{% endblock %}
+
+{% block body %}
+    <div class="container py-4">
+        <h2 class="main-page-title mb-4 fw-bold">🌐 Frutiger Control Panel</h2>
+        
+        {% set active_components = components is defined and components is not null ? components : (controls is defined and controls is not null ? controls : null) %}
+
+        {% if active_components is not null %}
+            <div class="row g-4 align-items-start">
+                
+                <!-- LEVÁ ČÁST: 5 přepínačů ve 2 sloupcích (srovná se výška s pravou stranou) -->
+                <div class="col-lg-7">
+                    <div class="row g-3">
+                        {% for component in active_components %}
+                            {% if component.type == "switch" %}
+                                <div class="col-sm-6">
+                                    <div class="card shadow-sm p-4 border-0" data-metrix-id="{{ component.id }}">
+                                        <h5 class="card-title text-dark fw-semibold mb-3">{{ component.caption }}</h5>
+                                        <div class="form-check form-switch fs-5 mb-2">
+                                            <input class="form-check-input" type="checkbox" role="switch" data-part="state" {% if component.state %}checked="checked"{% endif %} id="switch-{{ component.id }}">
+                                            <label class="form-check-label text-secondary fs-6 ms-2" for="switch-{{ component.id }}">Zapnuto</label>
+                                        </div>
+                                        {% if "blink" in component.parts %}
+                                            <!-- .form-check je uvnitř div.slave, takže checkbox už nevyjede vlevo -->
+                                            <div class="slave mt-3">
+                                                <div class="form-check m-0">
+                                                    <input class="form-check-input" type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %} id="blink-{{ component.id }}">
+                                                    <label class="form-check-label text-secondary small" for="blink-{{ component.id }}">Blikání kontrolky</label>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- PRAVÁ ČÁST: Segmentový displej -->
+                <div class="col-lg-5">
+                    {% for component in active_components %}
+                        {% if component.type == "segment" %}
+                            <div class="card shadow-sm p-4 border-0" data-metrix-id="{{ component.id }}">
+                                <h5 class="card-title text-dark fw-semibold mb-3">{{ component.caption }}</h5>
+                                <p class="text-muted small fw-bold mb-2">SEGMENTOVÝ DISPLEJ</p>
+                                
+                                <div class="segments-container py-3 d-flex justify-content-center gap-4 mb-3">
+                                    {% for index, digit in component.segment_state %}
+                                        <section class="segment segment-large" data-digit="{{ index }}" data-value="{{ digit }}">
+                                            <div data-segment="0"></div>
+                                            <span data-segment="1"></span>
+                                            <span data-segment="2"></span>
+                                            <div data-segment="3"></div>
+                                            <span data-segment="4"></span>
+                                            <span data-segment="5"></span>
+                                            <div data-segment="6"></div>
+                                            <div class="dot" data-segment="7"></div>
+                                        </section>
+                                    {% endfor %}
+                                </div>
+
+                                <p class="text-muted small fw-bold mb-1">TEXTOVÉ VYJÁDŘENÍ</p>
+                                <select class="cycle-category form-select form-select-sm mb-2 shadow-sm">
+                                    <option class="default" value="">Vyberte kategorii znaků</option>
+                                    <option value="digit">číslice</option>
+                                    <option value="hex">hexadecimální číslice</option>
+                                    <option value="letteropt">písmena</option>
+                                    <option value="lower">malá písmena</option>
+                                    <option value="upper">velká písmena</option>
+                                    <option value="letter">všechna písmena</option>
+                                </select>
+                                <p class="form-text text-muted small mb-3">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                                
+                                <div class="segment-text d-flex flex-column gap-3">
+                                    {% for index, text in component.state %}
+                                        <div class="d-flex align-items-center justify-content-between gap-2 bg-white bg-opacity-50 p-2 rounded-3 shadow-sm">
+                                            <button type="button" class="btn btn-primary btn-action px-3 py-2 fw-bold fs-5" data-direction="prev" data-digit="{{ index }}">-</button>
+                                            <input type="text" class="form-control text-center fw-bold fs-4 shadow-sm" style="max-width: 4.5rem;" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                            <button type="button" class="btn btn-primary btn-action px-3 py-2 fw-bold fs-5" data-direction="next" data-digit="{{ index }}">+</button>
+                                            <button type="button" class="btn btn-danger btn-action px-3 py-2 fw-bold" data-direction="wipe" data-digit="{{ index }}" title="Vymazat">🗑</button>
+                                            
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
+        {% else %}
+            <div class="alert alert-warning shadow-sm">Žádné komponenty k zobrazení.</div>
+        {% endif %}
+    </div>
+{% endblock %}
