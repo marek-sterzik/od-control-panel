@@ -1,4 +1,3 @@
-/* --- Základní rozložení a technické pozadí --- */
 .default-theme-switcher { display: none !important; }
 
 body {
@@ -8,7 +7,6 @@ body {
     color: #e6edf3;
 }
 
-/* --- Vzhled modulů (Karet) sladěný s loginem --- */
 .card {
     background-color: #161b22;
     border: 1px solid #30363d !important;
@@ -22,7 +20,6 @@ body {
     border-bottom: 1px solid #30363d !important;
 }
 
-/* Tmavé checkboxy pro režim blikání */
 .form-check-input.bg-dark {
     background-color: #212529;
     border-color: #495057;
@@ -33,7 +30,6 @@ body {
     border-color: #0dcaf0;
 }
 
-/* --- Čistá LED Kontrolka (Standardní kruhový vzhled) --- */
 input[type="checkbox"].led-indicator {
     appearance: none;
     -webkit-appearance: none;
@@ -49,25 +45,21 @@ input[type="checkbox"].led-indicator {
     outline: none;
 }
 
-/* Rozsvícený stav kontrolky */
 input[type="checkbox"].led-indicator:checked {
     background-color: var(--led-color, #0dcaf0);
     border-color: var(--led-color, #0dcaf0);
     box-shadow: 0 0 12px var(--led-color, #0dcaf0);
 }
 
-/* Animace blikání */
 @keyframes led-blink {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.2; }
 }
 
-/* Aktivace blikání pomocí CSS :has() */
 .switch-card:has(input[data-part="blink"]:checked) input[type="checkbox"].led-indicator:checked {
     animation: led-blink 0.8s infinite;
 }
 
-/* --- Segmentový displej (Čistý kontejner bez odlesků) --- */
 .display-container {
     background-color: #010409;
     border: 1px solid #21262d;
@@ -87,12 +79,11 @@ section.segment {
 
 section.segment div, section.segment span {
     position: absolute;
-    background: #212529; /* Plochá šedá pro zhasnutý stav */
+    background: #212529; 
     cursor: pointer;
     transition: background-color 0.1s ease;
 }
 
-/* Vykreslení segmentů */
 section.segment div {
     width: 40px;
     height: 10px;
@@ -106,7 +97,6 @@ section.segment span {
     clip-path: polygon(50% 0, 100% 10%, 100% 90%, 50% 100%, 0 90%, 0 10%);
 }
 
-/* Přesné pozicování datových indexů */
 section.segment [data-segment="0"] { top: 0; }
 section.segment [data-segment="1"] { top: 10px; left: 5px; }
 section.segment [data-segment="2"] { top: 10px; right: 5px; }
@@ -125,14 +115,12 @@ section.segment div.dot {
     clip-path: circle(50% at 50% 50%);
 }
 
-/* Svítící stav segmentu */
 section.segment [data-value="1"] {
     background: #0dcaf0;
     box-shadow: 0 0 8px rgba(13, 202, 240, 0.6);
     z-index: 2;
 }
 
-/* --- Specifické styly pro Login --- */
 .login-icon {
     font-size: 3.5rem;
     color: #0dcaf0;

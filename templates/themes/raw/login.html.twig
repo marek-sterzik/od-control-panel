@@ -13,7 +13,6 @@
 </head>
 <body class="d-flex align-items-center min-vh-100 py-4">
 
-    <!-- Designový přepínač motivů -->
     <div class="position-fixed top-0 end-0 p-3 z-3">
         <form action="{{ path('app.set-theme') }}" method="get">
             <input type="hidden" name="back" value="{{ app.request.requesturi }}">
@@ -34,7 +33,6 @@
         </form>
     </div>
 
-    <!-- Centrální přihlašovací karta -->
     <main class="container px-3">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-8 col-md-6 col-lg-4 col-xl-3">
@@ -42,7 +40,6 @@
                 <div class="card shadow-lg border-secondary-subtle rounded-4">
                     <div class="card-body p-4 p-md-5 text-center">
                         
-                        <!-- Navrácená původní ikona bi-shield-lock -->
                         <i class="bi bi-shield-lock login-icon d-block"></i>
                         <h1 class="h4 fw-bold mb-4 text-light">Systémový panel</h1>
                         
