@@ -1,0 +1,396 @@
+/* Charlie's retro maze: neon corridors, arcade yellow, and readable controls. */
+:root {
+  color-scheme: dark;
+  --ink: #f5f7ff;
+  --muted: #a7b3d5;
+  --night: #080d27;
+  --panel: #111a3d;
+  --panel-edge: #263d83;
+  --maze: #243f9c;
+  --cyan: #61e7ff;
+  --yellow: #ffdc3d;
+  --pink: #ff65b5;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  min-height: 100%;
+  background: var(--night);
+}
+
+body {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  margin: 0;
+  padding: 6rem 4rem 3rem;
+  color: var(--ink);
+  background-color: var(--night);
+  background-image: radial-gradient(ellipse at 50% -20%, rgba(42, 71, 157, .24), transparent 55%);
+  font: 16px/1.55 ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+.ghost-patrol {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ghost {
+  position: absolute;
+  left: -5rem;
+  width: 3.25rem;
+  height: 3.5rem;
+  opacity: .48;
+  border-radius: 50% 50% 0 0;
+  filter: drop-shadow(0 0 10px currentColor);
+  animation: ghost-travel-right 29s linear infinite;
+}
+
+.ghost::before {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1.05rem;
+  content: "";
+  background: inherit;
+  clip-path: polygon(0 0, 25% 60%, 50% 0, 75% 60%, 100% 0, 100% 100%, 0 100%);
+}
+
+.ghost::after {
+  position: absolute;
+  top: 1.2rem;
+  left: .85rem;
+  width: .38rem;
+  height: .55rem;
+  content: "";
+  border-radius: 50%;
+  background: var(--night);
+  box-shadow: .95rem 0 0 var(--night);
+}
+
+.ghost-cyan {
+  top: 24%;
+  color: var(--cyan);
+  background: currentColor;
+  animation-duration: 34s;
+}
+
+.ghost-pink {
+  top: 43%;
+  left: auto;
+  right: -5rem;
+  color: var(--pink);
+  background: currentColor;
+  transform: scale(.78);
+  animation-name: ghost-travel-left;
+  animation-duration: 27s;
+  animation-delay: -9s;
+}
+
+.ghost-yellow {
+  top: 67%;
+  color: var(--yellow);
+  background: currentColor;
+  transform: scale(.62);
+  animation-duration: 39s;
+  animation-delay: -22s;
+}
+
+.ghost-violet {
+  top: 84%;
+  left: auto;
+  right: -5rem;
+  color: #a78bfa;
+  background: currentColor;
+  transform: scale(.9);
+  animation-name: ghost-travel-left;
+  animation-duration: 32s;
+  animation-delay: -17s;
+}
+
+@keyframes ghost-travel-right {
+  from { left: -5rem; }
+  to { left: calc(100% + 5rem); }
+}
+
+@keyframes ghost-travel-left {
+  from { right: -5rem; }
+  to { right: calc(100% + 5rem); }
+}
+
+h1, h2 { color: var(--ink); line-height: 1.2; }
+h1 {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  max-width: 62rem;
+  margin: 0 auto 1.5rem;
+  font-size: 2.8rem;
+  letter-spacing: .035em;
+  text-shadow: 0 0 20px rgba(97, 231, 255, .25);
+}
+/* A simple wedge-shaped arcade marker, not a character or logo. */
+h1::before {
+  content: "";
+  flex: 0 0 auto;
+  width: .9em;
+  height: .9em;
+  border-radius: 50%;
+  background: var(--yellow);
+  clip-path: polygon(
+    50% 50%, 100% 24%, 94% 10%, 82% 3%, 66% 0,
+    48% 0, 30% 5%, 14% 16%, 4% 32%, 0 50%,
+    4% 68%, 14% 84%, 30% 95%, 48% 100%,
+    66% 100%, 82% 97%, 94% 90%, 100% 76%
+  );
+  background: radial-gradient(circle at 70% 27%, var(--night) 0 5%, transparent 6%), var(--yellow);
+  filter: drop-shadow(0 0 8px rgba(255, 220, 61, .65));
+}
+h2 {
+  margin: 1.5rem 0 .8rem;
+  color: var(--cyan);
+  font-size: 1.4rem;
+}
+
+p { color: var(--muted); }
+a {
+  color: var(--cyan);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover { color: var(--yellow); }
+
+.themeselect {
+  position: fixed !important;
+  z-index: 1000;
+  top: .75rem !important;
+  right: .75rem !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: .5rem;
+  padding: .5rem;
+  border: 1px solid var(--maze);
+  border-radius: .75rem;
+  background: rgba(8, 13, 39, .96);
+  box-shadow: 0 0 18px rgba(97, 231, 255, .12);
+  backdrop-filter: blur(8px);
+}
+.themeselect form { min-width: 0; margin: 0; }
+.userinfo {
+  margin: 0 0 1.5rem;
+  color: var(--muted);
+  text-align: right;
+}
+.userinfo span.admin { color: var(--pink); font-weight: 700; }
+
+button, input, select { font: inherit; }
+button, input[type="submit"] {
+  width: auto;
+  min-height: 2.75rem;
+  padding: .55rem .9rem;
+  border: 1px solid var(--cyan);
+  border-radius: .55rem;
+  color: var(--night);
+  background: var(--cyan);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #258ba8;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+button:hover, input[type="submit"]:hover {
+  background: var(--yellow);
+  border-color: var(--yellow);
+  box-shadow: 0 3px 0 #b18f13, 0 0 14px rgba(255, 220, 61, .2);
+}
+button:active, input[type="submit"]:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #258ba8;
+}
+select, input[type="password"], input[type="text"] {
+  min-height: 2.75rem;
+  padding: .55rem .75rem;
+  border: 1px solid #43558d;
+  border-radius: .55rem;
+  color: var(--ink);
+  background: #0b1230;
+}
+input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  vertical-align: middle;
+  accent-color: var(--yellow);
+}
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 3px;
+}
+
+body > h1, body > h2, body > form, body > div[data-metrix-id], body > .error-panel {
+  width: 62rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+body > form, body > div[data-metrix-id], body > .error-panel {
+  padding: 2rem;
+  border: 1px solid var(--panel-edge);
+  border-radius: .85rem;
+  background: linear-gradient(145deg, rgba(17, 26, 61, .97), rgba(11, 18, 48, .97));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .24), inset 0 0 22px rgba(36, 63, 156, .12);
+}
+body > form > div { margin: 0 0 1rem; }
+body > form > div:last-child { margin-bottom: 0; }
+body > form input[type="password"] { width: 24rem; }
+body > form select { width: 28rem; }
+
+.error-panel h1 { font-size: 2.5rem; }
+.error-actions a { margin-right: .75rem; }
+
+div[data-metrix-id] { min-width: 0; margin-bottom: 1rem; }
+div.slave { margin: .7rem 0 0 1.5rem; color: var(--muted); }
+select.cycle-category { padding: .55rem .75rem; }
+select.cycle-category + p { margin: .5rem 0 1.5rem; }
+
+div.segments {
+  display: block;
+}
+section.segment {
+  display: inline-block;
+  flex: 0 0 75px;
+  width: 75px;
+  margin-right: .5rem;
+}
+section.segment div, section.segment span {
+  position: relative;
+  background: var(--yellow);
+  filter: drop-shadow(0 0 4px rgba(255, 220, 61, .55));
+}
+section.segment span {
+  display: inline-block;
+  width: 10px;
+  height: 50px;
+  clip-path: polygon(0 5px, 5px 0, 10px 5px, 10px 45px, 5px 50px, 0 45px);
+}
+section.segment div {
+  width: 50px;
+  height: 10px;
+  left: 6px;
+  margin: 0;
+  clip-path: polygon(0 5px, 5px 0, 45px 0, 50px 5px, 45px 10px, 5px 10px);
+}
+section.segment div.dot {
+  bottom: 8px;
+  left: 70px;
+  width: 10px;
+  height: 10px;
+  clip-path: polygon(0 5px, 5px 0, 10px 5px, 5px 10px);
+}
+section.segment input + div { top: 3px; }
+section.segment span + div { top: -7px; margin-bottom: -10px; }
+section.segment div + span + span { left: 38px; }
+section.segment [data-value="0"] {
+  background: rgba(255, 220, 61, .12);
+  filter: none;
+}
+section.segment div, section.segment span { cursor: pointer; }
+
+div.segment-text {
+  display: block;
+  font-size: 1rem;
+}
+div.segment-text button { min-width: 2.75rem; margin-right: .3rem; }
+div.segment-text input {
+  width: 3rem;
+  height: 2.75rem;
+  margin: 0;
+  border-radius: .55rem;
+  text-align: center;
+}
+
+/* Responsive layout */
+body > h1,
+body > h2,
+body > form,
+body > div[data-metrix-id],
+body > .error-panel {
+  width: min(62rem, 100%);
+}
+
+body > form input[type="password"],
+body > form select {
+  max-width: 100%;
+}
+
+div.segments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+section.segment {
+  margin-right: 0;
+}
+
+@media (max-width: 48rem) {
+  body {
+    padding: 5rem 1.5rem 2rem;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 7vw, 2.8rem);
+  }
+
+  body > form,
+  body > div[data-metrix-id],
+  body > .error-panel {
+    padding: 1.25rem;
+  }
+
+  body > form input[type="password"],
+  body > form select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 32rem) {
+  body {
+    padding: 5rem 1rem 1.5rem;
+    font-size: 15px;
+  }
+
+  .themeselect {
+    top: .5rem !important;
+    right: .5rem !important;
+    left: .5rem;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    gap: .5rem;
+    font-size: 1.8rem;
+  }
+
+  body > form,
+  body > div[data-metrix-id],
+  body > .error-panel {
+    padding: 1rem;
+  }
+
+  .userinfo {
+    text-align: left;
+  }
+
+  .ghost {
+    width: 2.5rem;
+    height: 2.8rem;
+  }
+}
+
+
+/* PRIDAT JESTE ERROR PRO CRASH PAD */

@@ -1,0 +1,65 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+        <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h2>Ovládání</h2>
+    {% for component in controls %}
+        <div data-metrix-id="{{ component.id }}">
+            {% if component.type == "switch" %}
+                <label>
+                    <input type="checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                    {{ component.caption }}
+                </label>
+                {% if "blink" in component.parts %}
+                    <div class="slave">
+                        <label>
+                            <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                            blikání
+                        </label>
+                    </div>
+                {% endif %}
+            {% elseif component.type == "segment" %}
+                <h2>{{component.caption}}</h2>
+                <h2>segmenty</h2>
+                <div class="segments">
+                    {% for index, digit in component.segment_state %}
+                        <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                            <div data-segment="0"></div>
+                            <span data-segment="1"></span>
+                            <span data-segment="2"></span>
+                            <div data-segment="3"></div>
+                            <span data-segment="4"></span>
+                            <span data-segment="5"></span>
+                            <div data-segment="6"></div>
+                            <div class="dot" data-segment="7"></div>
+                        </section>
+                    {% endfor %}
+                </div>
+                <h2>textové vyjádření</h2>
+                <select class="cycle-category">
+                    <option class="default" value="">Vyberte kategorii znaků</option>
+                    <option value="digit">číslice</option>
+                    <option value="hex">hexadecimální číslice</option>
+                    <option value="letteropt">písmena</option>
+                    <option value="lower">malá písmena</option>
+                    <option value="upper">velká písmena</option>
+                    <option value="letter">všechna písmena</option>
+                </select>
+                <p>Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                <div class="segment-text">
+                    {% for index, text in component.state %}
+                        <button data-direction="prev" data-digit="{{ index }}">-</button>
+                        <input type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                        <button data-direction="wipe" data-digit="{{ index }}">🗑</button>
+                        <button data-direction="next" data-digit="{{ index }}">+</button>
+                    {% endfor %}
+                </div>
+            {% else %}
+                unknown component: {{ component.type }}
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endblock %}
