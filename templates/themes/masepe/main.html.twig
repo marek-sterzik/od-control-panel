@@ -1,0 +1,128 @@
+{% extends theme_template('base.html.twig') %}
+
+{% block title %}Ovládací panel{% endblock %}
+
+{% block content %}
+    {# Pořadí odpovídá segment_state: shora dolů, zleva doprava, tečka poslední. #}
+    {% set segmentShapes = [
+        '11,5 49,5 44,12 16,12',
+        '5,9 11,15 11,44 5,47',
+        '55,9 49,15 49,44 55,47',
+        '13,50 18,44 42,44 47,50 42,56 18,56',
+        '5,91 11,85 11,56 5,53',
+        '55,91 49,85 49,56 55,53',
+        '16,88 44,88 49,95 11,95'
+    ] %}
+
+    <section class="dashboard-intro" aria-labelledby="page-title">
+        <div>
+            <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> ŽIVÉ OVLÁDÁNÍ</p>
+            <h1 id="page-title">Ovládací panel</h1>
+            <p class="intro-copy">Stav zařízení a displejů můžete měnit přímo odsud. Změny se průběžně synchronizují.</p>
+        </div>
+        <div class="system-summary" aria-label="Souhrn systému">
+            <span class="summary-label">Komponenty</span>
+            <strong>{{ controls|length }}</strong>
+            <span class="summary-caption">aktivních prvků</span>
+        </div>
+    </section>
+
+    <section class="control-section" aria-labelledby="switches-title">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">VÝSTUPY</p>
+                <h2 id="switches-title">Kontrolky</h2>
+            </div>
+            <span class="section-note">Kliknutím změňte stav</span>
+        </div>
+        <div class="switch-grid">
+            {% for component in controls %}
+                {% if component.type == 'switch' %}
+                    <article class="control-card lamp-card" data-metrix-id="{{ component.id }}" style="--lamp-color: {{ component.color }}">
+                        <div class="lamp-card-top">
+                            <span class="control-index">{{ '%02d'|format(loop.index) }}</span>
+                            <span class="live-indicator" aria-hidden="true"></span>
+                        </div>
+                        <div class="lamp{% if component.state %} on{% endif %}{% if component.state and component.blink %} blinking{% endif %}" aria-hidden="true"></div>
+                        <h3>{{ component.caption }}</h3>
+                        <p class="lamp-state" data-role="switch-status" aria-live="polite">{% if component.state %}{% if component.blink %}Zapnuto · bliká{% else %}Zapnuto{% endif %}{% else %}Vypnuto{% endif %}</p>
+                        <div class="switch-actions" role="group" aria-label="Ovládání: {{ component.caption }}">
+                            {% for part in component.parts %}
+                                {% set active = attribute(component, part) %}
+                                <button type="button" class="switch-action{% if active %} active{% endif %}" data-part="{{ part }}" aria-pressed="{{ active ? 'true' : 'false' }}">
+                                    <span class="action-indicator" aria-hidden="true"></span>
+                                    {% if part == 'state' %}Napájení{% elseif part == 'blink' %}Blikání{% else %}{{ part }}{% endif %}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </section>
+
+    {% for component in controls %}
+        {% if component.type == 'segment' %}
+            <section class="control-section segment-section" aria-labelledby="segment-title-{{ component.id }}">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">ZOBRAZENÍ</p>
+                        <h2 id="segment-title-{{ component.id }}">{{ component.caption }}</h2>
+                    </div>
+                    <div class="category-picker">
+                        <label for="cat-{{ component.id }}">Krokování znaků</label>
+                        <select id="cat-{{ component.id }}" class="form-select" data-role="category">
+                            <option value="">Výchozí</option>
+                            <option value="digit">Číslice</option>
+                            <option value="hex">Hexadecimální</option>
+                            <option value="letter">Všechna písmena</option>
+                            <option value="lower">Malá písmena</option>
+                            <option value="upper">Velká písmena</option>
+                            <option value="letteropt">Písmena – čitelnější varianta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="segment-console" data-metrix-id="{{ component.id }}">
+                    <div class="digit-list">
+                        {% for d, character in component.state %}
+                            {% set bits = component.segment_state[d]|default('00000000') %}
+                            <article class="digit-unit" data-digit="{{ d }}">
+                                <div class="digit-label">POZICE {{ '%02d'|format(d + 1) }}</div>
+                                <div class="display">
+                                    <svg class="digit" viewBox="0 0 68 100" role="group" aria-label="Segmentová číslice {{ d + 1 }}">
+                                        {% for points in segmentShapes %}
+                                            <polygon class="seg{% if bits|slice(loop.index0, 1) == '1' %} lit{% endif %}" data-seg="{{ loop.index0 }}" tabindex="0" role="button" aria-label="Přepnout segment {{ loop.index }}" points="{{ points }}"></polygon>
+                                        {% endfor %}
+                                        <circle class="seg{% if bits|slice(7, 1) == '1' %} lit{% endif %}" data-seg="7" tabindex="0" role="button" aria-label="Přepnout tečku" cx="62" cy="92" r="4.5"></circle>
+                                    </svg>
+                                </div>
+                                <div class="digit-readout">Znak <output class="readout" data-role="readout">{{ character is null ? '?' : (character == '' ? '–' : character) }}</output></div>
+                                <div class="digit-actions" role="group" aria-label="Ovládání pozice {{ d + 1 }}">
+                                    <button type="button" class="icon-action" data-action="prev" title="Předchozí znak" aria-label="Předchozí znak">−</button>
+                                    <button type="button" class="icon-action" data-action="next" title="Další znak" aria-label="Další znak">+</button>
+                                    <button type="button" class="clear-action" data-action="clear">Zhasnout</button>
+                                </div>
+                            </article>
+                        {% else %}
+                            <p class="empty-state">Displej zatím nemá žádné pozice.</p>
+                        {% endfor %}
+                    </div>
+                    <p class="segment-hint"><span aria-hidden="true">↗</span> Kliknutím na segment nebo tečku jej můžete samostatně přepnout. Šipky posouvají znak podle zvolené kategorie.</p>
+                </div>
+            </section>
+        {% endif %}
+    {% endfor %}
+
+    {% if controls is empty %}
+        <section class="empty-panel">
+            <span class="empty-icon" aria-hidden="true">⌁</span>
+            <h2>Žádné komponenty</h2>
+            <p>Řídicí systém aktuálně neposkytuje žádné ovládací prvky.</p>
+        </section>
+    {% endif %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ theme_asset('main.js') }}"></script>
+{% endblock %}

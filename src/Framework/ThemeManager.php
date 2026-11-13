@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class ThemeManager
 {
-    const PREFERED_THEME = "ugly";
+    const PREFERED_THEME = "masepe";
 
     public function __construct(private RequestStack $requestStack, private string $themeDir)
     {
