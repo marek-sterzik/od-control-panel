@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-    <h2 class="h3 mb-4">Ovládání</h2>
+    <h2 class="h3 mb-4 mt-4 text-white">Ovládání</h2>
     
-    <div class="row g-4">
+    <div class="row g-4 mb-5">
     {% for component in controls %}
         <div class="col-12" data-metrix-id="{{ component.id }}">
-            <div class="card shadow-sm w-sm-100">
+            <div class="card shadow-sm w-sm-100 bg-light">
                 <div class="card-body">
                     {% if component.type == "switch" %}
                         <div class="d-flex align-items-center gap-4 justify-content-start">
@@ -25,7 +25,7 @@
                             {% if "blink" in component.parts %}
                                 <div class="form-check form-switch border-start ps-4 ms-auto">
                                     <input class="form-check-input" type="checkbox" role="switch" data-part="blink" id="blink-{{ component.id }}" {% if component.blink %}checked="checked"{% endif %}>
-                                    <label class="form-check-label text-muted" for="blink-{{ component.id }}">
+                                    <label class="form-check-label" style="color:gray" for="blink-{{ component.id }}">
                                         blikání
                                     </label>
                                 </div>
@@ -35,7 +35,7 @@
                     {% elseif component.type == "segment" %}
                         <h3 class="h4 card-title border-bottom pb-2 mb-3">{{ component.caption }}</h3>
                         
-                        <div class="segments d-flex gap-2 mb-4 p-3 bg-light rounded justify-content-center">
+                        <div class="segments d-flex gap-2 mb-4 p-3 rounded justify-content-center border" style="background-color: #999">
                             {% for index, digit in component.segment_state %}
                                 <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
                                     <div data-segment="0"></div>
@@ -50,15 +50,19 @@
                             {% endfor %}
                         </div>
 
-                        <div class="segment-text d-flex flex-wrap align-items-stretch gap-0">
-                            {% for index, text in component.state %}
-                                <div class="input-group input-group-sm mb-2">
-                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="prev" data-digit="{{ index }}" type="button">-</button>
-                                    <input type="text" class="form-control text-center font-monospace fs-5 mr-0 m-0" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
-                                    <button class="btn btn-outline-danger p-0 ml-0" style="width: 25px" data-direction="wipe" data-digit="{{ index }}" type="button">🗑</button>
-                                    <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="next" data-digit="{{ index }}" type="button">+</button>
-                                </div>
-                            {% endfor %}
+                        <div class="segment-text mb-3">
+                            <div class="row g-2 justify-content-center">
+                                {% for index, text in component.state %}
+                                    <div class="col-12 col-md-6">
+                                        <div class="input-group input-group-sm">
+                                            <button class="btn btn-outline-secondary p-0" style="width: 25px" data-direction="prev" data-digit="{{ index }}" type="button">-</button>
+                                            <input type="text" class="form-control text-center font-monospace fs-5 mr-0 m-0" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                            <button class="btn btn-outline-danger p-0 ml-0" style="width: 25px" data-direction="wipe" data-digit="{{ index }}" type="button">🗑</button>
+                                            <button class="btn btn-outline-secondary p-0 m-0" style="width: 25px" data-direction="next" data-digit="{{ index }}" type="button">+</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
 
                         <div class="d-flex flex-direction-column justify-content-center text-center row">
@@ -74,7 +78,7 @@
                                 </select>
                             </div>
                             <div class="w-100">
-                                <p class="form-text text-muted mb-0 mt-md-4">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                                <p class="form-text text-muted mb-0 mt-md-4 text-start">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
                             </div>
                         </div>
 
