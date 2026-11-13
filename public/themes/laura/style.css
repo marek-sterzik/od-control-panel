@@ -1,0 +1,231 @@
+body{
+  background: #f5f7fa;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+.container {
+    max-width: 1000px;
+}
+h1{
+  color:#0d6efd;
+  text-align:center;
+  font-size:3em;
+  margin-bottom:30px;
+}
+section {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+button {
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+}
+
+button:hover {
+    background: #0b5ed7;
+}
+select {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+div.segment-text {font-size: 2em;}
+div.segment-text span, div.segment-text input {
+    padding: .2em;
+    border: 1px solid #aaa;
+    margin: 0 .5em;
+    border-radius: .3em;
+    background-color: #ddd;
+    width: 2em;
+    height: 1.2em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
+}
+
+button {
+    background: #0d6efd;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background: #0b5ed7;
+    transform: scale(1.05);
+}
+button:active {box-shadow: none;}
+select {
+    padding: 8px;
+    border-radius: 8px;
+}
+
+div.themeselect {float:right;}
+div.userinfo {float:right; margin-right: 1em;}
+div.userinfo span.admin {color: red;}
+
+select.cycle-category {padding: .3em; font-size: 1.2em; border-radius: .3em;}
+select.cycle-category + p {margin-bottom: 2em;}
+
+.cycle-category + p {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+div.slave {
+    margin-left: 2em;
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+/* segment display */
+
+section.segment {
+  display: inline-block;
+  margin-right: 20px;
+  width: 90px;
+  background: white;
+  border-radius: 12px;
+  padding: 12px;
+  border: 1px solid #d0d0d0;
+}
+/* Default eight = all segments illuminated */
+section.segment div, section.segment span {
+  position: relative;
+  background: red;
+}
+section.segment span {
+  display: inline-block;
+  width: 10px;
+  height: 50px;
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+}
+
+section.segment div {
+  clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+  width: 50px;
+  height: 10px;
+  position: relative;
+  left: 6px;
+  margin: 0;
+}
+
+section.segment div.dot {
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+  width: 10px;
+  height: 10px;
+  position: relative;
+  bottom: 8px;
+  left: 60px;
+  margin: 0;
+}
+
+section.segment input + div {  top: 3px; }
+section.segment span + div { top: -7px; margin-bottom: -10px; }
+section.segment div + span + span { left: 38px; }
+
+section.segment [data-value="0"] {background: #ff000020; }
+
+section.segment div, section.segment span {cursor: pointer;}
+form {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    width: 300px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+.card {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: 0.2s ease;
+}
+.card {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+.card label {
+    margin-bottom: 0;
+}
+.navbar {
+    border-radius: 15px;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.segment-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.segment-text button {
+    width: 45px;
+    height: 45px;
+    padding: 0;
+    font-size: 1.2rem;
+}
+
+.segment-text input {
+    width: 60px;
+    height: 45px;
+    text-align: center;
+    font-size: 1.5rem;
+    background: white;
+}
+
+.dark-mode {
+    background: #212529;
+    color: white;
+}
+
+.dark-mode .card {
+    background: #343a40;
+    color: white;
+}
+
+.dark-mode .navbar {
+    background: #343a40 !important;
+}
+
+.dark-mode h2,
+.dark-mode h4 {
+    color: #66b3ff !important;
+}
+
+.dark-mode .segment-text input {
+    background: #495057;
+    color: white;
+    border: 1px solid #6c757d;
+}
+
+.dark-mode form {
+    background: #343a40;
+}
+
+.dark-mode select {
+    background: #495057;
+    color: white;
+    border-color: #6c757d;
+}
+
+.dark-mode .cycle-category + p {
+    color: #adb5bd;
+}
