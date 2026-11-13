@@ -1,0 +1,11 @@
+{% if metaRefresh is defined and metaRefresh is not null %}<meta http-equiv="refresh" content="{{ metaRefresh }}">{% endif %}
+<script id="main-script" data-page="{{ pageId }}" src="{{ asset('js/main.js') }}"></script>
+<script>
+    var jQuery = metrix.jQuery
+    var $ = metrix.jQuery
+</script>
+{% if controls is defined and controls is not null and pageId == "main" %}
+    <script>
+        metrix.backend.provideState({{ controls|array_values|json_encode|raw }}, true)
+    </script>
+{% endif %}

@@ -1,0 +1,74 @@
+body {background-color: #eee;}
+
+div.segment-text {font-size: 2em;}
+div.segment-text span, div.segment-text input {
+    padding: .2em;
+    border: 1px solid #aaa;
+    margin: 0 .5em;
+    border-radius: .3em;
+    background-color: #ddd;
+    width: 2em;
+    height: 1.2em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
+}
+
+button {font-size: inherit; height: 1.8em; width: 2.0em; padding: .1em; border-radius: .5em; border: 1px solid #aaa;}
+button:hover {box-shadow: 2px 2px 5px #aaa;}
+button:active {box-shadow: none;}
+
+div.themeselect {float:right;}
+div.userinfo {float:right; margin-right: 1em;}
+div.userinfo span.admin {color: red;}
+
+select.cycle-category {padding: .3em; font-size: 1.2em; border-radius: .3em;}
+select.cycle-category + p {margin-bottom: 2em;}
+
+div.slave {margin-left: 2em;}
+
+/* segment display */
+
+section.segment {
+  display: inline-block;
+  margin-right: 16px;
+  width: 75px;
+}
+/* Default eight = all segments illuminated */
+section.segment div, section.segment span {
+  position: relative;
+  background: red;
+}
+section.segment span {
+  display: inline-block;
+  width: 10px;
+  height: 50px;
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+}
+
+section.segment div {
+  clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+  width: 50px;
+  height: 10px;
+  position: relative;
+  left: 6px;
+  margin: 0;
+}
+
+section.segment div.dot {
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+  width: 10px;
+  height: 10px;
+  position: relative;
+  bottom: 8px;
+  left: 70px;
+  margin: 0;
+}
+
+section.segment input + div {  top: 3px; }
+section.segment span + div { top: -7px; margin-bottom: -10px; }
+section.segment div + span + span { left: 38px; }
+
+section.segment [data-value="0"] {background: #ff000020; }
+
+section.segment div, section.segment span {cursor: pointer;}
