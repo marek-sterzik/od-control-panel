@@ -1,0 +1,37 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba | Purple Control Panel{% endblock %}
+
+{% block body %}
+
+<div class="error-wrapper">
+    <div class="error-card">
+
+        <div class="error-icon">!</div>
+
+        <h2>Něco se pokazilo</h2>
+
+        <h3>{{ errorCaption }}</h3>
+
+        <p>{{ errorMessage }}</p>
+
+        <div class="error-buttons">
+
+            {% if retryUrl is not null %}
+                <a href="{{ retryUrl }}" class="error-button">
+                    Zkusit znovu
+                </a>
+            {% endif %}
+
+            {% if backUrl is not null %}
+                <a href="{{ backUrl }}" class="error-button secondary">
+                    Zpět
+                </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

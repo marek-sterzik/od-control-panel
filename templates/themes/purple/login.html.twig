@@ -1,0 +1,43 @@
+{% extends theme_template("base.html.twig") %}
+{% block body %}
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h2>Přihlášení</h2>
+        <p class="login-description">Purple Control Panel</p>
+
+        {% if loginError %}
+            <div class="login-error">
+                Špatné heslo!!!
+            </div>
+        {% endif %}
+
+        <form method="post">
+
+            <label for="username">Uživatel</label>
+
+            <select name="username" id="username">
+                {% for username, name in users %}
+                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>
+                        {{ name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label for="password">Heslo</label>
+
+            <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Zadej heslo"
+            >
+
+            <button type="submit">Přihlásit se</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
