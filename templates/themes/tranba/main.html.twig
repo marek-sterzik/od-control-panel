@@ -1,0 +1,132 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset('main.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="control-page">
+    <h2 class="page-heading">Ovládání</h2>
+
+    <div class="control-grid">
+    {% for component in controls %}
+        <div class="control-item control-item--{{ component.type }}"
+             data-metrix-id="{{ component.id }}">
+
+            {% if component.type == "switch" %}
+
+                <div class="switch-card control-card">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch"
+                               id="state-{{ component.id }}"
+                               data-part="state"
+                               {% if component.state %}checked{% endif %}>
+                        <label class="form-check-label switch-label"
+                               for="state-{{ component.id }}">
+                            {{ component.caption }}
+                        </label>
+                    </div>
+
+                    {% if "blink" in component.parts %}
+                        <div class="form-check form-switch slave-control">
+                            <input class="form-check-input" type="checkbox" role="switch"
+                                   id="blink-{{ component.id }}"
+                                   data-part="blink"
+                                   {% if component.blink %}checked{% endif %}
+                                   {% if not component.state %}disabled{% endif %}>
+                            <label class="form-check-label switch-label"
+                                   for="blink-{{ component.id }}">
+                                Blikání
+                            </label>
+                        </div>
+                    {% endif %}
+                </div>
+
+            {% elseif component.type == "segment" %}
+
+                <div class="segment-card control-card">
+                    <h2 class="component-heading">{{ component.caption }}</h2>
+
+                    <div class="segment-display">
+                        <h3 class="visually-hidden">Segmenty</h3>
+                        <div class="segments" role="img" aria-label="Segmentový displej">
+                            {% for index, digit in component.segment_state %}
+                                <section class="segment"
+                                         data-digit="{{ index }}"
+                                         data-value="{{ digit }}">
+                                    <div data-segment="0"></div>
+                                    <span data-segment="1"></span>
+                                    <span data-segment="2"></span>
+                                    <div data-segment="3"></div>
+                                    <span data-segment="4"></span>
+                                    <span data-segment="5"></span>
+                                    <div data-segment="6"></div>
+                                    <div class="dot" data-segment="7"></div>
+                                </section>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="segment-settings">
+                        <h3>Textové vyjádření</h3>
+                        <label class="form-label" for="category-{{ component.id }}">
+                            Kategorie znaků
+                        </label>
+                        <select id="category-{{ component.id }}"
+                                class="cycle-category form-select"
+                                aria-describedby="category-info-{{ component.id }}">
+                            <option class="default" value="">Vyberte kategorii znaků</option>
+                            <option value="digit">Číslice</option>
+                            <option value="hex">Hexadecimální číslice</option>
+                            <option value="letteropt">Písmena</option>
+                            <option value="lower">Malá písmena</option>
+                            <option value="upper">Velká písmena</option>
+                            <option value="letter">Všechna písmena</option>
+                        </select>
+                        <p class="category-info"
+                           id="category-info-{{ component.id }}">
+                            Kategorie znaků se uplatní při stisku tlačítek
+                            <kbd>+</kbd> a <kbd>−</kbd>.
+                        </p>
+                    </div>
+
+                    <div class="segment-text">
+                        {% for index, text in component.state %}
+                            <div class="digit-control" role="group"
+                                 aria-label="Znak {{ loop.index }}">
+                                <button type="button"
+                                        data-direction="prev"
+                                        data-digit="{{ index }}"
+                                        aria-label="Předchozí znak"
+                                        title="Předchozí znak">−</button>
+                                <input type="text"
+                                       autocomplete="off"
+                                       aria-label="Hodnota znaku {{ loop.index }}"
+                                       data-digit="{{ index }}"
+                                       data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}"
+                                       value="{{ text }}">
+                                <button type="button"
+                                        data-direction="wipe"
+                                        data-digit="{{ index }}"
+                                        aria-label="Smazat znak"
+                                        title="Smazat znak">🗑</button>
+                                <button type="button"
+                                        data-direction="next"
+                                        data-digit="{{ index }}"
+                                        aria-label="Další znak"
+                                        title="Další znak">+</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            {% else %}
+                <p class="unknown-component">
+                    Unknown component: {{ component.type }}
+                </p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

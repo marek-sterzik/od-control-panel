@@ -1,0 +1,36 @@
+.login-page {
+    max-width: 450px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #171f35;
+    border: 1px solid #343b5a;
+    border-radius: 16px;
+    box-shadow: 0 5px 25px #00000040;
+}
+.login-page h1,
+.login-page h2 {
+    color: #c4b5fd;
+    margin-bottom: 25px;
+}
+.login-page label {
+    color: #f8fafc;
+}
+.login-page .form-control,
+.login-page .form-select {
+    background-color: #0b1020;
+    color: #f8fafc;
+    border: 1px solid #343b5a;
+}
+.login-page .form-control:focus,
+.login-page .form-select:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px #8b5cf640;
+}
+.login-page .btn-primary {
+    background-color: #7c3aed;
+    border-color: #7c3aed;
+}
+.login-page .btn-primary:hover {
+    background-color: #6d28d9;
+    border-color: #6d28d9;
+}
