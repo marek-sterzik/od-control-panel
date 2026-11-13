@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Control panel{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ theme_asset('style.css') }}">
+        {% endblock %}
+        {% include "header.html.twig" %}
+        {% block scripts %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="synth-bg" aria-hidden="true">
+            <video autoplay muted loop playsinline preload="auto" disablepictureinpicture>
+                <source src="{{ theme_asset('synthwave.webm') }}" type="video/webm">
+                <source src="{{ theme_asset('synthwave.mp4') }}" type="video/mp4">
+            </video>
+        </div>
+        <header class="app-header">
+            <h1 class="header-title">Luke</h1>
+            <div class="header-right">
+                {% if user is not null %}
+                    <div class="userinfo">
+                        Přihlášený uživatel: <span class="username{% if user.admin %} admin{% endif %}">{{ user.name }}</span> (<a href="{{ path("app.logout") }}">odhlásit se</a>)
+                    </div>
+                {% endif %}
+                <div class="themeselect">
+                    <form action="{{ path("app.set-theme") }}" method="get">
+                        <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+                        <select class="submit-on-change cycle-category header-theme-select" name="theme">
+                            {% for theme in themes %}
+                                <option value="{{ theme.theme }}"{% if theme.active %} selected="selected"{% endif %}>{{ theme.description }} ({{ theme.author }})</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% block body %}{% endblock %}
+        </main>
+    </body>
+</html>
