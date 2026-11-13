@@ -4,6 +4,8 @@ namespace App\Framework;
 
 use Exception;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class ThemeManager
 {
@@ -16,10 +18,14 @@ class ThemeManager
     private ?array $themes = null;
     private ?string $currentTheme = null;
 
+    public function setTheme(string $theme, Response $response): void
+    {
+        $response->headers->setCookie(Cookie::create("theme", $theme, expire: time() + 24 * 3600 * 365));
+    }
+
     private function getStoredTheme(): ?string
     {
-        $session = $this->requestStack->getSession();
-        $theme = $session->get("theme", null);
+        $theme = $this->requestStack->getCurrentRequest()->cookies->get("theme", null);
         if (is_string($theme)) {
             return $theme;
         }

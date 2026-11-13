@@ -16,14 +16,15 @@ class ThemeSwitchController extends AbstractController
         if ($theme !== null && !$this->themeManager->themeExists($theme)) {
             $theme = null;
         }
-        if ($theme !== null) {
-            $oldTheme = $request->getSession()->get("theme", "???");
-            $request->getSession()->set("theme", $theme);
-        }
         $back = $request->query->get("back", null);
         if ($back === null || $back === "") {
-            return $this->redirectToRoute("main");
+            $response = $this->redirectToRoute("main");
+        } else {
+            $response = $this->redirect($back);
         }
-        return $this->redirect($back);
+        if ($theme !== null) {
+            $this->themeManager->setTheme($theme, $response);
+        }
+        return $response;
     }
 }
