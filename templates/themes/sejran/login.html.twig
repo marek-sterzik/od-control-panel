@@ -1,0 +1,34 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+<div class="stalker-login-wrapper">
+    <div class="stalker-auth-box">
+        <h2 class="auth-title">PŘÍSTUP DO KORDONOVÉ SÍTĚ</h2>
+        <p class="auth-subtitle">Zadejte bezpečnostní prověrku</p>
+
+        <form method="post">
+            {% if loginError %}
+            <div class="stalker-alert">
+                CHYBA: AUTORIZACE ODMÍTNUTA. NESPRÁVNÝ KLÍČ?
+            </div>
+            {% endif %}
+            
+            <div class="form-group-stalker">
+                <label>UŽIVATEL:</label>
+                <select name="username" class="stalker-select full-width">
+                    {% for username, name in users %}
+                        <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group-stalker">
+                <label>HESLO:</label>
+                <input type="password" name="password" class="stalker-input full-width">
+            </div>
+
+            <button type="submit" class="stalker-btn-submit">NA NAVÁZÁNÍ SPOJENÍ</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

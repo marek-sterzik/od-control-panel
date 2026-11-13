@@ -1,0 +1,91 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="{{ theme_asset('main.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="terminal-panel">
+        <h2 class="section-title">&gt; SYSTÉMOVÉ JEDNOTKY A BLOKY</h2>
+        
+        <div class="controls-grid">
+            {% for component in controls %}
+                <div class="stalker-card" data-metrix-id="{{ component.id }}">
+                    
+                    {% if component.type == "switch" %}
+                        <div class="card-inner">
+                            <h3 class="component-title">[ RELÉ / SPÍNAČ ]</h3>
+                            <label class="stalker-checkbox-label">
+                                <input type="checkbox" class="stalker-checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                                <span class="checkbox-custom"></span>
+                                <span class="checkbox-text">{{ component.caption }}</span>
+                            </label>
+                            
+                            {% if "blink" in component.parts %}
+                                <div class="slave geiger-box">
+                                    <label class="stalker-checkbox-label small">
+                                        <input type="checkbox" class="stalker-checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                        <span class="checkbox-custom"></span>
+                                        <span class="checkbox-text">PULSNÍ REŽIM (BLIKÁNÍ)</span>
+                                    </label>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                    {% elseif component.type == "segment" %}
+                        <div class="card-inner">
+                            <h3 class="component-title">[ DISPLEJ: {{ component.caption }} ]</h3>
+                            
+                            <div class="segment-container-wrapper">
+                                <div class="segments" style="display: flex; gap: 10px;">
+                                    {% for index, digit in component.segment_state %}
+                                        <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                            <div data-segment="0"></div>
+                                            <span data-segment="1"></span>
+                                            <span data-segment="2"></span>
+                                            <div data-segment="3"></div>
+                                            <span data-segment="4"></span>
+                                            <span data-segment="5"></span>
+                                            <div data-segment="6"></div>
+                                            <div class="dot" data-segment="7"></div>
+                                        </section>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="terminal-controls-group" style="margin-top: 10px;">
+                                <label class="label-muted">KAT. ZNAKŮ PRO +/-:</label>
+                                <select class="cycle-category stalker-select" style="max-width: 300px;">
+                                    <option class="default" value="">-- VYBRAT KATEGORII --</option>
+                                    <option value="digit">číslice</option>
+                                    <option value="hex">hexadecimální</option>
+                                    <option value="letteropt">písmena</option>
+                                    <option value="lower">malá písmena</option>
+                                    <option value="upper">velká písmena</option>
+                                    <option value="letter">všechna písmena</option>
+                                </select>
+                            </div>
+
+                            <div class="segment-text" style="margin-top: 10px;">
+                                {% for index, text in component.state %}
+                                    <div class="segment-row-item">
+                                        <button type="button" class="stalker-btn stalker-btn-minus" data-direction="prev" data-digit="{{ index }}">-</button>
+                                        <input type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}" class="stalker-input-digit" maxlength="1">
+                                        <button type="button" class="stalker-btn stalker-btn-plus" data-direction="next" data-digit="{{ index }}">+</button>
+                                        <button type="button" class="stalker-btn stalker-btn-trash" data-direction="wipe" data-digit="{{ index }}" title="Smazat">🗑</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card-inner error-text">
+                            NEZNÁMÁ ANOMÁLIE: {{ component.type }}
+                        </div>
+                    {% endif %}
+
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

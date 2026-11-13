@@ -1,0 +1,337 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --stalker-green: #33ff33;
+    --stalker-dark-green: #0a1f0a;
+    --stalker-bg: #050b05;
+    --stalker-panel-bg: rgba(5, 15, 5, 0.95);
+    --stalker-border: #145214;
+    --stalker-warning: #ffcc00;
+    --stalker-danger: #ff3333;
+}
+
+body.stalker-body {
+    background-color: var(--stalker-bg);
+    background-image: radial-gradient(circle, #113311 0%, #050b05 100%);
+    color: var(--stalker-green);
+    font-family: 'Courier Prime', monospace;
+    margin: 0;
+    padding: 15px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.scanlines {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+    z-index: 99999;
+}
+
+.top-bar {
+    width: 100%;
+    max-width: 1200px;
+    border-bottom: 1px dashed var(--stalker-green);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+div.themeselect { float: right; }
+div.userinfo { float: right; margin-right: 20px; font-size: 1.1em; }
+div.userinfo span.admin { color: var(--stalker-danger); text-shadow: 0 0 5px var(--stalker-danger); }
+
+.container-zone {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid var(--stalker-border);
+    padding: 15px;
+    background: var(--stalker-panel-bg);
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.05);
+}
+
+.zone-header-banner {
+    background: var(--stalker-warning);
+    color: #000;
+    text-align: center;
+    font-weight: bold;
+    padding: 4px;
+    margin-bottom: 15px;
+    font-size: 0.85em;
+    letter-spacing: 1px;
+}
+
+.main-title {
+    text-align: center;
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--stalker-green);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    text-shadow: 0 0 8px rgba(51, 255, 51, 0.4);
+}
+
+/* 1. Mřížka: 5 relé nahoře vedle sebe */
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+    width: 100%;
+}
+
+.stalker-card {
+    border: 1px solid var(--stalker-border);
+    background: rgba(0, 10, 0, 0.85);
+    padding: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.8);
+    min-width: 0;
+}
+
+.controls-grid .stalker-card:last-child {
+    grid-column: 1 / -1;
+}
+
+.component-title {
+    font-size: 0.95em;
+    border-bottom: 1px dotted var(--stalker-border);
+    padding-bottom: 5px;
+    margin-top: 0;
+    color: var(--stalker-warning);
+}
+
+.stalker-select, .stalker-input {
+    background: #020802;
+    border: 1px solid var(--stalker-border);
+    color: var(--stalker-warning);
+    padding: 6px;
+    font-family: 'Courier Prime', monospace;
+    width: 100%;
+    outline: none;
+}
+.stalker-select:focus {
+    border-color: var(--stalker-green);
+}
+
+.stalker-checkbox-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1em;
+    margin: 10px 0;
+    user-select: none;
+}
+
+.stalker-checkbox {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.checkbox-custom {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background: #020802;
+    border: 1px solid var(--stalker-green);
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.9);
+    position: relative;
+    flex-shrink: 0;
+}
+
+.stalker-checkbox-label:hover .checkbox-custom {
+    box-shadow: 0 0 6px rgba(51, 255, 51, 0.4);
+}
+
+.stalker-checkbox:checked + .checkbox-custom {
+    background: var(--stalker-dark-green);
+    box-shadow: 0 0 6px var(--stalker-green);
+}
+
+.stalker-checkbox:checked + .checkbox-custom::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 10px;
+    height: 10px;
+    background: var(--stalker-green);
+    box-shadow: 0 0 4px var(--stalker-green);
+}
+
+.checkbox-text {
+    color: var(--stalker-green);
+}
+
+.slave.geiger-box {
+    margin-left: 20px;
+    border-left: 2px dashed var(--stalker-warning);
+    padding-left: 10px;
+    margin-top: 10px;
+}
+
+.segment-container-wrapper {
+    display: flex;
+    justify-content: center;
+    overflow-x: auto;
+    padding: 5px 0;
+}
+
+.segment-text {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 5px;
+}
+
+.segment-row-item {
+    display: flex;
+    align-items: center;
+    background: #000;
+    border: 1px solid var(--stalker-border);
+    padding: 4px;
+    gap: 4px;
+}
+
+.stalker-input-digit {
+    background: #020802 !important;
+    border: 1px solid #145214 !important;
+    color: var(--stalker-warning) !important;
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.2em;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    outline: none;
+}
+
+.stalker-btn {
+    width: 30px;
+    height: 34px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Courier Prime', monospace;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.stalker-btn-minus {
+    background: #0a260a;
+    border: 1px solid var(--stalker-green);
+    color: var(--stalker-green);
+}
+.stalker-btn-minus:hover {
+    background: var(--stalker-green);
+    color: #000;
+}
+
+.stalker-btn-plus {
+    background: #262000;
+    border: 1px solid var(--stalker-warning);
+    color: var(--stalker-warning);
+}
+.stalker-btn-plus:hover {
+    background: var(--stalker-warning);
+    color: #000;
+}
+
+.stalker-btn-trash {
+    background: #260a0a;
+    border: 1px solid var(--stalker-danger);
+    color: var(--stalker-danger);
+}
+.stalker-btn-trash:hover {
+    background: var(--stalker-danger);
+    color: #000;
+}
+
+section.segment {
+  display: inline-block;
+  width: 45px;
+  transform: scale(0.8);
+}
+section.segment div, section.segment span {
+  position: relative;
+  background: var(--stalker-warning);
+  box-shadow: 0 0 5px var(--stalker-warning);
+}
+section.segment span {
+  display: inline-block;
+  width: 8px;
+  height: 35px;
+  clip-path: polygon(0 4px, 4px 0px, 8px 4px, 8px 31px, 4px 35px, 0px 31px, 0 4px);
+}
+section.segment div {
+  clip-path: polygon(0 4px, 4px 0px, 31px 0px, 35px 4px, 31px 8px, 4px 8px, 0 4px);
+  width: 35px;
+  height: 8px;
+  position: relative;
+  left: 4px;
+  margin: 0;
+}
+section.segment div.dot {
+  clip-path: polygon(0 4px, 4px 0px, 8px 4px, 4px 8px, 0 4px);
+  width: 8px;
+  height: 8px;
+  position: relative;
+  bottom: 5px;
+  left: 48px;
+  margin: 0;
+}
+section.segment input + div { top: 2px; }
+section.segment span + div { top: -5px; margin-bottom: -7px; }
+section.segment div + span + span { left: 26px; }
+section.segment [data-value="0"] { background: #1a1a00; box-shadow: none; }
+section.segment div, section.segment span { cursor: pointer; }
+
+@media (max-width: 768px) {
+    .controls-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    .stalker-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .controls-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .stalker-card {
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+    
+    .container-zone {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 10px !important;
+    }
+    .container-zone form,
+    .container-zone input,
+    .container-zone select,
+    .container-zone button,
+    .stalker-select,
+    .stalker-input {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        max-width: 100% !important;
+    }
+}
