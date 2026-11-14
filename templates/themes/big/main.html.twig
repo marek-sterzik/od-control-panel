@@ -1,0 +1,202 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block stylesheets %}
+    <link href="{{ theme_asset('main_custom.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+        <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <main class="container control-panel py-4 py-lg-5">
+        <header class="panel-heading mb-4 mb-lg-5">
+            <div>
+                <span class="panel-eyebrow">Vzdálené ovládání</span>
+                <h1 class="display-6 fw-bold mb-2">Ovládací panel</h1>
+                <p class="panel-description mb-0">Displeje a světelné indikátory</p>
+            </div>
+            <div class="panel-mark" aria-hidden="true">
+                <span></span><span></span><span></span>
+            </div>
+        </header>
+
+        <div class="row g-4">
+            {% for component in controls %}
+                <div class="{% if component.type == 'segment' %}col-12{% else %}col-12 col-md-6{% endif %}" data-metrix-id="{{ component.id }}">
+                    {% if component.type == "switch" %}
+                        <section class="card device-card led-card led-tone-{{ loop.index0 % 4 }} h-100">
+                            <div class="card-body d-flex flex-column">
+                                <div class="device-heading mb-4">
+                                    <span class="device-icon led-icon" aria-hidden="true"><span></span></span>
+                                    <div>
+                                        <span class="device-kind">Světelný indikátor</span>
+                                        <h2 class="h4 fw-bold mb-0">{{ component.caption }}</h2>
+                                    </div>
+                                </div>
+
+                                <label class="device-toggle mt-auto">
+                                    <input type="checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                                    <span class="status-led" aria-hidden="true"></span>
+                                    <span class="device-toggle-copy">
+                                        <span class="fw-semibold">Stav diody</span>
+                                        <span class="small text-secondary">Zapnout nebo vypnout diodu</span>
+                                    </span>
+                                    <span class="form-check form-switch ms-auto mb-0">
+                                        <span class="form-check-input" aria-hidden="true"></span>
+                                    </span>
+                                </label>
+
+                                {% if "blink" in component.parts %}
+                                    <div class="blink-control mt-3 pt-3">
+                                        <label class="form-check d-flex align-items-center gap-2 mb-0">
+                                            <input class="form-check-input mt-0" type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                            <span class="fw-medium">Blikání</span>
+                                        </label>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </section>
+                    {% elseif component.type == "segment" %}
+                        <section class="card device-card display-card">
+                            <div class="card-body">
+                                <div class="device-heading mb-4">
+                                    <span class="device-icon display-icon" aria-hidden="true">88</span>
+                                    <div>
+                                        <span class="device-kind">Sedmisegmentový displej</span>
+                                        <h2 class="h4 fw-bold mb-0">{{ component.caption }}</h2>
+                                    </div>
+                                </div>
+
+                                <div class="display-stage mb-4">
+                                    <div class="segments" aria-label="Sedmisegmentový displej. Kliknutím přepnete jednotlivé části.">
+                                        {% for index, digit in component.segment_state %}
+                                            <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}" aria-label="Číslice {{ index + 1 }}">
+                                                <div
+                                                    data-segment="0"
+                                                    data-value="{{ digit|slice(0, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(0, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Horní segment"
+                                                    title="Horní segment"
+                                                ></div>
+
+                                                <span
+                                                    data-segment="1"
+                                                    data-value="{{ digit|slice(1, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(1, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Levý horní segment"
+                                                    title="Levý horní segment"
+                                                ></span>
+
+                                                <span
+                                                    data-segment="2"
+                                                    data-value="{{ digit|slice(2, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(2, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Pravý horní segment"
+                                                    title="Pravý horní segment"
+                                                ></span>
+
+                                                <div
+                                                    data-segment="3"
+                                                    data-value="{{ digit|slice(3, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(3, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Prostřední segment"
+                                                    title="Prostřední segment"
+                                                ></div>
+
+                                                <span
+                                                    data-segment="4"
+                                                    data-value="{{ digit|slice(4, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(4, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Levý dolní segment"
+                                                    title="Levý dolní segment"
+                                                ></span>
+
+                                                <span
+                                                    data-segment="5"
+                                                    data-value="{{ digit|slice(5, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(5, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Pravý dolní segment"
+                                                    title="Pravý dolní segment"
+                                                ></span>
+
+                                                <div
+                                                    data-segment="6"
+                                                    data-value="{{ digit|slice(6, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(6, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Dolní segment"
+                                                    title="Dolní segment"
+                                                ></div>
+
+                                                <div
+                                                    class="dot"
+                                                    data-segment="7"
+                                                    data-value="{{ digit|slice(7, 1) }}"
+                                                    role="checkbox"
+                                                    tabindex="0"
+                                                    aria-checked="{{ digit|slice(7, 1) == '1' ? 'true' : 'false' }}"
+                                                    aria-label="Desetinná tečka"
+                                                    title="Desetinná tečka"
+                                                ></div>
+                                            </section>
+                                        {% endfor %}
+                                    </div>
+                                    <p class="display-help mb-0">Jednotlivé segmenty lze přepínat kliknutím.</p>
+                                </div>
+
+                                <div class="text-controls">
+                                    <div class="text-controls-heading mb-3">
+                                        <h3 class="h6 fw-bold mb-1">Textové ovládání</h3>
+                                        <p class="small text-secondary mb-0">Napište znak, nebo jej měňte tlačítky.</p>
+                                    </div>
+
+                                    <label class="form-label small fw-semibold" for="cycle-category-{{ loop.index }}">Kategorie znaků</label>
+                                    <select class="cycle-category form-select mb-2" id="cycle-category-{{ loop.index }}">
+                                        <option class="default" value="">Výchozí kategorie</option>
+                                        <option value="digit">Číslice</option>
+                                        <option value="hex">Hexadecimální číslice</option>
+                                        <option value="letteropt">Písmena</option>
+                                        <option value="lower">Malá písmena</option>
+                                        <option value="upper">Velká písmena</option>
+                                        <option value="letter">Všechna písmena</option>
+                                    </select>
+                                    <p class="small text-secondary mb-3">Kategorie se použije při stisku tlačítek − a +.</p>
+
+                                    <div class="segment-text">
+                                        {% for index, text in component.state %}
+                                            <div class="digit-control">
+                                                <span class="digit-label">Pozice {{ index + 1 }}</span>
+                                                <div class="input-group">
+                                                    <button class="btn btn-outline-secondary" type="button" data-direction="prev" data-digit="{{ index }}" aria-label="Předchozí znak na pozici {{ index + 1 }}">−</button>
+                                                    <input class="form-control text-center fw-bold" type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}" aria-label="Znak na pozici {{ index + 1 }}">
+                                                    <button class="btn btn-outline-secondary" type="button" data-direction="wipe" data-digit="{{ index }}" aria-label="Vymazat pozici {{ index + 1 }}">⌫</button>
+                                                    <button class="btn btn-outline-primary" type="button" data-direction="next" data-digit="{{ index }}" aria-label="Další znak na pozici {{ index + 1 }}">+</button>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    {% else %}
+                        <div class="alert alert-warning mb-0">Neznámý typ komponenty: {{ component.type }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}
