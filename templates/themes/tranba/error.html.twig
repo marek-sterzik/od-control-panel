@@ -1,0 +1,20 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba: {{ errorCaption }}{% endblock %}
+{% block page_title %}Chyba: {{ errorCaption }}{% endblock %}
+
+{% block body %}
+    <section class="error-page control-card" role="alert">
+        <p class="error-message">{{ errorMessage }}</p>
+
+        <div class="error-actions d-flex flex-wrap gap-2">
+            {% if retryUrl|default(null) is not null %}
+                <a href="{{ retryUrl }}" class="btn btn-primary">Zkusit znovu</a>
+            {% endif %}
+            {% if backUrl|default(null) is not null %}
+                <a href="{{ backUrl }}" class="btn btn-outline-light">Zpět</a>
+            {% endif %}
+            <a href="{{ app.request.basePath }}/" class="btn btn-outline-light">Na úvodní stránku</a>
+        </div>
+    </section>
+{% endblock %}

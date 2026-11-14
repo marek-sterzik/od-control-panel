@@ -1,0 +1,40 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Přihlášení{% endblock %}
+{% block page_title %}Přihlášení{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5 col-xl-4">
+            <form method="post" class="login-card card card-body">
+
+                {% if loginError|default(false) %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Chyba!</strong> Přihlášení se nezdařilo. Zkontrolujte uživatele a heslo.
+                    </div>
+                {% endif %}
+                <div class="mb-3">
+                    <label for="username" class="form-label">Uživatel</label>
+                    <select id="username" name="username"
+                            class="form-select" autocomplete="username" required>
+                        {% for username, name in users %}
+                            <option value="{{ username }}"
+                                {% if username == selectedUser %}selected{% endif %}>
+                                {{ name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Heslo</label>
+                    <input type="password" id="password" name="password"
+                           class="form-control{% if loginError|default(false) %} is-invalid{% endif %}"
+                           autocomplete="current-password" autofocus required>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Přihlásit se</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
