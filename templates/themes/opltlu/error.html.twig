@@ -1,0 +1,17 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+    <div class="abyssal-window error-window">
+        <div class="error-icon">⚠️</div>
+        <h2>Chyba: {{ errorCaption }}</h2>
+        <p class="error-message">{{ errorMessage }}</p>
+        <div class="error-actions">
+            {% if retryUrl is not null %}
+                <a href="{{ retryUrl }}" class="abyssal-btn retry-btn">zkusit znovu</a>
+            {% endif %}
+            {% if backUrl is not null %}
+                <a href="{{ backUrl }}" class="abyssal-btn back-btn">zpět</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

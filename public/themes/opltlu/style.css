@@ -1,0 +1,695 @@
+/* style.css for the control panel */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #0d0221;
+}
+
+body {
+    color: #f4eaff;
+}
+
+
+/* ---------- background video ---------- */
+
+.synth-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    /* this shows if the video doesnt load */
+    background: linear-gradient(to bottom, #0d0221, #1a0b3b, #2d1b69);
+}
+
+.synth-bg video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* dark layer on top of the video so the text is easier to read */
+.synth-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(13, 2, 33, .55), rgba(13, 2, 33, .25), rgba(13, 2, 33, .55));
+}
+
+
+/* ---------- header ---------- */
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(26, 11, 59, .88);
+    border-bottom: 1px solid #d300c5;
+    padding: 1em 2.5em;
+    box-shadow: 0 4px 20px rgba(5, 217, 232, 0.08);
+}
+
+.header-title {
+    margin: 0;
+    font-size: 1.8em;
+    color: #05d9e8;
+    text-shadow: 0 0 10px rgba(5, 217, 232, 0.4);
+    font-weight: 600;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+div.userinfo {
+    margin: 0;
+    font-size: 0.95em;
+    color: #f4eaff;
+}
+
+div.userinfo span.username {
+    color: #05d9e8;
+    font-weight: 500;
+}
+
+div.userinfo span.admin {
+    color: #ff2a6d;
+    text-shadow: 0 0 8px rgba(255, 42, 109, 0.4);
+}
+
+div.userinfo a {
+    color: #05d9e8;
+    text-decoration: none;
+}
+
+div.userinfo a:hover {
+    text-decoration: underline;
+    opacity: 0.8;
+}
+
+div.themeselect {
+    margin: 0;
+}
+
+.header-theme-select {
+    font-size: 0.95em !important;
+    padding: 0.4em 0.8em !important;
+}
+
+.main-content {
+    padding: 1.5em;
+}
+
+
+/* ---------- the big window ---------- */
+
+.abyssal-window {
+    background-color: rgba(26, 11, 59, .84);
+    border: 1px solid #d300c5;
+    border-radius: 12px;
+    padding: 2.5em;
+    margin: 2em auto;
+    max-width: 950px;
+    box-shadow: 0 0 25px rgba(5, 217, 232, 0.12);
+}
+
+
+/* ---------- buttons and dropdowns ---------- */
+
+button {
+    font-size: inherit;
+    height: 1.8em;
+    width: 2.0em;
+    padding: .1em;
+    border-radius: .5em;
+    border: 1px solid #05d9e8;
+    background-color: #1a0b3b;
+    color: #f4eaff;
+    cursor: pointer;
+}
+
+button:hover {
+    box-shadow: 2px 2px 8px #05d9e866;
+    background-color: #2d1b69;
+}
+
+button:active {
+    box-shadow: none;
+}
+
+select.cycle-category {
+    padding: .3em;
+    font-size: 1.2em;
+    border-radius: .3em;
+    background-color: #1a0b3b;
+    border: 1px solid #d300c5;
+    color: #f4eaff;
+}
+
+select.cycle-category + p {
+    margin-bottom: 2em;
+}
+
+::placeholder {
+    color: #a89cc8;
+    opacity: 1;
+}
+
+.category-hint,
+.section-subtitle {
+    color: #a89cc8;
+}
+
+
+/* ---------- switches (on/off) ---------- */
+
+/* 3 rows in the first column and 2 in the second */
+.checkboxes-grid {
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    gap: 1em 2em;
+    margin-bottom: 2.5em;
+    align-items: center;
+}
+
+.control-item {
+    background-color: #0d0221;
+    border: 1px solid #d300c566;
+    padding: 0.8em 1.2em;
+    border-radius: 8px;
+}
+
+div.slave {
+    margin-left: 2em;
+}
+
+label.switch {
+    display: flex;
+    align-items: center;
+    gap: .8em;
+    cursor: pointer;
+    position: relative;
+}
+
+/* the real checkbox is hidden, the slider below is what you see */
+.control-item .switch input.switch-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+}
+
+.switch-slider {
+    position: relative;
+    width: 3em;
+    height: 1.6em;
+    flex-shrink: 0;
+    border-radius: 1em;
+    background-color: #1a0b3b;
+    border: 1px solid #d300c5;
+    transition: all .2s;
+}
+
+/* the round thing that moves */
+.switch-slider::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: .2em;
+    width: 1.1em;
+    height: 1.1em;
+    margin-top: -.55em;
+    border-radius: 50%;
+    background-color: #f4eaff;
+    transition: all .2s;
+}
+
+.switch:hover .switch-slider {
+    border-color: #05d9e8;
+}
+
+/* when the switch is on */
+.switch-input:checked + .switch-slider {
+    background-color: #05d9e8;
+    border-color: #05d9e8;
+    box-shadow: 0 0 10px #05d9e888;
+}
+
+.switch-input:checked + .switch-slider::before {
+    left: calc(100% - 1.3em);
+    background-color: #0d0221;
+}
+
+.switch-input:focus + .switch-slider {
+    box-shadow: 0 0 8px #05d9e8;
+}
+
+
+/* ---------- 7 segment display ---------- */
+
+.components-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: flex-start;
+}
+
+.segments {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 1.5em;
+}
+
+section.segment {
+    display: inline-block;
+    position: relative;
+    margin-right: 16px;
+    width: 75px;
+}
+
+/* all segments are lit (cyan) by default */
+section.segment div,
+section.segment span {
+    position: relative;
+    background: #05d9e8;
+    box-shadow: 0 0 10px #05d9e888;
+    cursor: pointer;
+}
+
+/* the vertical parts */
+section.segment span {
+    display: inline-block;
+    width: 10px;
+    height: 50px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+}
+
+/* the horizontal parts */
+section.segment div {
+    clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+    width: 50px;
+    height: 10px;
+    left: 6px;
+    margin: 0;
+}
+
+/* the dot */
+section.segment div.dot {
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+    width: 10px;
+    height: 10px;
+    bottom: 8px;
+    left: 70px;
+    margin: 0;
+}
+
+section.segment input + div {
+    top: 3px;
+}
+
+section.segment span + div {
+    top: -7px;
+    margin-bottom: -10px;
+}
+
+section.segment div + span + span {
+    left: 38px;
+}
+
+/* turned off segment */
+section.segment [data-value="0"] {
+    background: #05d9e815;
+    box-shadow: none;
+}
+
+
+/* ---------- text boxes under the display ---------- */
+
+div.segment-text {
+    font-size: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+    align-items: center;
+}
+
+div.segment-text span,
+div.segment-text input {
+    padding: .2em;
+    border: 1px solid #d300c5;
+    margin: 0 .5em;
+    border-radius: .3em;
+    background-color: #1a0b3b;
+    color: #f4eaff;
+    width: 2em;
+    height: 1.2em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
+}
+
+.digit-control-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
+
+/* ---------- login page ---------- */
+
+.login-window {
+    max-width: 420px;
+    margin: 6em auto;
+    text-align: left;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    margin-top: 1.5em;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.form-group label {
+    font-size: 0.9em;
+    color: #05d9e8;
+}
+
+.login-window .cycle-category {
+    width: 100%;
+}
+
+.login-input {
+    padding: 0.7em 0.9em;
+    border: 1px solid #d300c5;
+    border-radius: 0.3em;
+    background-color: #0d0221;
+    color: #f4eaff;
+    font-size: 1em;
+    width: 100%;
+}
+
+.login-input:focus {
+    border-color: #05d9e8;
+    outline: none;
+    box-shadow: 0 0 8px #05d9e866;
+}
+
+.login-error {
+    background-color: rgba(255, 42, 109, 0.15);
+    border: 1px solid #ff2a6d;
+    color: #ff2a6d;
+    padding: 0.8em;
+    border-radius: 6px;
+    font-size: 0.95em;
+}
+
+.login-button {
+    width: 100%;
+    height: auto;
+    padding: 0.8em;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 0.4em;
+    margin-top: 0.5em;
+    transition: all 0.2s;
+}
+
+.login-button:hover {
+    box-shadow: 0 0 10px #05d9e866;
+}
+
+
+/* ---------- error page ---------- */
+
+.error-window {
+    max-width: 500px;
+    margin: 6em auto;
+    text-align: center;
+    border: 1px solid #ff2a6d;
+    box-shadow: 0 0 25px rgba(255, 42, 109, 0.15);
+}
+
+.error-icon {
+    font-size: 2.5em;
+    margin-bottom: 0.2em;
+    text-shadow: 0 0 10px rgba(255, 42, 109, 0.5);
+}
+
+.error-window h2 {
+    color: #ff2a6d;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-size: 1.5em;
+}
+
+.error-message {
+    font-size: 1.1em;
+    line-height: 1.5;
+    margin-bottom: 2em;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.abyssal-btn {
+    display: inline-block;
+    padding: 0.7em 1.5em;
+    border-radius: 0.4em;
+    font-size: 1em;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.retry-btn {
+    background-color: #1a0b3b;
+    border: 1px solid #05d9e8;
+    color: #05d9e8;
+}
+
+.retry-btn:hover {
+    background-color: #2d1b69;
+    box-shadow: 0 0 10px #05d9e866;
+}
+
+.back-btn {
+    background-color: #0d0221;
+    border: 1px solid #d300c5;
+    color: #f4eaff;
+}
+
+.back-btn:hover {
+    background-color: #1a0b3b;
+    box-shadow: 0 0 10px #d300c588;
+    border-color: #05d9e8;
+}
+
+
+/* ---------- phone version (screens smaller than 700px) ---------- */
+
+@media (max-width: 700px) {
+
+    body {
+        margin: 0;
+    }
+
+    /* header: everything under each other */
+    .app-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .8em;
+        padding: .8em 1em;
+        background-color: rgba(26, 11, 59, .78);
+    }
+
+    .header-title {
+        font-size: 1.5em;
+        text-align: center;
+    }
+
+    .header-right {
+        flex-direction: column;
+        align-items: stretch;
+        gap: .8em;
+    }
+
+    div.userinfo {
+        text-align: center;
+    }
+
+    div.themeselect {
+        width: 100%;
+    }
+
+    div.themeselect form {
+        margin: 0;
+    }
+
+    /* 16px so iphones dont zoom in when you tap it */
+    .header-theme-select {
+        width: 100%;
+        max-width: 100%;
+        font-size: 16px !important;
+        padding: .6em .8em !important;
+    }
+
+    /* window takes the whole width */
+    .main-content {
+        padding: .6em;
+    }
+
+    .abyssal-window {
+        background-color: rgba(26, 11, 59, .70);
+        max-width: none;
+        width: 100%;
+        margin: .6em 0;
+        padding: 1em;
+        border-radius: 10px;
+    }
+
+    .abyssal-window h2 {
+        font-size: 1.3em;
+    }
+
+    /* switches: one in each row */
+    .checkboxes-grid {
+        grid-template-rows: none;
+        grid-template-columns: 1fr;
+        grid-auto-flow: row;
+        gap: .7em;
+        margin-bottom: 1.5em;
+    }
+
+    .control-item {
+        background-color: rgba(13, 2, 33, .72);
+        padding: .8em 1em;
+    }
+
+    .control-item label.switch {
+        min-height: 2.4em;
+    }
+
+    /* bigger checkbox so its easier to tap */
+    .slave input[type="checkbox"] {
+        width: 1.2em;
+        height: 1.2em;
+        margin: 0 .5em 0 0;
+        vertical-align: middle;
+    }
+
+    /* segment display */
+    .components-wrapper {
+        align-items: stretch;
+        gap: 1.5em;
+    }
+
+    .segment-section {
+        width: 100%;
+        min-width: 0;
+    }
+
+    /* the display is made of pixels so make it smaller
+       if there are a lot of digits you can scroll sideways */
+    .segments {
+        zoom: .8;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 12px 16px 12px 4px;
+        margin-bottom: .5em;
+    }
+
+    .text-control-block select.cycle-category {
+        width: 100%;
+    }
+
+    select.cycle-category + p {
+        margin-bottom: 1em;
+    }
+
+    /* every digit gets its own row */
+    div.segment-text {
+        font-size: 1.3em;
+        flex-direction: column;
+        align-items: stretch;
+        gap: .7em;
+    }
+
+    .digit-control-group {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr 1fr 1fr;
+        gap: .5em;
+        align-items: stretch;
+    }
+
+    div.segment-text .digit-control-group button {
+        width: 100%;
+        height: 2.2em;
+        padding: 0;
+    }
+
+    div.segment-text .digit-control-group input {
+        width: 100%;
+        min-width: 0;
+        height: 2.2em;
+        margin: 0;
+    }
+
+    /* login and error pages */
+    .login-window,
+    .error-window {
+        max-width: none;
+        margin: 1.2em 0;
+    }
+
+    /* error buttons under each other */
+    .error-actions {
+        flex-direction: column;
+        gap: .8em;
+    }
+
+    .abyssal-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: .9em 1.2em;
+    }
+}
+
+
+/* really small phones */
+@media (max-width: 400px) {
+    .segments {
+        zoom: .7;
+    }
+
+    div.segment-text {
+        font-size: 1.15em;
+    }
+}
