@@ -1,0 +1,20 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba{% endblock %}
+
+{% block content %}
+<section class="error-layout" aria-labelledby="error-title">
+    <div class="error-card" role="alert">
+        <div class="error-symbol" aria-hidden="true">!</div>
+        <p class="eyebrow">DOŠLO K PROBLÉMU</p>
+        <h1 id="error-title">{{ errorCaption }}</h1>
+        <p class="error-message">{{ errorMessage }}</p>
+        {% if retryUrl is not null or backUrl is not null %}
+            <div class="error-actions">
+                {% if retryUrl is not null %}<a class="btn btn-primary" href="{{ retryUrl }}">Zkusit znovu <span aria-hidden="true">→</span></a>{% endif %}
+                {% if backUrl is not null %}<a class="btn btn-outline-light" href="{{ backUrl }}">Zpět</a>{% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
