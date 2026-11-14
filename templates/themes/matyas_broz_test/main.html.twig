@@ -1,0 +1,98 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <h2 class="mb-4 fw-bold">Ovládání</h2>
+    <div class="row g-4">
+        {% for component in controls %}
+            <div class="col-12 col-md-6 col-lg-4" data-metrix-id="{{ component.id }}">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body">
+                        {% if component.type == "switch" %}
+                            {# Automatické určení barvy přepínače podle názvu #}
+                            {% set switchColor = 'switch-red' %}
+                            {% if 'red' in component.caption|lower or 'červen' in component.caption|lower %}
+                                {% set switchColor = 'switch-red' %}
+                            {% elseif 'green' in component.caption|lower or 'zelen' in component.caption|lower %}
+                                {% set switchColor = 'switch-green' %}
+                            {% elseif 'blue' in component.caption|lower or 'modr' in component.caption|lower %}
+                                {% set switchColor = 'switch-blue' %}
+                            {% elseif 'yellow' in component.caption|lower or 'žlut' in component.caption|lower %}
+                                {% set switchColor = 'switch-yellow' %}
+                            {% elseif 'white' in component.caption|lower or 'bíl' in component.caption|lower %}
+                                {% set switchColor = 'switch-white' %}
+                            {% endif %}
+
+                            <h5 class="card-title border-bottom pb-2 mb-3">Přepínač</h5>
+                            <div class="form-check form-switch fs-5 mb-2 {{ switchColor }}">
+                                <input class="form-check-input" type="checkbox" data-part="state" id="switch-{{ component.id }}" {% if component.state %}checked="checked"{% endif %}>
+                                <label class="form-check-label" for="switch-{{ component.id }}">{{ component.caption }}</label>
+                            </div>
+                            {% if "blink" in component.parts %}
+                                <div class="slave ms-4 form-check form-switch {{ switchColor }}">
+                                    <input class="form-check-input" type="checkbox" data-part="blink" id="blink-{{ component.id }}" {% if component.blink %}checked="checked"{% endif %}>
+                                    <label class="form-check-label text-muted fs-6" for="blink-{{ component.id }}">Blikání</label>
+                                </div>
+                            {% endif %}
+
+                        {% elseif component.type == "segment" %}
+                            <h5 class="card-title border-bottom pb-2 mb-3">{{ component.caption }}</h5>
+                            
+                            <div class="mb-3 text-center bg-dark p-3 rounded">
+                                <div class="segments d-inline-flex justify-content-center flex-wrap gap-2 
+                                    {% if 'red' in component.caption|lower or 'červen' in component.caption|lower %}led-red
+                                    {% elseif 'green' in component.caption|lower or 'zelen' in component.caption|lower %}led-green
+                                    {% elseif 'blue' in component.caption|lower or 'modr' in component.caption|lower %}led-blue
+                                    {% elseif 'yellow' in component.caption|lower or 'žlut' in component.caption|lower %}led-yellow
+                                    {% elseif 'white' in component.caption|lower or 'bíl' in component.caption|lower %}led-white
+                                    {% else %}led-red{% endif %}">
+                                    {% for index, digit in component.segment_state %}
+                                        <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                            <div data-segment="0"></div>
+                                            <span data-segment="1"></span>
+                                            <span data-segment="2"></span>
+                                            <div data-segment="3"></div>
+                                            <span data-segment="4"></span>
+                                            <span data-segment="5"></span>
+                                            <div data-segment="6"></div>
+                                            <div class="dot" data-segment="7"></div>
+                                        </section>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Kategorie znaků</label>
+                                <select class="form-select form-select-sm cycle-category">
+                                    <option class="default" value="">Vyberte kategorii znaků</option>
+                                    <option value="digit">Číslice</option>
+                                    <option value="hex">Hexadecimální číslice</option>
+                                    <option value="letteropt">Písmena</option>
+                                    <option value="lower">Malá písmena</option>
+                                    <option value="upper">Velká písmena</option>
+                                    <option value="letter">Všechna písmena</option>
+                                </select>
+                            </div>
+
+                            <div class="segment-text d-flex flex-wrap gap-2 justify-content-center">
+                                {% for index, text in component.state %}
+                                    <div class="input-group input-group-sm mb-2" style="width: auto;">
+                                        <button class="btn btn-outline-secondary" data-direction="prev" data-digit="{{ index }}">-</button>
+                                        <input type="text" class="form-control text-center px-1" style="width: 40px;" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                        <button class="btn btn-outline-danger" data-direction="wipe" data-digit="{{ index }}"><i class="bi bi-trash"></i></button>
+                                        <button class="btn btn-outline-secondary" data-direction="next" data-digit="{{ index }}">+</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-warning">Unknown component: {{ component.type }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
