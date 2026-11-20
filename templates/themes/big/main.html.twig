@@ -25,7 +25,7 @@
             {% for component in controls %}
                 <div class="{% if component.type == 'segment' %}col-12{% else %}col-12 col-md-6{% endif %}" data-metrix-id="{{ component.id }}">
                     {% if component.type == "switch" %}
-                        <section class="card device-card led-card led-tone-{{ loop.index0 % 4 }} h-100">
+                        <section class="card device-card led-card {% if component.color|lower == '#fff' or component.color|lower == '#ffffff' %}led-white{% endif %} led-tone-{{ loop.index0 % 4 }} h-100" style="--led-color: {{ component.color|e('html_attr') }}">
                             <div class="card-body d-flex flex-column">
                                 <div class="device-heading mb-4">
                                     <span class="device-icon led-icon" aria-hidden="true"><span></span></span>
