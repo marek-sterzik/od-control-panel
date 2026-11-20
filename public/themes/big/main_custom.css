@@ -11,12 +11,36 @@ body {
 
 .page-actions {
 	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
 	justify-content: flex-end;
 	gap: 0.65rem;
 	width: 100%;
 	padding: 0.5rem 1rem;
 	box-sizing: border-box;
+}
+
+.user-info {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	min-height: 2.6rem;
+	padding: 0.45rem 0.8rem;
+	border: 1px solid #d6c6a7;
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.75);
+	color: #687587;
+	font-size: 0.9rem;
+}
+
+.user-info-name {
+	color: #17283e;
+	font-weight: 700;
+}
+
+.user-info-name.is-admin {
+	color: #1976d2;
 }
 
 .logout-button {

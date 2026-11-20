@@ -20,6 +20,10 @@
             </select>
         </form>
         {% if user is not null %}
+            <div class="user-info">
+                <span class="user-info-label">Přihlášený uživatel:</span>
+                <span class="user-info-name{% if user.admin %} is-admin{% endif %}">{{ user.name }}</span>
+            </div>
             <a class="logout-button" href="{{ path('app.logout') }}">Odhlásit se</a>
         {% endif %}
     </div>
