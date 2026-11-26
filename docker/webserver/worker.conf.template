@@ -19,6 +19,7 @@ server {
     }
 
     location /metrix {
+        auth_request /auth;
         proxy_read_timeout 120;
         proxy_set_header Host metrix;
         proxy_pass http://metrix:8765/;
