@@ -1,0 +1,71 @@
+.pozadi {
+background: linear-gradient(to right, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1))
+}
+h1{
+    color: white;
+}
+h2{
+    color: white;
+}
+label{
+    color:white;
+}
+.white{
+    color:white;
+}
+.stred{
+    align-items: center;
+    text-align: center;
+    padding-top: 0%;
+    padding-bottom: 15%;
+}
+.color{
+    padding-top: 15%;
+    padding-bottom: 30%;
+    background-color: #343140;
+    border-radius: 25px;
+}
+.colorB{
+    padding-top: 15%;
+    padding-bottom: 30%;
+    background-color: white;
+    border-radius: 25px;
+    color:black;
+}
+.odsazeni{
+    margin-top: 5%;
+}
+.btn{
+    margin-top: 12%;
+    font-size: 20px;
+}
+p{
+    color: gray;
+    font-size: 20px;
+}
+h1{
+    font-size: 50px;
+}
+.border{
+    border-color:#343140;
+    border-radius: 5px;
+}
+
+.segments {
+    text-align: center;
+}
+
+section.segment {
+    text-align: left;
+    box-sizing: content-box;
+}
+
+@media (min-width: 10px) {
+    .stred { padding-left: 0%; padding-right: 0%; }
+}
+@media (min-width: 500px) {
+    .stred { padding-left: 20%; padding-right: 20%; }
+}
+@media (min-width: 900px) {
+    .stred { padding-left: 35%; padding-right: 35%; }
+}

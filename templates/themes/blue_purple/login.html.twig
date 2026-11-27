@@ -1,0 +1,28 @@
+{% extends theme_template("base.html.twig") %}
+{% block body %}
+    <body class="pozadi">
+        <link rel="stylesheet" href="{{ asset("themes/blue_purple/login.css") }}">
+        <div class="stred">
+            <div class="color">
+                <form method="post">
+                    <h1>Přihlášení:</h1>
+                    <p>Vložte heslo</p>
+                    <div>
+                        <select name="username">
+                            {% for username, name in users %}
+                                <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if loginError %}
+                        <div  class="odsazeni" class="alert alert-warning" role="alert">
+                            Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+                        </div>
+                    {% endif %}
+                    <div><input type="password" name="password" class="btn"></div>
+                    <div><input type="submit" value="Přihlásit se" class="btn"></div>
+                </div>
+            </form>
+        </div>
+    </body>
+{% endblock %}

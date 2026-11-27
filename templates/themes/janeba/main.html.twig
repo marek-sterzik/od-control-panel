@@ -1,0 +1,76 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+        <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <section class="dashboard mx-auto" aria-label="Ovládací panel">
+        <h2 class="section-title text-center mb-4">Ovládání</h2>
+        {% for component in controls %}
+            {% if component.type == "switch" %}
+                <div class="control-card switch-card card mb-3 mx-auto" data-metrix-id="{{ component.id }}">
+                    <div class="card-body d-flex flex-column align-items-start gap-3">
+                        <label class="light-control d-flex align-items-center gap-3" for="light-{{ component.id }}">
+                            <input id="light-{{ component.id }}" class="light-switch" type="checkbox" data-part="state" style="--switch-color: {{ component.color }}" {% if component.state %}checked="checked"{% endif %}>
+                            <span class="light-caption">{{ component.caption }}</span>
+                        </label>
+                        {% if "blink" in component.parts %}
+                            <div class="slave">
+                                <label class="light-control blink-control d-flex align-items-center gap-3" for="blink-{{ component.id }}">
+                                    <input id="blink-{{ component.id }}" class="light-switch" type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                    <span class="light-caption">blikání</span>
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% elseif component.type == "segment" %}
+                <section class="control-card card mb-4 mx-auto" data-metrix-id="{{ component.id }}">
+                    <div class="card-body text-center">
+                        <h2 class="component-title h3 mb-4">{{ component.caption }}</h2>
+                        <h3 class="h5 mb-3">Segmenty</h3>
+                        <div class="segments d-flex flex-wrap justify-content-center gap-3 mb-4">
+                            {% for index, digit in component.segment_state %}
+                                <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                    <div data-segment="0"></div>
+                                    <span data-segment="1"></span>
+                                    <span data-segment="2"></span>
+                                    <div data-segment="3"></div>
+                                    <span data-segment="4"></span>
+                                    <span data-segment="5"></span>
+                                    <div data-segment="6"></div>
+                                </section>
+                            {% endfor %}
+                        </div>
+                        <h3 class="h5 mb-3">Textové vyjádření</h3>
+                        <div class="category-control mx-auto mb-2">
+                            <select class="cycle-category form-select" aria-label="Kategorie znaků">
+                                <option class="default" value="">Vyberte kategorii znaků</option>
+                                <option value="digit">číslice</option>
+                                <option value="hex">hexadecimální číslice</option>
+                                <option value="letteropt">písmena</option>
+                                <option value="lower">malá písmena</option>
+                                <option value="upper">velká písmena</option>
+                                <option value="letter">všechna písmena</option>
+                            </select>
+                        </div>
+                        <p class="help-text mb-3">Kategorie se použije při stisku tlačítek + a −.</p>
+                        <div class="segment-text d-flex flex-wrap align-items-center justify-content-center gap-2">
+                            {% for index, text in component.state %}
+                                <div class="counter-control d-flex align-items-center gap-2">
+                                    <button class="btn btn-outline-light counter-button" type="button" data-direction="prev" data-digit="{{ index }}" aria-label="Předchozí znak">−</button>
+                                    <input class="form-control counter-value" type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}" aria-label="Znak {{ index + 1 }}">
+                                    <button class="btn btn-outline-light counter-button wipe-button" type="button" data-direction="wipe" data-digit="{{ index }}" aria-label="Smazat znak">⌫</button>
+                                    <button class="btn btn-outline-light counter-button" type="button" data-direction="next" data-digit="{{ index }}" aria-label="Další znak">+</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            {% else %}
+                <div class="alert alert-warning" role="alert">unknown component: {{ component.type }}</div>
+            {% endif %}
+        {% endfor %}
+    </section>
+{% endblock %}
