@@ -87,6 +87,16 @@ metrix.onLoad("segment", function(mev) {
             console.error("invalid direction: " + direction)
         }
     })
+    const categorySelect = mev.element.find("select.cycle-category")
+    const categoryText = mev.element.find(".cycle-category-text")
+    categorySelect.bind("change", function () {
+        const selectedText = $(this).find("option:selected").text()
+        if ($(this).prop("value") === "") {
+            categoryText.html("Vyberte kategorii<br>znaků")
+        } else {
+            categoryText.text(selectedText)
+        }
+    })
 })
 
 metrix.onChange("segment", function(mev) {

@@ -49,14 +49,15 @@ button {
   text-shadow: none;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .8);
 }
-
-
-
-div {
-  width: fit-content;
-  max-width: 100%;
-  margin-inline: auto;
+button.btn.btn-info {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: .5rem 1rem;
+  white-space: nowrap;
 }
+
+
 
 /* Place the switch/blink list beside the segment display on wider screens. */
 div.controls {
@@ -96,9 +97,18 @@ body > h2 + .controls {
   font-size: 1.05rem;
 }
 .switch-controls > .control:last-child { border-bottom: 0; }
-.segment-display {
+.segment-component {
   grid-column: 2;
+  display: grid;
+  gap: 1.25rem;
   width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+.segment-display {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   margin: 0;
   padding: 1rem 1.25rem;
   background: rgba(5, 12, 27, .88);
@@ -110,7 +120,6 @@ body > h2 + .controls {
 .segment-display > h2:first-child { margin-top: 0; }
 .segment-display > h2 { font-size: 1.2rem; margin-bottom: .75rem; }
 .segment-text-tools {
-  grid-column: 1 / -1;
   display: grid;
   grid-template-columns: minmax(12rem, .7fr) minmax(0, 1.3fr);
   align-items: center;
@@ -188,9 +197,9 @@ div.themeselect, div.userinfo {
 
 select.cycle-category {
   min-height: 4.5em;
-  padding: .9em .6em;
+  padding: .9em .2em;
   font-size: 1.05em;
-  line-height: 1.3;
+  line-height: 1.3em;
 }
 select.cycle-category + p {margin-bottom: 2em;}
 
@@ -201,6 +210,7 @@ div.control > div.slave {
   width: auto;
   margin: 0;
   text-align: left;
+  padding-left: 1.75em;
 }
 h1, h2 { text-align: center; }
 
@@ -288,10 +298,15 @@ section.segment div, section.segment span {cursor: pointer;}
   }
 
   div.controls {
-    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
-    gap: .5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
     padding: 0 .35rem;
     box-sizing: border-box;
+  }
+
+  .segment-component {
+    grid-column: 1;
+    gap: .75rem;
   }
 
   .switch-controls {
@@ -310,6 +325,7 @@ section.segment div, section.segment span {cursor: pointer;}
   }
 
   .switch-controls > .control,
+  .segment-component,
   .segment-display,
   .segment-text-tools {
     width: min(100%, 38rem);
@@ -357,4 +373,79 @@ section.segment div, section.segment span {cursor: pointer;}
   select.cycle-category {
     width: calc(100% - 1rem);
   }
+
+  .cycle-category-wrapper {
+    justify-self: center;
+    margin-inline: auto;
+  }
+}
+
+/* Keep the login card title horizontal, even on narrow screens. */
+.card-title {
+  writing-mode: horizontal-tb;
+  text-orientation: mixed;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* switch-control labels and a color cue matching each kontrolka. */
+div.control > label {
+  display: flex;
+  align-items: center;
+  gap: .55em;
+  min-height: 44px;
+  cursor: pointer;
+}
+.control-name {
+  color: var(--control-color, #9af6ff);
+  font-weight: 700;
+}
+div.control > label::before {
+  content: "";
+  width: .75em;
+  height: .75em;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--control-color, #9af6ff);
+  box-shadow: 0 0 10px var(--control-color, #9af6ff);
+}
+div.control input[type="checkbox"] {
+  width: 1.35em;
+  height: 1.35em;
+  margin: 0;
+  accent-color: var(--control-color, #00d9ff);
+}
+@media (max-width: 768px) {
+  div.control > label,
+  div.control > div.slave label {
+    min-height: 48px;
+  }
+}
+
+.cycle-category-wrapper {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+  max-width: 100%;
+}
+.cycle-category-wrapper select.cycle-category {
+  min-width: 10em;
+  min-height: 3.4em;
+  height: 3.4em;
+  color: transparent;
+  padding: 0;
+}
+.cycle-category-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .25em .6em;
+  box-sizing: border-box;
+  text-align: center;
+  line-height: 1.15;
+  pointer-events: none;
+  color: #fff8e8;
 }

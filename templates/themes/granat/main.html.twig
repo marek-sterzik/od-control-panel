@@ -10,19 +10,19 @@
         <div class="switch-controls">
             {% for component in controls %}
                 {% if component.type == "switch" %}
-                    <div class="control" data-metrix-id="{{ component.id }}">
-                <label>
-                    <input type="checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
-                    {{ component.caption }}
-                </label>
-                {% if "blink" in component.parts %}
-                    <div class="slave">
+                    <div class="control control-{{ component.id|e }}" data-metrix-id="{{ component.id }}" style="--control-color: {{ component.color|default('#9af6ff')|e }}">
                         <label>
-                            <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
-                            blikání
+                            <input type="checkbox" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                            <span class="control-name">{{ component.caption }}</span>
                         </label>
-                    </div>
-                {% endif %}
+                        {% if "blink" in component.parts %}
+                            <div class="slave">
+                                <label>
+                                    <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                    Blikání
+                                </label>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endfor %}
@@ -50,15 +50,18 @@
                     </div>
                     <div class="segment-text-tools">
                         <h2>textové vyjádření</h2>
-                        <select class="cycle-category">
-                            <option class="default" value="">Vyberte kategorii znaků</option>
-                            <option value="digit">číslice</option>
-                            <option value="hex">hexadecimální číslice</option>
-                            <option value="letteropt">písmena</option>
-                            <option value="lower">malá písmena</option>
-                            <option value="upper">velká písmena</option>
-                            <option value="letter">všechna písmena</option>
-                        </select>
+                        <div class="cycle-category-wrapper">
+                            <select class="cycle-category" aria-label="Kategorie znaků">
+                                <option class="default" value="">Vyberte kategorii znaků</option>
+                                <option value="digit">číslice</option>
+                                <option value="hex">hexadecimální číslice</option>
+                                <option value="letteropt">písmena</option>
+                                <option value="lower">malá písmena</option>
+                                <option value="upper">velká písmena</option>
+                                <option value="letter">všechna písmena</option>
+                            </select>
+                            <span class="cycle-category-text" aria-hidden="true">Vyberte kategorii<br>znaků</span>
+                        </div>
                         <p>Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
                         <div class="segment-text">
                             {% for index, text in component.state %}
