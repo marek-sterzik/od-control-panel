@@ -1,10 +1,14 @@
 {% extends theme_template("base.html.twig") %}
 
 {% block body %}
-    <h1>Chyba: {{ errorCaption }}</h1>
-    <p>{{ errorMessage }}</p>
-    <div>
-        {% if retryUrl is not null %}<a href="{{ retryUrl }}">zkusit znovu</a>{% endif %}
-        {% if backUrl is not null %}<a href="{{ backUrl }}">zpět</a>{% endif %}
+    <div class="container py-4">
+        <div class="alert alert-danger" role="alert">
+            <h2 class="h4">Chyba: {{ errorCaption }}</h2>
+            <p>{{ errorMessage }}</p>
+            <div class="d-flex gap-3 mt-3">
+                {% if retryUrl is not null %}<a class="btn btn-primary btn-sm" href="{{ retryUrl }}">zkusit znovu</a>{% endif %}
+                {% if backUrl is not null %}<a class="btn btn-secondary btn-sm" href="{{ backUrl }}">zpět</a>{% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}

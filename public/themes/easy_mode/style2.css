@@ -2,7 +2,6 @@ body {
     background-color: #eee;
 }
 
-/* Zarovnání prvků vpravo nahoru */
 .themeselect {
     float: right;
     margin: 15px 20px 0 0;
@@ -27,7 +26,8 @@ div.segment-text {
     font-size: 1.2em;
 }
 
-div.segment-text span, div.segment-text input {
+div.segment-text span,
+div.segment-text input {
     padding: .2em;
     border: 1px solid #aaa;
     margin: 0 .2em;
@@ -60,105 +60,171 @@ button:not(.btn):active {
 /* Segment display */
 section.segment {
     display: inline-block;
+    position: relative;
+    width: 76px;
+    height: 118px;
     margin: 0 auto;
-    width: 75px;
 }
 
-section.segment div, section.segment span {
-    position: relative;
-    background: red;
-}
-
+section.segment div,
 section.segment span {
-    display: inline-block;
-    width: 10px;
-    height: 50px;
-    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+    position: absolute;
+    background: #dc3545;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
 }
 
-section.segment div {
-    clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
-    width: 50px;
+section.segment > div:nth-of-type(1) {
+    top: 2px;
+    left: 12px;
+    width: 46px;
     height: 10px;
-    position: relative;
-    left: 6px;
-    margin: 0;
+    clip-path: polygon(0 5px, 5px 0px, 41px 0px, 46px 5px, 41px 10px, 5px 10px);
 }
 
-section.segment div.dot {
-    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+section.segment > div:nth-of-type(2) {
+    position: static;
+    background: transparent;
+    cursor: default;
+}
+
+section.segment span[data-segment="5"] {
+    top: 10px;
+    left: 2px;
     width: 10px;
+    height: 44px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 39px, 5px 44px, 0px 39px);
+}
+
+section.segment span[data-segment="1"] {
+    top: 10px;
+    left: 58px;
+    width: 10px;
+    height: 44px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 39px, 5px 44px, 0px 39px);
+}
+
+section.segment div[data-segment="6"] {
+    top: 52px;
+    left: 12px;
+    width: 46px;
     height: 10px;
-    position: relative;
-    bottom: 8px;
-    left: 70px;
-    margin: 0;
+    clip-path: polygon(0 5px, 5px 0px, 41px 0px, 46px 5px, 41px 10px, 5px 10px);
 }
 
-section.segment input + div { 
-    top: 3px; 
+section.segment > div:nth-of-type(4) {
+    position: static;
+    background: transparent;
+    cursor: default;
 }
 
-section.segment span + div { 
-    top: -7px; 
-    margin-bottom: -10px; 
+section.segment span[data-segment="4"] {
+    top: 60px;
+    left: 2px;
+    width: 10px;
+    height: 44px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 39px, 5px 44px, 0px 39px);
 }
 
-section.segment div + span + span { 
-    left: 38px; 
+section.segment span[data-segment="2"] {
+    top: 60px;
+    left: 58px;
+    width: 10px;
+    height: 44px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 39px, 5px 44px, 0px 39px);
+}
+
+section.segment div[data-segment="3"] {
+    top: 102px;
+    left: 12px;
+    width: 46px;
+    height: 10px;
+    clip-path: polygon(0 5px, 5px 0px, 41px 0px, 46px 5px, 41px 10px, 5px 10px);
+}
+
+section.segment div.dot[data-segment="7"] {
+    top: 103px;
+    left: 68px;
+    width: 9px;
+    height: 9px;
+    clip-path: polygon(4.5px 0px, 9px 4.5px, 4.5px 9px, 0px 4.5px);
 }
 
 section.segment [data-value="0"] {
-    background: #ff000020; 
+    background: #dc354526;
 }
 
-section.segment div, section.segment span {
-    cursor: pointer;
-}
-
-/* Styly pro LED kontrolky přepínačů */
+/* Kontrolky přepínačů + blikání */
 .indicator-lamp {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background-color: #ced4da;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+    display: inline-block;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.35);
 }
 
 .indicator-lamp.active-blue {
     background-color: #0d6efd;
-    box-shadow: 0 0 10px #0d6efd, inset 0 0 3px rgba(255,255,255,0.5);
+    box-shadow: 0 0 12px #0d6efd, inset 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .indicator-lamp.active-red {
     background-color: #dc3545;
-    box-shadow: 0 0 10px #dc3545, inset 0 0 3px rgba(255,255,255,0.5);
+    box-shadow: 0 0 12px #dc3545, inset 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .indicator-lamp.active-green {
     background-color: #198754;
-    box-shadow: 0 0 10px #198754, inset 0 0 3px rgba(255,255,255,0.5);
+    box-shadow: 0 0 12px #198754, inset 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .indicator-lamp.active-yellow {
     background-color: #ffc107;
-    box-shadow: 0 0 10px #ffc107, inset 0 0 3px rgba(255,255,255,0.5);
+    box-shadow: 0 0 12px #ffc107, inset 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
 .indicator-lamp.active-default {
-    background-color: #198754;
-    box-shadow: 0 0 10px #198754, inset 0 0 3px rgba(255,255,255,0.5);
+    background-color: #0dcaf0;
+    box-shadow: 0 0 12px #0dcaf0, inset 0 0 3px rgba(255, 255, 255, 0.6);
 }
 
-/* Responzivní úpravy pro mobilní zařízení */
+@keyframes blink-lamp {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.2;
+        transform: scale(0.85);
+    }
+}
+
+.indicator-lamp.blink {
+    animation: blink-lamp 0.7s infinite ease-in-out;
+}
+
+.blink-toggle.is-blinking,
+.blink-toggle.active {
+    background-color: #ffc107 !important;
+    border-color: #ffc107 !important;
+    color: #212529 !important;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.75);
+}
+
 @media (max-width: 768px) {
-    .themeselect, .userinfo, h1 {
+    .themeselect,
+    .userinfo,
+    h1 {
         float: none !important;
         text-align: center;
         margin: 10px auto !important;
         clear: both;
     }
+
     .container {
         padding-left: 10px;
         padding-right: 10px;
