@@ -192,7 +192,7 @@ select.cycle-category + p {
 }
 
 div.slave {
-    margin-left: 2em;
+    margin-left: 3.8em;
 }
 
 label.switch {
@@ -481,7 +481,7 @@ div.segment-text input {
     display: inline-block;
     padding: 0.7em 1.5em;
     border-radius: 0.4em;
-    font-size: 1em;
+    font-size: 1.5em;
     font-weight: 500;
     text-decoration: none;
     cursor: pointer;
