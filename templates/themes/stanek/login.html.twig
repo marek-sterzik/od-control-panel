@@ -1,0 +1,25 @@
+{% extends theme_template("base.html.twig") %}
+{% block body_class %}login-page{% endblock %}
+{% block body %}
+    <main class="login-card">
+        <h2 class="login-title">Přihlášení</h2>
+        <p class="login-prompt">Vyberte roli:</p>
+        <form method="post">
+        {% if loginError %}
+        <div class="login-error" role="alert">
+            Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+        </div>
+        {% endif %}
+        <div class="login-users" role="group" aria-label="Výběr uživatele">
+            {% for username, name in users %}
+                <input class="login-user-input" type="radio" name="username" id="login-user-{{ loop.index }}" value="{{ username }}"{% if username == selectedUser or (selectedUser is empty and loop.first) %} checked{% endif %} required>
+                <label class="login-user-option" for="login-user-{{ loop.index }}">{{ name }}</label>
+            {% endfor %}
+        </div>
+        <div class="login-password">
+            <input type="password" name="password" placeholder="Zadejte heslo" aria-label="Zadejte heslo" required>
+        </div>
+        <button class="login-submit" type="submit">Přihlásit se</button>
+        </form>
+    </main>
+{% endblock %}
