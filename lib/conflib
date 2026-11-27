@@ -160,6 +160,30 @@ q_int() {
     fi
 }
 
+join_by() {
+  local d=${1-} f=${2-}
+  if shift 2; then
+    printf %s "$f" "${@/#/$d}"
+  fi
+}
+
+q_enum() {
+    local data="`get_last_arg "$@"`"
+    local found
+    found=""
+    for x in "$@"; do
+        if [ "x$x" = "x$data" ]; then
+            found=1
+            break
+        fi
+    done
+    if [ -z "$found" ]; then
+        echo "Error: Invalid value. Please enter one of the options: `join_by ', ' "$@"`" 1>&2
+        return 1
+    fi
+    return 0
+}
+
 q_hostname() {
     local data="`get_last_arg "$@"`"
     if echo "$data" | grep -Eq '^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$'; then

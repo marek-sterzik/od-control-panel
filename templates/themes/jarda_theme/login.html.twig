@@ -1,0 +1,32 @@
+{% extends theme_template("base.html.twig") %}
+{% block title %}Přihlášení · Jarda{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center py-4">
+        <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+            <section class="card">
+                <div class="card-body p-4">
+                    <h1 class="h3 mb-3">Přihlášení</h1>
+                    {% if loginError %}
+                        <div class="alert alert-danger" role="alert">Přihlášení se nezdařilo. Zkontrolujte heslo a zkuste to znovu.</div>
+                    {% endif %}
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label" for="username">Uživatelský účet</label>
+                            <select class="form-select" id="username" name="username">
+                                {% for username, name in users %}
+                                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="password">Heslo</label>
+                            <input class="form-control" id="password" type="password" name="password" autocomplete="current-password" required>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Přihlásit se</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

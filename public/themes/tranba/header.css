@@ -1,0 +1,39 @@
+.gaming-navbar {
+    background-color: #171f35;
+    border-bottom: 1px solid #343b5a;
+    padding: 15px 25px;
+}
+.gaming-navbar .navbar-brand {
+    color: #ffffff;
+    font-weight: bold;
+}
+.gaming-navbar .navbar-brand:hover {
+    color: #a78bfa;
+}
+.gaming-navbar .form-select {
+    min-width: 180px;
+    background-color: #0b1020;
+    color: #f8fafc;
+    border: 1px solid #343b5a;
+}
+.gaming-navbar .form-select:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px #8b5cf640;
+}
+.gaming-navbar .userinfo {
+    color: #f8fafc;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.gaming-navbar .userinfo .admin {
+    color: #a78bfa;
+    font-weight: bold;
+}
+.gaming-navbar .logout-link {
+    color: #94a3b8;
+    text-decoration: none;
+}
+.gaming-navbar .logout-link:hover {
+    color: #ffffff;
+}

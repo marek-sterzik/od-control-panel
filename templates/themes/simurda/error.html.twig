@@ -1,0 +1,19 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba - The Frutiger Theme{% endblock %}
+{% block body_class %}error-page{% endblock %}
+
+{% block body %}
+    <main class="container py-5">
+        <section class="card border-danger">
+            <div class="card-body">
+                <h1 class="text-danger h3">Chyba: {{ errorCaption }}</h1>
+                <p class="lead">{{ errorMessage }}</p>
+                <div class="mt-4">
+                    {% if retryUrl is not null %}<a class="btn btn-primary me-2" href="{{ retryUrl }}">Zkusit znovu</a>{% endif %}
+                    {% if backUrl is not null %}<a class="btn btn-secondary" href="{{ backUrl }}">Zpět</a>{% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

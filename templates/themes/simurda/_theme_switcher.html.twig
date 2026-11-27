@@ -1,0 +1,8 @@
+<form action="{{ path("app.set-theme") }}" method="get" class="theme-switcher m-0">
+    <input type="hidden" name="back" value="{{ app.request.requesturi }}">
+    <select class="form-select form-select-sm submit-on-change" name="theme">
+        {% for t in themes %}
+            <option value="{{ t.theme }}"{% if t.active %} selected="selected"{% endif %}>{{ t.description }} ({{ t.author }})</option>
+        {% endfor %}
+    </select>
+</form>

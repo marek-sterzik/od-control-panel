@@ -1,0 +1,166 @@
+body {
+    background-color: #eee;
+}
+
+/* Zarovnání prvků vpravo nahoru */
+.themeselect {
+    float: right;
+    margin: 15px 20px 0 0;
+}
+
+.userinfo {
+    float: right;
+    clear: right;
+    margin: 5px 20px 0 0;
+    font-size: 0.9rem;
+}
+
+h1 {
+    float: right;
+    clear: right;
+    margin: 15px 20px 0 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+div.segment-text {
+    font-size: 1.2em;
+}
+
+div.segment-text span, div.segment-text input {
+    padding: .2em;
+    border: 1px solid #aaa;
+    margin: 0 .2em;
+    border-radius: .3em;
+    background-color: #ddd;
+    width: 2em;
+    height: 1.5em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
+}
+
+button:not(.btn) {
+    font-size: inherit;
+    height: 1.8em;
+    width: 2.0em;
+    padding: .1em;
+    border-radius: .5em;
+    border: 1px solid #aaa;
+}
+
+button:not(.btn):hover {
+    box-shadow: 2px 2px 5px #aaa;
+}
+
+button:not(.btn):active {
+    box-shadow: none;
+}
+
+/* Segment display */
+section.segment {
+    display: inline-block;
+    margin: 0 auto;
+    width: 75px;
+}
+
+section.segment div, section.segment span {
+    position: relative;
+    background: red;
+}
+
+section.segment span {
+    display: inline-block;
+    width: 10px;
+    height: 50px;
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+}
+
+section.segment div {
+    clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+    width: 50px;
+    height: 10px;
+    position: relative;
+    left: 6px;
+    margin: 0;
+}
+
+section.segment div.dot {
+    clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+    width: 10px;
+    height: 10px;
+    position: relative;
+    bottom: 8px;
+    left: 70px;
+    margin: 0;
+}
+
+section.segment input + div { 
+    top: 3px; 
+}
+
+section.segment span + div { 
+    top: -7px; 
+    margin-bottom: -10px; 
+}
+
+section.segment div + span + span { 
+    left: 38px; 
+}
+
+section.segment [data-value="0"] {
+    background: #ff000020; 
+}
+
+section.segment div, section.segment span {
+    cursor: pointer;
+}
+
+/* Styly pro LED kontrolky přepínačů */
+.indicator-lamp {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ced4da;
+    transition: all 0.2s ease;
+    box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+}
+
+.indicator-lamp.active-blue {
+    background-color: #0d6efd;
+    box-shadow: 0 0 10px #0d6efd, inset 0 0 3px rgba(255,255,255,0.5);
+}
+
+.indicator-lamp.active-red {
+    background-color: #dc3545;
+    box-shadow: 0 0 10px #dc3545, inset 0 0 3px rgba(255,255,255,0.5);
+}
+
+.indicator-lamp.active-green {
+    background-color: #198754;
+    box-shadow: 0 0 10px #198754, inset 0 0 3px rgba(255,255,255,0.5);
+}
+
+.indicator-lamp.active-yellow {
+    background-color: #ffc107;
+    box-shadow: 0 0 10px #ffc107, inset 0 0 3px rgba(255,255,255,0.5);
+}
+
+.indicator-lamp.active-default {
+    background-color: #198754;
+    box-shadow: 0 0 10px #198754, inset 0 0 3px rgba(255,255,255,0.5);
+}
+
+/* Responzivní úpravy pro mobilní zařízení */
+@media (max-width: 768px) {
+    .themeselect, .userinfo, h1 {
+        float: none !important;
+        text-align: center;
+        margin: 10px auto !important;
+        clear: both;
+    }
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

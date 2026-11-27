@@ -47,7 +47,8 @@ characters = [
     ("t", "0101101", ["letter", "lower", "letteropt"]),
     ("U", "0110111", ["letter", "upper", "letteropt"]),
     ("u", "0000111", ["letter", "lower"]),
-    ("Y", "0111100", ["letter", "upper", "letteropt"]),
+    ("Y", "0111100", ["letter", "upper"]),
+    ("y", "0111011", ["letter", "lower", "letteropt"]),
 ]
 
 characters_info = {}

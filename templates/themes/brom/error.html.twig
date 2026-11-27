@@ -1,0 +1,71 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+    <div class="error-container">
+        <h1>CHYBA: {{ errorCaption }}</h1>
+        <p>{{ errorMessage }}</p>
+        <div class="error-links">
+            {% if retryUrl is not null %}<a href="{{ retryUrl }}">Načíst znovu</a>{% endif %}
+            {% if backUrl is not null %}<a href="{{ backUrl }}">Zpět</a>{% endif %}
+        </div>
+    </div>
+
+    <style>
+        .error-container {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 35px 40px;
+            background: #fff;
+            border: 3px solid #00008b;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .error-container h2 {
+            color: #00008b;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .error-container h1 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .error-container p {
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .error-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .error-links a {
+            display: inline-block;
+            padding: 16px 26px;
+            background: #00008b;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: .2s ease;
+        }
+
+        .error-links a:hover {
+            background: #084298;
+        }
+
+        @media (max-width: 576px) {
+            .error-container {
+                margin: 30px 12px;
+                padding: 25px 18px;
+            }
+        }
+    </style>
+    
+{% endblock %}
