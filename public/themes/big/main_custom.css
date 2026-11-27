@@ -18,6 +18,10 @@ body {
 	width: 100%;
 	padding: 0.5rem 1rem;
 	box-sizing: border-box;
+	position: sticky;
+	top: 0;
+	z-index: 1030;
+	background: #faeed6;
 }
 
 .user-info {
@@ -411,6 +415,52 @@ body {
 }
 
 @media (max-width: 575.98px) {
+	.page-actions {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		gap: 0.4rem;
+		padding: 0.5rem;
+	}
+
+	.theme-switcher {
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	.submit-on-change {
+		width: 100%;
+		min-width: 0;
+		padding: 0.45rem 0.4rem;
+		font-size: 0.8rem;
+	}
+
+	.user-info {
+		flex: 0 1 auto;
+		flex-wrap: nowrap;
+		min-width: 0;
+		padding: 0.4rem 0.5rem;
+		font-size: 0.8rem;
+	}
+
+	.user-info-label {
+		display: none;
+	}
+
+	.user-info-name {
+		max-width: 27vw;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.logout-button {
+		flex: 0 0 auto;
+		min-height: 2.4rem;
+		padding: 0.4rem 0.55rem;
+		font-size: 0.8rem;
+		white-space: nowrap;
+	}
+
 	.panel-heading {
 		flex-direction: column;
 		align-items: flex-start;
