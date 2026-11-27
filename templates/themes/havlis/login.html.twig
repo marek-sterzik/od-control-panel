@@ -1,0 +1,35 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Přihlášení | Control Panel{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center my-5">
+        <div class="col-12 col-md-4">
+            <div class="card bg-black border-secondary">
+                <div class="card-header text-center">
+                    <h1 class="h4 mb-0">Přihlášení</h1>
+                </div>
+                <div class="card-body">
+                    {% if loginError %}
+                        <div class="alert alert-danger py-2 small">Chyba přihlášení.</div>
+                    {% endif %}
+                    <form method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Uživatel</label>
+                            <select name="username" class="form-select">
+                                {% for username, name in users %}
+                                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Heslo</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Přihlásit se</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

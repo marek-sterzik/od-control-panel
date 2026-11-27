@@ -1,0 +1,12 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+    <div class="error-panel">
+        <h1>Chyba: {{ errorCaption }}</h1>
+        <p>{{ errorMessage }}</p>
+        <div class="error-actions">
+            {% if retryUrl is not null %}<a href="{{ retryUrl }}">zkusit znovu</a>{% endif %}
+            {% if backUrl is not null %}<a href="{{ backUrl }}">zpět</a>{% endif %}
+        </div>
+    </div>
+{% endblock %}

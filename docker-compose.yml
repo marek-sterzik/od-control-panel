@@ -13,10 +13,10 @@ services:
         environment:
             RUNTIME_UID: ${WWW_DATA_UID:-33}
             RUNTIME_GID: ${WWW_DATA_GID:-33}
-            APP_ENV: dev
+            APP_ENV: ${APP_ENV:-dev}
             DATABASE_URL: 'mysql://user:userpass@db:3306/thedatabase?serverVersion=8.0'
-            USER_PASSWORD: user
-            ADMIN_PASSWORD: admin
+            USER_PASSWORD: ${USER_PASSWORD:-user}
+            ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin}
     metrix:
         build: docker/metrix
         volumes:

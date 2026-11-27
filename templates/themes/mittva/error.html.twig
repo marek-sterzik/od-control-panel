@@ -1,0 +1,30 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Chyba{% endblock %}
+
+{% block body %}
+
+<div class="card">
+
+    <div class="card-body text-center p-4">
+
+        <h2 class="text-danger">Chyba: {{ errorCaption }}</h2>
+
+        <p>{{ errorMessage }}</p>
+
+        {% if retryUrl is not null %}
+
+            <a href="{{ retryUrl }}" class="btn btn-primary">
+                Zkusit znovu
+            </a>
+        {% endif %}
+
+        {% if backUrl is not null %}
+
+            <a href="{{ backUrl }}" class="btn btn-secondary">
+                Zpět
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
