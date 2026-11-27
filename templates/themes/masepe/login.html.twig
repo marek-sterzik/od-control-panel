@@ -1,0 +1,37 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block title %}Přihlášení{% endblock %}
+
+{% block content %}
+<section class="auth-layout" aria-labelledby="login-title">
+    <div class="auth-presentation">
+        <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> SPŠ OSTROV · ŘÍDICÍ SYSTÉM</p>
+        <h1 id="login-title">Vítejte<br>zpět.</h1>
+        <p>Přihlaste se do ovládacího panelu a získejte přístup k živému stavu zařízení.</p>
+    </div>
+    <div class="auth-card">
+        <h2>Přihlášení</h2>
+        <p class="auth-help">Vyberte svůj účet a zadejte přístupové heslo.</p>
+
+        {% if loginError %}
+            <div class="login-error" role="alert">Přihlášení se nezdařilo. Zkontrolujte heslo a zkuste to znovu.</div>
+        {% endif %}
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label" for="username">Uživatelský účet</label>
+                <select class="form-select" id="username" name="username" autocomplete="username">
+                    {% for username, name in users %}
+                        <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="password">Heslo</label>
+                <input class="form-control" type="password" id="password" name="password" autocomplete="current-password" autofocus required>
+            </div>
+            <button type="submit" class="btn auth-submit w-100">Přihlásit se <span aria-hidden="true">→</span></button>
+        </form>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,366 @@
+body {
+    background: #f5f0ff;
+    color: #302044;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.themeselect {
+    float: right;
+    margin: 20px;
+}
+
+.themeselect select {
+    padding: 9px 12px;
+    border: 1px solid #d8c5f5;
+    border-radius: 9px;
+    background: white;
+    color: #58328e;
+}
+
+.userinfo {
+    float: right;
+    margin: 25px 15px;
+    color: #65458b;
+}
+
+.userinfo a {
+    color: #7950c9;
+    text-decoration: none;
+}
+
+.userinfo a:hover {
+    text-decoration: underline;
+}
+
+.userinfo .admin {
+    color: #b00050;
+    font-weight: bold;
+}
+
+.page-header {
+    text-align: center;
+    padding: 45px 20px 25px;
+    color: #6036a0;
+}
+
+.page-header h1 {
+    font-size: 38px;
+    font-weight: bold;
+}
+
+.page-header p {
+    color: #9276b5;
+}
+
+.panel-card {
+    max-width: 1000px;
+    margin: 15px auto 40px;
+    padding: 30px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(80, 40, 120, 0.09);
+}
+
+.panel-card h2 {
+    color: #6036a0;
+    font-weight: bold;
+}
+
+.description,
+.help-text {
+    color: #8b7a9d;
+}
+
+.component-card {
+    margin-top: 20px;
+    padding: 22px;
+    border: 1px solid #eee5fa;
+    border-radius: 14px;
+    background: #fcfaff;
+}
+
+.component-card h3 {
+    color: #6036a0;
+    font-size: 21px;
+    margin-bottom: 18px;
+}
+
+.component-card h4 {
+    color: #7950b5;
+    font-size: 16px;
+    margin: 25px 0 15px;
+}
+
+.slave {
+    margin: 15px 0 0 30px;
+    color: #72558f;
+}
+
+.switch-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.switch-control input {
+    width: 20px;
+    height: 20px;
+    accent-color: #7950c9;
+}
+
+.switch-label {
+    color: #5e4778;
+}
+
+.cycle-category {
+    padding: 9px 12px;
+    border: 1px solid #d8c5f5;
+    border-radius: 8px;
+    background: white;
+    color: #58328e;
+}
+
+.segment-text {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+    font-size: 22px;
+}
+
+.digit-control {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.digit-control input {
+    width: 55px;
+    height: 42px;
+    text-align: center;
+    border: 1px solid #d8c5f5;
+    border-radius: 8px;
+    background: white;
+    color: #58328e;
+}
+
+button {
+    min-width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 8px;
+    background: #7950c9;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #6036a0;
+}
+
+button:active {
+    transform: scale(0.96);
+}
+
+/* Segmentový displej */
+
+.segments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background: #251936;
+    border-radius: 12px;
+    width: fit-content;
+}
+
+section.segment {
+    display: inline-block;
+    margin-right: 10px;
+    width: 75px;
+}
+
+section.segment div,
+section.segment span {
+    position: relative;
+    background: #bd8aff;
+    cursor: pointer;
+}
+
+section.segment span {
+    display: inline-block;
+    width: 10px;
+    height: 50px;
+    clip-path: polygon(0 5px, 5px 0, 10px 5px, 10px 45px, 5px 50px, 0 45px);
+}
+
+section.segment div {
+    clip-path: polygon(0 5px, 5px 0, 45px 0, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+    width: 50px;
+    height: 10px;
+    left: 6px;
+    margin: 0;
+}
+
+section.segment div.dot {
+    clip-path: polygon(0 5px, 5px 0, 10px 5px, 5px 10px, 0 5px);
+    width: 10px;
+    height: 10px;
+    bottom: 8px;
+    left: 70px;
+    margin: 0;
+}
+
+section.segment input + div {
+    top: 3px;
+}
+
+section.segment span + div {
+    top: -7px;
+    margin-bottom: -10px;
+}
+
+section.segment div + span + span {
+    left: 38px;
+}
+
+section.segment [data-value="0"] {
+    background: #bd8aff20;
+}
+
+.login-wrapper,
+.error-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+}
+
+.login-card,
+.error-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 35px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 5px 25px rgba(80, 40, 120, 0.10);
+    text-align: center;
+}
+
+.login-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.login-card h2,
+.error-card h2 {
+    color: #6036a0;
+    font-weight: bold;
+}
+
+.login-description {
+    color: #9276b5;
+    margin-bottom: 25px;
+}
+
+.login-card form {
+    text-align: left;
+}
+
+.login-card label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #58328e;
+    font-weight: bold;
+}
+
+.login-card input,
+.login-card select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #d8c5f5;
+    border-radius: 8px;
+    background: white;
+}
+
+.login-card input:focus,
+.login-card select:focus {
+    outline: none;
+    border-color: #7950c9;
+    box-shadow: 0 0 0 3px #7950c920;
+}
+
+.login-card button {
+    width: 100%;
+    height: auto;
+    padding: 12px;
+    margin-top: 25px;
+    background: #7950c9;
+    color: white;
+    font-weight: bold;
+}
+
+.login-error {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: #ffe8ed;
+    color: #a52b4b;
+}
+
+.error-card {
+    max-width: 600px;
+}
+
+.error-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: #f0e5ff;
+    color: #7950c9;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.error-card h3 {
+    margin-top: 15px;
+    color: #7950c9;
+}
+
+.error-card p {
+    margin: 20px 0;
+    color: #8b7a9d;
+}
+
+.error-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.error-button {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: 8px;
+    background: #7950c9;
+    color: white;
+    text-decoration: none;
+}
+
+.error-button:hover {
+    background: #6036a0;
+    color: white;
+}
+
+.error-button.secondary {
+    background: white;
+    color: #7950c9;
+    border: 1px solid #7950c9;
+}

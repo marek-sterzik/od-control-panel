@@ -1,0 +1,85 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block scripts %}
+    <script src="{{ theme_asset("main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="abyssal-window compact-window">
+        <h2>Ovládání</h2>
+        
+        <!-- Switches in 2 columns -->
+        <div class="checkboxes-grid">
+            {% for component in controls %}
+                {% if component.type == "switch" %}
+                    <div class="control-item" data-metrix-id="{{ component.id }}">
+                        <label class="switch">
+                            <input type="checkbox" class="switch-input" data-part="state" {% if component.state %}checked="checked"{% endif %}>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">{{ component.caption }}</span>
+                        </label>
+                        {% if "blink" in component.parts %}
+                            <div class="slave">
+                                <label>
+                                    <input type="checkbox" data-part="blink" {% if component.blink %}checked="checked"{% endif %}>
+                                    blikání
+                                </label>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Segments and text controls -->
+        <div class="components-wrapper">
+            {% for component in controls %}
+                {% if component.type == "segment" %}
+                    <div class="segment-section" data-metrix-id="{{ component.id }}">
+                        <h2>{{ component.caption }}</h2>
+                        <h3 class="section-subtitle">segmenty</h3>
+                        <div class="segments">
+                            {% for index, digit in component.segment_state %}
+                                <section class="segment" data-digit="{{ index }}" data-value="{{ digit }}">
+                                    <div data-segment="0"></div>
+                                    <span data-segment="1"></span>
+                                    <span data-segment="2"></span>
+                                    <div data-segment="3"></div>
+                                    <span data-segment="4"></span>
+                                    <span data-segment="5"></span>
+                                    <div data-segment="6"></div>
+                                    <div class="dot" data-segment="7"></div>
+                                </section>
+                            {% endfor %}
+                        </div>
+
+                        <div class="text-control-block">
+                            <h2>Textové vyjádření</h2>
+                            <select class="cycle-category">
+                                <option class="default" value="">Vyberte kategorii znaků</option>
+                                <option value="digit">číslice</option>
+                                <option value="hex">hexadecimální číslice</option>
+                                <option value="letteropt">písmena</option>
+                                <option value="lower">malá písmena</option>
+                                <option value="upper">velká písmena</option>
+                                <option value="letter">všechna písmena</option>
+                            </select>
+                            <p class="category-hint">Kategorie znaků se uplatní při stisku tlačítek "+" a "-".</p>
+                        </div>
+
+                        <div class="segment-text">
+                            {% for index, text in component.state %}
+                                <div class="digit-control-group">
+                                    <button data-direction="prev" data-digit="{{ index }}">-</button>
+                                    <input type="text" data-digit="{{ index }}" data-expected-value="{% if text == "" %} {% else %}{{ text }}{% endif %}" value="{{ text }}">
+                                    <button data-direction="next" data-digit="{{ index }}">+</button>
+                                    <button data-direction="wipe" data-digit="{{ index }}">🗑</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

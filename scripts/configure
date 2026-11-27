@@ -3,7 +3,10 @@
 print_heading "=" "Configuring the runtime environment"
 create_config
 question "q_int 1 65535" APP_PORT 80 "On which port the web service should listen?"
+question "q_enum dev prod" APP_ENV dev "What is the application environment?"
 question "q_device_or_null" HOST_DEVICE none "Which host device is connected to the modbus (use 'none' for no device)?"
+question "q_string" USER_PASSWORD user "Set the password for user user:"
+question "q_string" ADMIN_PASSWORD admin "Set the password for user admin:"
 
 commit_config
 print_line

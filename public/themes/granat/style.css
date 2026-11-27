@@ -1,0 +1,360 @@
+/* Keep body copy bright: the city image is predominantly dark and visually busy. */
+body {
+  background-color: #050914;
+  color: #fff8e8;
+  font-size: clamp(1rem, 1.05vw, 1.15rem);
+  text-shadow: 0 1px 3px #000, 0 0 8px rgba(0, 0, 0, .85);
+  background-image: url("./assets/cpImage.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+
+/* Bright headings stand out from the dark city while the dark glow keeps edges clear. */
+h1, h2 {
+  color: #9af6ff;
+  text-shadow: 0 2px 4px #000, 0 0 8px #000, 0 0 16px #00d9ff;
+}
+
+
+
+/* Use high-contrast accent colors for links and status text. */
+a { color: #70efff; text-shadow: 0 1px 3px #000, 0 0 8px #000; }
+a:visited { color: #e0a6ff; }
+div.userinfo span.admin { color: #ff9aab; }
+
+
+
+/* Dark translucent fields let their light text stay readable over every part of the background. */
+select, input[type="text"], input[type="password"], input[type="submit"] {
+  color: #fff8e8;
+  background: rgba(5, 12, 27, .94);
+  border: 1px solid #9af6ff;
+  border-radius: .3em;
+  text-shadow: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+}
+
+
+select option { color: #fff8e8; background: #101827; }
+input[type="submit"] { padding: .3em .6em; cursor: pointer; }
+input[type="checkbox"] { accent-color: #00d9ff; }
+button {
+  color: #fff8e8;
+  background: #111a2b;
+  border: 1px solid #9af6ff;
+  text-shadow: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .8);
+}
+
+
+
+div {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
+/* Place the switch/blink list beside the segment display on wider screens. */
+div.controls {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 76rem;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+body > h2 + .controls {
+  margin-top: 2rem;
+}
+.switch-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .35rem;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: rgba(5, 12, 27, .88);
+  border: 1px solid rgba(154, 246, 255, .45);
+  border-radius: .75rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  backdrop-filter: blur(8px);
+}
+.switch-controls > .control {
+  width: 100%;
+  max-width: 38rem;
+  box-sizing: border-box;
+  margin: 0;
+  padding: .55rem 0;
+  border-bottom: 1px solid rgba(154, 246, 255, .16);
+  font-size: 1.05rem;
+}
+.switch-controls > .control:last-child { border-bottom: 0; }
+.segment-display {
+  grid-column: 2;
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: rgba(5, 12, 27, .88);
+  border: 1px solid rgba(154, 246, 255, .45);
+  border-radius: .75rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  backdrop-filter: blur(8px);
+}
+.segment-display > h2:first-child { margin-top: 0; }
+.segment-display > h2 { font-size: 1.2rem; margin-bottom: .75rem; }
+.segment-text-tools {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(12rem, .7fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: .75rem 1.25rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1rem 1.25rem;
+  background: rgba(5, 12, 27, .88);
+  border: 1px solid rgba(154, 246, 255, .45);
+  border-radius: .75rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45);
+  backdrop-filter: blur(8px);
+}
+.segment-text-tools > h2,
+.segment-text-tools > .segment-text {
+  grid-column: 1 / -1;
+}
+.segment-text-tools > h2 { margin: 0; font-size: 1.2rem; }
+.segment-text-tools > p { margin: 0; font-size: .95rem; }
+.segment-text-tools > select { justify-self: start; max-width: 100%; }
+
+
+
+div.segment-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35em;
+  font-size: 1.1rem;
+}
+div.segment-digit-controls {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: .25em;
+}
+div.segment-text span, div.segment-text input {
+    padding: .2em;
+    border: 1px solid #9af6ff;
+    margin: 0;
+    border-radius: .3em;
+    background-color: rgba(5, 12, 27, .94);
+    color: #fff8e8;
+    text-shadow: none;
+    width: 2em;
+    height: 1.2em;
+    display: inline-block;
+    text-align: center;
+    font-size: inherit;
+}
+
+
+
+button {font-size: inherit; height: 1.8em; width: 2.0em; padding: .1em; border-radius: .5em;}
+button:hover {box-shadow: 0 0 12px #00d9ff;}
+button:active {box-shadow: none;}
+
+
+
+/* Back the small utility labels with a dark glass panel so they don't disappear over neon signs. */
+div.themeselect, div.userinfo {
+  float: right;
+  margin-inline: auto;
+  padding: .2em .45em;
+  color: #fff8e8;
+  background: rgba(5, 12, 27, .82);
+  border: 1px solid rgba(154, 246, 255, .55);
+  border-radius: .35em;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .75);
+}
+
+
+
+select.cycle-category {
+  min-height: 4.5em;
+  padding: .9em .6em;
+  font-size: 1.05em;
+  line-height: 1.3;
+}
+select.cycle-category + p {margin-bottom: 2em;}
+
+
+
+/* Start the blink option at the same left edge as the main control label. */
+div.control > div.slave {
+  width: auto;
+  margin: 0;
+  text-align: left;
+}
+h1, h2 { text-align: center; }
+
+
+
+/* segment display */
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  width: 100%;
+  margin-inline: 0;
+}
+
+section.segment {
+  display: inline-block;
+  width: 80px;
+
+}
+/* Default eight = all segments illuminated */
+section.segment div, section.segment span {
+  position: relative;
+  background: red;
+}
+section.segment span {
+  display: inline-block;
+  width: 10px;
+  height: 50px;
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 10px 45px, 5px 50px, 0px 45px, 0 5px);
+}
+
+section.segment div {
+  clip-path: polygon(0 5px, 5px 0px, 45px 0px, 50px 5px, 45px 10px, 5px 10px, 0 5px);
+  width: 50px;
+  height: 10px;
+  position: relative;
+  left: 6px;
+  margin: 0;
+}
+
+section.segment div.dot {
+  clip-path: polygon(0 5px, 5px 0px, 10px 5px, 5px 10px, 0 5px);
+  width: 10px;
+  height: 10px;
+  position: relative;
+  bottom: 8px;
+  left: 60px;
+  margin: 0;
+}
+
+section.segment input + div {  top: 3px; }
+section.segment span + div { top: -7px; margin-bottom: -10px; }
+section.segment div + span + span { left: 38px; }
+
+section.segment [data-value="0"] {background: #ff000020; }
+
+section.segment div, section.segment span {cursor: pointer;}
+
+/* Tablet and phone layout: scale text and keep controls inside the viewport. */
+@media (max-width: 768px) {
+  body {
+    font-size: clamp(1rem, 2.4vw, 1.25rem);
+    background-attachment: scroll;
+  }
+
+  h1, h2 {
+    font-size: 1.5rem;
+    overflow-wrap: anywhere;
+  }
+
+  div.themeselect,
+  div.userinfo {
+    float: none;
+    width: fit-content;
+    max-width: calc(100% - 1rem);
+    margin: .5rem auto;
+    font-size: .9rem;
+  }
+
+  div.themeselect select,
+  select.cycle-category {
+    max-width: 100%;
+    font-size: .95rem;
+  }
+
+  div.controls {
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+    gap: .5rem;
+    padding: 0 .35rem;
+    box-sizing: border-box;
+  }
+
+  .switch-controls {
+    padding: .75rem .6rem;
+  }
+  .switch-controls > .control {
+    font-size: .95rem;
+  }
+  .segment-display {
+    padding: .75rem .5rem;
+  }
+  .segment-text-tools {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .65rem;
+    padding: .75rem;
+  }
+
+  .switch-controls > .control,
+  .segment-display,
+  .segment-text-tools {
+    width: min(100%, 38rem);
+    overflow-wrap: anywhere;
+  }
+
+  div.segment-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .35rem;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 .5rem;
+    font-size: clamp(1rem, 3vw, 1.35rem);
+  }
+
+  div.segment-digit-controls {
+    max-width: 100%;
+  }
+
+  div.segment-text span,
+  div.segment-text input {
+    margin: 0;
+    box-sizing: border-box;
+  }
+}
+
+/* Give small-screen controls comfortable touch targets and avoid horizontal overflow. */
+@media (max-width: 480px) {
+  h1, h2 { font-size: 1.25rem; }
+
+  div.userinfo {
+    text-align: center;
+  }
+
+  div.segment-text button {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+
+  section.segment { width: 72px; }
+
+  select.cycle-category {
+    width: calc(100% - 1rem);
+  }
+}

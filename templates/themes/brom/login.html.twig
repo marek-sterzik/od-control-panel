@@ -1,0 +1,70 @@
+{% extends theme_template("base.html.twig") %}
+{% block body %}
+<style>
+
+
+    .login-container {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-form {
+        width: 100%;
+        max-width: 350px;
+        padding: 30px;
+        background: #fff;
+        border: 3px solid #00008b;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+        box-sizing: border-box;
+    }
+
+    .login-form > div {
+        margin-bottom: 15px;
+    }
+
+    .login-form input,
+    .login-form select {
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .login-form input[type="submit"] {
+        cursor: pointer;
+    }
+
+    .login-error {
+        color: #c62828;
+        text-align: center;
+    }
+</style>
+<div class="login-container">
+    <form method="post" class="login-form">
+        {% if loginError %}
+            <div class="login-error">
+                Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+            </div>
+        {% endif %}
+        <div>
+            <select name="username">
+                {% for username, name in users %}
+                    <option value="{{ username }}"
+                        {% if username == selectedUser %}selected="selected"{% endif %}>
+                        {{ name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <input type="password" name="password"
+                   placeholder="Heslo" required>
+        </div>
+        <div>
+            <input type="submit" value="Přihlásit se">
+        </div>
+    </form>
+</div>
+{% endblock %}

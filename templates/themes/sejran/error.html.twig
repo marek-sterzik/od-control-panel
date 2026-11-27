@@ -1,0 +1,12 @@
+{% extends theme_template("base.html.twig") %}
+
+{% block body %}
+<div class="stalker-error-box">
+    <h1 class="error-head">KRITICKÁ CHYBA: {{ errorCaption }}</h1>
+    <p class="error-msg">{{ errorMessage }}</p>
+    <div class="error-actions">
+        {% if retryUrl is not null %}<a href="{{ retryUrl }}" class="stalker-btn">ZKUSIT ZNOVU</a>{% endif %}
+        {% if backUrl is not null %}<a href="{{ backUrl }}" class="stalker-btn">ZPĚT DO BEZPEČÍ</a>{% endif %}
+    </div>
+</div>
+{% endblock %}

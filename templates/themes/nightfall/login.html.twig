@@ -1,0 +1,32 @@
+{% extends theme_template('base.html.twig') %}
+
+{% block stylesheet %}
+    <link href="{{ theme_asset('style_login.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="login-card">
+        <h1>Přihlášení</h1>
+        
+        {% if loginError %}
+        <div class="alert alert-danger alert-custom w-100 mb-0" role="alert">
+            Chyba: přihlášení se nezdařilo, zadali jste správné heslo?
+        </div>
+        {% endif %}
+        
+        <form method="POST">
+            <div class="w-100 mb-2">
+                <label for="roleSelect" class="form-label text-start w-100 mb-1 text small">Přihlásit se jako</label>
+                <select name="username" class="form-select custom-select">
+                {% for username, name in users %}
+                    <option value="{{ username }}"{% if username == selectedUser %} selected="selected"{% endif %}>{{ name }}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <input type="password" name="password" placeholder="Heslo" required autofocus>
+            
+            <button type="submit">Vstoupit</button>
+        </form>
+    </div>
+{% endblock %}
